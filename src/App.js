@@ -1,25 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
 
-function App() {
+function Posts() {
+  const [posts, setPosts] = useState('')
+  // Run when page reloads
+  useEffect(() => {
+    console.log("RENDER Page")
+  }, [])
+  // Run everytime
+  useEffect(() => {
+    console.log("use effect 1 ")
+  }, )
+  // Run everytime when posts value changes
+  useEffect(() => {
+    console.log('use effect 2')
+    let letterList = []
+    letterList.push(posts)
+    console.log(letterList)
+}, [posts]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <p>render</p>
+      <input type="text" onChange={(e)=> {setPosts(e.target.value)}}/>
     </div>
   );
 }
 
-export default App;
+function ResizeWindow(){
+  let [windowWidth, setWindowWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    console.log("re render")
+    window.addEventListener('resize', (() => {updateWindowWidth()}))
+    const data = {
+      "email" : 'test@email.com',
+      "password" : 'Test@1234'
+    }
+    fetch('https://notemy-api.deta.dev/api/v1/auth/login/',{
+      method: 'POST', // or 'PUT'
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)})
+      .then(response => response.json())
+      .then(data => console.log(data));
+    return () =>{
+    window.removeEventListener('resize', (() => {updateWindowWidth()}))}
+  }, [])
+  const updateWindowWidth = () =>{
+    setWindowWidth(window.innerWidth)
+  }
+  return(
+    <div>
+      <p>Hi</p>
+      <p>window width is {windowWidth}</p>
+    </div>
+  )
+
+}
+export default ResizeWindow;
+
