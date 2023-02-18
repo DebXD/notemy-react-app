@@ -1,6 +1,13 @@
-import { useState, useEffect, React} from "react"
+import { useState, React, useEffect} from "react"
+import { useCookies } from 'react-cookie'
+import axios from "axios"
+import Cookies from "js-cookie"
+import { useNavigate } from "react-router-dom"
+
 
 const Login = (props) => {
+    let navigate = useNavigate();
+
     const loginBtnStyle = {
             margin: "auto",
             marginTop : "20px",
@@ -11,36 +18,56 @@ const Login = (props) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    useEffect(() => {
-       if (isLoggedIn){
+    const [AccessToken, setAccessToken] = useCookies([""]);
+    const [RefreshToken, setRefreshToken] = useCookies([""]);
 
-       }
-    }, [isLoggedIn])
-        
-      
+    // useEffect(()=>{
+    //     let accessToken = Cookies.get('AccessToken')
+    //     let refreshToken = Cookies.get('RefreshToken')
+    //     if (accessToken || refreshToken === undefined){
+    //         navigate("/")
+    // }
+    // }, [navigate])
+
+    
     let loginCredentials = {
         "email" : email,
         "password" : password
       }
+    
       
       async function handleSubmit(e) {
           e.preventDefault();
-          const response = await fetch('https://notemy-api.deta.dev/api/v1/auth/login/',{
-              method: 'POST',
-              headers: {
-              'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(loginCredentials)})
-        const data = await response.json()
-        console.log(data)
-        if (!email || !password){
-          alert("email or password can't be empty")
-      }
-      else{
-        setIsLoggedIn(true)
-  }
+          let config= {
+             
+            headers: {
+            'Content-Type': 'application/json',
+            }}
+            try{
+                const response = await axios.post('https://notemy-api.deta.dev/api/v1/auth/login/', loginCredentials ,config)
+                const data = response.data
+                console.log(data)
+                setIsLoggedIn(true)
+                let accessToken = await data['user']['access token'];
+                let refreshToken = await data['user']['refresh token'];
+                // Set cookie
+                Cookies.set('AccessToken', accessToken)
+                Cookies.set('RefreshToken', refreshToken)
+                navigate("/");
 
+            }
+            catch{
+                if (!email || !password){
+                    alert("email or password can't be empty")
+                }
+                    alert("Unauthorized")
+                }
+                
+    
       }
+    
+
+
 
     return (
         <>
