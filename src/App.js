@@ -3,18 +3,21 @@ import Login from './components/login';
 import Notes from './components/notes'
 import { Route, Routes } from 'react-router-dom';
 import About from './components/about';
+import Header from './components/header';
+
 function App(){
 
   
   return(
     <div>
-      {/* <Login />
-      <Notes/> */}
+      <Header title={'Notemy'} searchBar={true}/>
       <Routes>
+      
         <Route
           path="/"
           element={
             <>
+            
             <Notes />
             
             </>

@@ -60,7 +60,7 @@ const Notes = () => {
         <>
 
         <div className="container">
-            <p>Hi there</p>
+            <h2 className="text-center">Your Notes</h2>
             <ul>
             {notes.length===0  ? <p>NO TODOS</p> : (
       notes.map((note) => {
