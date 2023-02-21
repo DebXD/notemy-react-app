@@ -4,6 +4,8 @@ import Notes from './components/notes'
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import About from './components/about';
 import Header from './components/header';
+import AddNote from './components/addNote';
+import NoteDetail from './components/noteDetail';
 import axios from 'axios'
 import Cookies from 'js-cookie';
 
@@ -22,6 +24,7 @@ function App(){
           console.log("no auth")
       }
   }
+// FOR GETTING NOTES
   const getNotes = async() =>{
     let token = accessToken
     let config = {
@@ -78,6 +81,7 @@ function App(){
 
     }
 }
+// FOR DELETING NOTE
   const Delete = async(id) => {
     let token = accessToken
             let config = {
@@ -100,6 +104,30 @@ function App(){
               alert("Failed to delete your note")
             }
 }
+//  FOR ADDING NOTE
+  const addNote = async(title, content) => {
+    let token = accessToken;
+    let config = {
+      headers: {
+      'Authorization' : 'Bearer ' + token
+      }}
+    let body = {
+      title : title,
+      content : content
+    }
+    try{
+      setLoading(true)
+      let response = await axios.post('https://notemy-api.deta.dev/api/v1/notes/', body, config)
+      console.log(response)
+      await getNotes()
+      setLoading(false)
+
+    }
+    catch{
+      alert('failed to add your note')
+    }
+     
+  }
   
   return(
     <div>
@@ -110,12 +138,13 @@ function App(){
           path="/"
           element={
             <>
-            
+            <AddNote addNote={addNote}/>
             <Notes isAuthenticated={isAuthenticated} Delete={Delete} getNotes={getNotes} notes={notes} loading={loading}/>
             
             </>
           }
         />
+        
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
       </Routes>
