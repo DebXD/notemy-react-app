@@ -1,30 +1,39 @@
-import { React, useEffect} from "react"
+import { React, useEffect, useState} from "react"
 import { useRef } from "react";
 import NoteItem from "./noteItem";
+import { useNavigate } from "react-router-dom";
 
 
 const Notes = (props) => {
     const dataFetchedRef = useRef(false);
-    
+    const navigate = useNavigate();
+    const notes = props.notes;
 
     useEffect(() =>{
-        //don't run useEffect twice
-        if (dataFetchedRef.current) return;
-        dataFetchedRef.current = true;
-        
-        props.isAuthenticated()
-        props.getNotes()
-        
+        // if (navigate.action !== 'POP') {
+            //don't run useEffect twice
+            if (dataFetchedRef.current) return;
+            dataFetchedRef.current = true;
+            
+            // const Run = async () => {
+            //     await props.isAuthenticated()
+            //     await props.getNotes()
+                
+            // }
+            // Run()
+            // setNotes(props.notes)
+            console.log(notes)
+        // }
               
-        },[props])
+        },[props, navigate, notes])
     return (
         <div className="container ">
             <h2 className="d-flex justify-content-center">NOTES</h2>
             {props.loading === false ?
             (<ul className="list-group my-4">
-            {props.notes.length===0  ?
+            {notes.length===0  ?
              (<p>NO TODOS</p>) : 
-            props.notes.map((note) => 
+            notes.map((note) => 
                 {
                 return(
                 <NoteItem note={note} key={note.id} Delete={props.Delete}/>

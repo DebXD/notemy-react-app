@@ -86,7 +86,7 @@ const AddNote = (props) => {
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-outline-warning"
+                    className="btn btn-warning"
                     data-bs-dismiss="modal"
                   >
                     Close

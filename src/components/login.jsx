@@ -18,8 +18,8 @@ const Login = (props) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [AccessToken, setAccessToken] = useCookies([""]);
-    const [RefreshToken, setRefreshToken] = useCookies([""]);
+    // const [AccessToken, setAccessToken] = useCookies([""]);
+    // const [RefreshToken, setRefreshToken] = useCookies([""]);
 
     // useEffect(()=>{
     //     let accessToken = Cookies.get('AccessToken')
@@ -44,7 +44,7 @@ const Login = (props) => {
             'Content-Type': 'application/json',
             }}
             try{
-                const response = await axios.post('https://notemy-api.deta.dev/api/v1/auth/login/', loginCredentials ,config)
+                const response = await axios.post('https://notemyapi-1-b7327629.deta.app/api/v1/auth/login/', loginCredentials ,config)
                 const data = response.data
                 console.log(data)
                 setIsLoggedIn(true)
