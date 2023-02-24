@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie";
+import axios from 'axios' 
 
 const AddNote = (props) => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    //const [loading, setLoading] = useState(true)
+    let accessToken = Cookies.get('AccessToken');
     const handleSubmit = (e) => {
         e.preventDefault()
         if (title && content === ''){
@@ -10,8 +14,34 @@ const AddNote = (props) => {
         }
         else{
             console.log(title, content)
-            props.addNote(title, content)
+            addNote(title, content)
+            
         }
+    }
+
+
+    const addNote = async(title, content) => {
+      let token = accessToken;
+      let config = {
+        headers: {
+        'Authorization' : 'Bearer ' + token
+        }}
+      let body = {
+        title : title,
+        content : content
+      }
+      try{
+        props.setLoading(true)
+        let response = await axios.post(`${props.apiurl}notes/`, body, config)
+        console.log(response)
+        await props.getNotes()
+        props.setLoading(false)
+  
+      }
+      catch{
+        alert('failed to add your note')
+      }
+       
     }
 
   return (

@@ -8,6 +8,7 @@ import AddNote from './components/addNote';
 import NoteDetails from './components/noteDetails';
 import axios from 'axios'
 import Cookies from 'js-cookie';
+import { useRef } from "react";
 
 function App(){
   let accessToken = Cookies.get('AccessToken');
@@ -18,22 +19,24 @@ function App(){
   const [loading, setLoading] = useState(true);
   const [counter, setCounter] = useState(0);
 
-  const [titleDetail, setTitleDetail] = useState("");
-  const [detailsLoading, setDetailsLoading] = useState(true);
-  const [contentDetail, setContentDetail] = useState("")
 
+  const dataFetchedRef = useRef(false);
   const URL = "https://notemyapi-1-b7327629.deta.app/api/v1/"
-const isAuthenticated = () =>{
+
+  const isAuthenticated = () =>{
       if (accessToken | refreshToken === undefined){
           navigate('/login')
-          console.log("no auth")
       }
   }
-
-  useEffect(() => {
-    isAuthenticated()
-    getNotes()
-  }, [])
+  
+  // useEffect(() => {
+  //   if (dataFetchedRef.current) return;
+  //     dataFetchedRef.current = true;
+    
+  //   isAuthenticated()
+  //   getNotes()
+    
+  // }, [])
   // FOR GETTING NOTES
   const getNotes = async() =>{
     let token = accessToken
@@ -72,7 +75,7 @@ const isAuthenticated = () =>{
            }
          }
         setNotes(allNotes)
-        //console.log(allNotes)
+        console.log(notes)
         setLoading(false)
         
         // increase the counter
@@ -132,28 +135,7 @@ const isAuthenticated = () =>{
     }
      
   }
-  const getNote = async(id) => {
-    let token = accessToken;
-    let config = {
-      headers: {
-      'Authorization' : 'Bearer ' + token
-      }}
-      try {
-        
-        let response = await axios.get(URL + 'notes/' + id + "/", config )
-        let data = await response.data
-        console.log(data)
-        setTitleDetail(data.title)
-        setContentDetail(data.content)
-        
-        
-
-      } catch (error) {
-        alert('sorry this note details are not available')
-        navigate('/')
-      }
-
-  }
+  
 
   const updateNote = async(id, title, content) => {
     let token = accessToken;
@@ -183,18 +165,16 @@ const isAuthenticated = () =>{
       <Routes>
       
         <Route
-          path="/"
+          path="*"
           element={
             <>
-            <AddNote addNote={addNote}/>
-            <Notes isAuthenticated={isAuthenticated} Delete={Delete} notes={notes} loading={loading} getNotes={getNotes}/>
+            <Notes isAuthenticated={isAuthenticated}  apiurl={URL} />
             
             </>
           }
         />
         
-        <Route path="/details/:id/" element={<NoteDetails isAuthenticated={isAuthenticated} getNote={getNote} title={titleDetail} content={contentDetail} setTitle={setTitleDetail} setContent={setContentDetail} updateNote={updateNote}/>} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login apiurl={URL}/>} />
         <Route path="/about" element={<About />} />
       </Routes>
 

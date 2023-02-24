@@ -35,6 +35,7 @@ const Login = (props) => {
         "password" : password
       }
     
+    
       
       async function handleSubmit(e) {
           e.preventDefault();
@@ -44,9 +45,10 @@ const Login = (props) => {
             'Content-Type': 'application/json',
             }}
             try{
-                const response = await axios.post('https://notemyapi-1-b7327629.deta.app/api/v1/auth/login/', loginCredentials ,config)
+                const response = await axios.post(`${props.apiurl}auth/login/`, loginCredentials ,config)
                 const data = response.data
-                console.log(data)
+                //console.log(data)
+                console.log(loginCredentials)
                 setIsLoggedIn(true)
                 let accessToken = await data['user']['access token'];
                 let refreshToken = await data['user']['refresh token'];
