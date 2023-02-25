@@ -1,11 +1,10 @@
 import { React, useEffect, useState} from "react"
 import { useRef } from "react";
 import NoteItem from "./noteItem";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import axios from 'axios'
 import Cookies from "js-cookie";
 import AddNote from "./addNote";
-import NoteDetails from "./noteDetails";
 
 
 
@@ -89,10 +88,8 @@ const Notes = (props) => {
             notes.map((note) => 
                 {
                 return(
-                  <>
+                  
                 <NoteItem note={note} key={note.id}/>
-                
-                </>
                 )}
                 )}
             </ul>)
@@ -104,9 +101,7 @@ const Notes = (props) => {
         </div>
      )
     }
-<Routes>
-<Route path="/details/:id/" element={<NoteDetails apiurl={props.apiurl} accessToken={accessToken} isAuthenticated={props.isAuthenticated} />} />
-</Routes>
+
 
 </div>
     )
