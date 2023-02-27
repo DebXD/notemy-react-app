@@ -54,7 +54,7 @@ const Login = (props) => {
                 let refreshToken = await data['user']['refresh token'];
                 // Set cookie
                 Cookies.set('AccessToken', accessToken)
-                Cookies.set('RefreshToken', refreshToken)
+                //Cookies.set('RefreshToken', refreshToken)
                 navigate("/");
 
             }

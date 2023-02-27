@@ -87,7 +87,7 @@ const NoteDetails = (props) => {
           console.log(response)
           
         } catch (error) {
-          alert('failed to update your note')
+          alert('Your Note is not Updated!')
           
         }
       }

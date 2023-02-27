@@ -5,6 +5,7 @@ import {useNavigate } from "react-router-dom";
 import axios from 'axios'
 import Cookies from "js-cookie";
 import AddNote from "./addNote";
+import SearchBar from "./searchBar";
 
 
 
@@ -15,15 +16,21 @@ const Notes = (props) => {
     const navigate = useNavigate();
     const [notes, setNotes] = useState([])
     const [count , setCount] = useState(0)
+    const [query, setQuery] = useState()
 
     useEffect(() =>{
             //don't run useEffect twice
             if (dataFetchedRef.current) return;
             dataFetchedRef.current = true;
             props.isAuthenticated()
-            getNotes()
+            if (query === undefined){
+              getNotes()
+              console.log(notes)
+            }
+            else{
 
-            console.log(notes)
+              
+            }
               
         },[])
 
@@ -76,8 +83,11 @@ const Notes = (props) => {
     
         }
     }
+    
 
     return (
+      <>
+      <SearchBar apiurl={props.apiurl} setNotes={setNotes} getNotes={getNotes} setLoading={setLoading}/>
         <div className="container ">
             <AddNote  apiurl={props.apiurl} loading={loading} setLoading={setLoading} getNotes={getNotes}/>
             <h2 className="d-flex justify-content-center">NOTES</h2>
@@ -104,6 +114,7 @@ const Notes = (props) => {
 
 
 </div>
+</>
     )
 }
 
