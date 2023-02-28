@@ -94,7 +94,7 @@ const Notes = (props) => {
             {loading === false ?
             (<ul className="list-group my-4">
             {notes.length===0  ?
-             (<p>NO TODOS</p>) : 
+             (<h4 className="text-center text-muted">Add a Note...</h4>) : 
             notes.map((note) => 
                 {
                 return(

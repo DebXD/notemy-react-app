@@ -8,7 +8,7 @@ import NoteDetails from './components/noteDetails';
 import axios from 'axios'
 import Cookies from 'js-cookie';
 import { useRef } from "react";
-
+import Register from './components/register';
 function App(){
   let accessToken = Cookies.get('AccessToken');
   // let refreshToken = Cookies.get('RefreshToken');
@@ -47,6 +47,7 @@ function App(){
         />
         
         <Route path="/login" element={<Login  apiurl={URL} />}/>
+		    <Route path="/register" element={ <Register apiurl={URL} /> } />
         <Route path="/details/:id/" element={<NoteDetails apiurl={URL} isAuthenticated={isAuthenticated}/>} />
 
         <Route path="/about" element={<About />} />

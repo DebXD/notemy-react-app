@@ -4,7 +4,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie';
 
 const SearchBar = (props) => {
-    const [query, setQuery] = useState()
+    const [query, setQuery] = useState("")
 
     const searchNotes = async(query) => {
         let accessToken = Cookies.get('AccessToken');
@@ -43,7 +43,7 @@ const SearchBar = (props) => {
         <input
           className="form-control me-2"
           type="search"
-          placeholder="Search"
+          placeholder="Search keyword..."
           aria-label="Search"
           onChange={(e) => setQuery(e.target.value)}
           value={query}
