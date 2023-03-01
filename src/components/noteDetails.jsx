@@ -128,7 +128,7 @@ const NoteDetails = (props) => {
             
               <div className="mb-3">
                   <label htmlFor="exampleFormControlTextarea1" className="form-label">Content</label>
-                  <textarea className="form-control" id="exampleFormControlTextarea1" rows="5" value={content} onChange={(e) => {setContent(e.target.value)}}></textarea>
+                  <textarea className="form-control" id="exampleFormControlTextarea1" rows="10" value={content} onChange={(e) => {setContent(e.target.value)}}></textarea>
               </div>
             </form> 
             <div className="text-center">
