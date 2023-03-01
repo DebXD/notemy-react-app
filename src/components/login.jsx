@@ -1,5 +1,5 @@
 import { useState, React, useEffect} from "react"
-import { useCookies } from 'react-cookie'
+//import { useCookies } from 'react-cookie'
 import axios from "axios"
 import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom"
@@ -17,7 +17,7 @@ const Login = (props) => {
     }
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    //const [isLoggedIn, setIsLoggedIn] = useState(false)
     // const [AccessToken, setAccessToken] = useCookies([""]);
     // const [RefreshToken, setRefreshToken] = useCookies([""]);
 
@@ -49,9 +49,9 @@ const Login = (props) => {
                 const data = response.data
                 //console.log(data)
                 console.log(loginCredentials)
-                setIsLoggedIn(true)
+                props.setIsLoggedIn(true)
                 let accessToken = await data['user']['access token'];
-                let refreshToken = await data['user']['refresh token'];
+                //let refreshToken = await data['user']['refresh token'];
                 // Set cookie
                 Cookies.set('AccessToken', accessToken)
                 //Cookies.set('RefreshToken', refreshToken)
