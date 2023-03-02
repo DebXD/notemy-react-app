@@ -28,7 +28,16 @@ const Login = (props) => {
     //         navigate("/")
     // }
     // }, [navigate])
+    const [showPassword, setShowPassword] = useState(false)
+    const handleCheckbox = () => {
+        if (showPassword=== true){
+            setShowPassword(false)
 
+        }
+        else{
+            setShowPassword(true)
+        }
+    }
     
     let loginCredentials = {
         "email" : email,
@@ -67,9 +76,6 @@ const Login = (props) => {
                 
     
       }
-    
-
-
 
     return (
         <>
@@ -86,6 +92,14 @@ const Login = (props) => {
                         <input type="password" className="form-control" id="inputPassword" placeholder="Password" 
                         onChange={(e) => {setPassword(e.target.value)}}/>
                         <label htmlFor="floatingPassword">Password</label>
+                        { showPassword ? (<input type="text" className="form-control input-sm" value={password} disabled/>) : ("") }
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox"  onClick={handleCheckbox}   value="" id="flexCheckDefault"/>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Show Password
+                            </label>
+                        </div>
+
                     </div>
                 </div>
                 <div style={loginBtnStyle}>
