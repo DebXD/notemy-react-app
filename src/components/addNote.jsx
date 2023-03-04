@@ -34,7 +34,7 @@ const AddNote = (props) => {
         props.setLoading(true)
         let response = await axios.post(`${props.apiurl}notes/`, body, config)
         console.log(response)
-        await props.getNotes()
+        await props.getNotes("");
         props.setLoading(false)
   
       }

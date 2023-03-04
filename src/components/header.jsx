@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const Header = (props) => {
-  console.log(props.isLoggedIn)
+  //console.log(props.isLoggedIn)
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
