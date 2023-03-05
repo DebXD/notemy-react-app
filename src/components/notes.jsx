@@ -1,4 +1,4 @@
-import { React, useCallback, useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { useRef } from "react";
 import NoteItem from "./noteItem";
 import axios from "axios";
@@ -10,7 +10,7 @@ const Notes = (props) => {
   const [loading, setLoading] = useState(true);
   const dataFetchedRef = useRef(false);
   const [notes, setNotes] = useState([]);
-  const [count, setCount] = useState(0);
+  //  const [count, setCount] = useState(0);
   const [query, setQuery] = useState("");
 
   const debouncedSearch = useRef(
@@ -48,8 +48,10 @@ const Notes = (props) => {
 
       console.log(notes);
     } catch (e) {
-      console.log(e.message);
-      alert("No results found");
+      if (e.response.status !== 422) {
+        console.log(e.message);
+        alert("No results found");
+      }
     }
     setLoading(false);
   };
