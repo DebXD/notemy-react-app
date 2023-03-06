@@ -48,7 +48,7 @@ const Notes = (props) => {
 
       console.log(notes);
     } catch (e) {
-      if (e.response.status !== 422) {
+      if (e.response.status !== 401 && e.response.status !== 401) {
         console.log(e.message);
         alert("No results found");
       }

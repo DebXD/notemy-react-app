@@ -2,32 +2,47 @@ import { useState, React } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faUser,
+  faKey,
+  faEnvelope,
+  faLock,
+  faSquare,
+  faSquareCheck,
+} from "@fortawesome/free-solid-svg-icons";
+import { faEyeSlash, faEye } from "@fortawesome/free-regular-svg-icons";
 
 const Login = (props) => {
-  let navigate = useNavigate();
+  //* add icon to library
+  library.add(
+    faUser,
+    faKey,
+    faEnvelope,
+    faEyeSlash,
+    faEye,
+    faLock,
+    faSquare,
+    faSquareCheck
+  );
 
-  const loginBtnStyle = {
-    margin: "auto",
-    marginTop: "20px",
-    padding: "10px",
-    color: "blue",
-    textAlign: "center",
-  };
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //const [isLoggedIn, setIsLoggedIn] = useState(false)
-  // const [AccessToken, setAccessToken] = useCookies([""]);
-  // const [RefreshToken, setRefreshToken] = useCookies([""]);
 
-  // useEffect(()=>{
-  //     let accessToken = Cookies.get('AccessToken')
-  //     let refreshToken = Cookies.get('RefreshToken')
-  //     if (accessToken || refreshToken === undefined){
-  //         navigate("/")
-  // }
-  // }, [navigate])
   const [showPassword, setShowPassword] = useState(false);
-  const handleCheckbox = () => {
+  const [remember, setRemember] = useState(false);
+
+  const handleRememberMe = () => {
+    if (remember === true) {
+      setRemember(false);
+    } else {
+      setRemember(true);
+    }
+  };
+
+  const handleShowPassword = () => {
     if (showPassword === true) {
       setShowPassword(false);
     } else {
@@ -72,64 +87,91 @@ const Login = (props) => {
   }
 
   return (
-    <>
+    <div className="flex items-center justify-center bg-gray-800 h-screen">
       <form onSubmit={handleSubmit}>
-        <div className="container">
-          <h1>Login</h1>
-          <div className="form-floating mb-3">
+        <div className="w-96 p-6 shadow-lg bg-white rounded-md">
+          <h1 className="text-center text-3xl block font-semibold font-mono ">
+            Login
+          </h1>
+          <hr className="mt-3" />
+          <div className="mt-3">
+            <label className="block text-base">
+              Email address <FontAwesomeIcon icon="fa-solid fa-envelope" />
+            </label>
             <input
               type="email"
-              className="form-control"
+              className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-md"
               id="inputEmail"
-              placeholder="name@example.com"
+              placeholder="Email"
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
             />
-            <label htmlFor="floatingInput">Email address</label>
           </div>
-          <div className="form-floating">
+
+          <div className="mt-3">
+            <label>
+              Password <FontAwesomeIcon icon="fa-solid fa-key" />
+            </label>
+
             <input
               type="password"
-              className="form-control"
+              className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-md"
               id="inputPassword"
               placeholder="Password"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
-            <label htmlFor="floatingPassword">Password</label>
+
             {showPassword ? (
               <input
                 type="text"
-                className="form-control input-sm"
+                className="border w-full text-base px-2 py-1 rounded-md bg-gray-300"
                 value={password}
                 disabled
               />
             ) : (
               ""
             )}
-            <div className="form-check mt-2">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                onClick={handleCheckbox}
-                value=""
-                id="flexCheckDefault"
-              />
-              <label className="form-check-label" htmlFor="flexCheckDefault">
-                Show Password
-              </label>
+            <div className="mt-1">
+              <i
+                className={
+                  showPassword
+                    ? "fa-regular fa-eye mx-2"
+                    : "fa-regular fa-eye-slash mx-2 mb-2"
+                }
+                onClick={handleShowPassword}
+              ></i>
             </div>
           </div>
-        </div>
-        <div style={loginBtnStyle}>
-          <button type="submit" className="btn btn-secondary">
-            Login
-          </button>
+          <div className="mt-2 mb-1 flex justify-between">
+            <div>
+              <i
+                className={
+                  remember
+                    ? "fa-solid fa-square-check mx-1"
+                    : "fa-solid fa-square mx-1"
+                }
+                onClick={handleRememberMe}
+              ></i>
+              Remember Me
+            </div>
+            <div>
+              <a href="/" className=" text-indigo-800">
+                Forgot Password?
+              </a>
+            </div>
+          </div>
+
+          <div className="text-center border-2 bg-indigo-700 text-white py-1 px-5 hover:bg-indigo-800 active:bg-indigo-900 rounded-md">
+            <button type="submit" className="">
+              Login
+            </button>
+          </div>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

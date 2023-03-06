@@ -7,6 +7,9 @@ import NoteDetails from "./components/noteDetails";
 import Cookies from "js-cookie";
 import Register from "./components/register";
 import { useEffect, useState } from "react";
+import "./index.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   let navigate = useNavigate();
@@ -29,7 +32,7 @@ function App() {
 
   return (
     <div>
-      <Header title={"Notemy"} searchBar={true} isLoggedIn={isLoggedIn} />
+      {/* <Header title={"Notemy"} searchBar={true} isLoggedIn={isLoggedIn} /> */}
       <Routes>
         <Route
           path="*"

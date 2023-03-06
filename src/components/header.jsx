@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 const Header = (props) => {
   //console.log(props.isLoggedIn)
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+    <nav className="">
+      <div className="">
+        <Link className="" to="/">
           {props.title}
         </Link>
         <button
@@ -28,25 +28,23 @@ const Header = (props) => {
                 Home
               </Link>
             </li>
-            { props.isLoggedIn ? ("") :
-              (<li className="nav-item">
-              <Link className="nav-link" to="/register">
-                Register
-              </Link>
-            </li>)
-            }
-            
+            {props.isLoggedIn ? (
+              ""
+            ) : (
+              <li className="nav-item">
+                <Link className="nav-link" to="/register">
+                  Register
+                </Link>
+              </li>
+            )}
+
             <li className="nav-item">
               <Link className="nav-link" to="/about">
                 About
               </Link>
             </li>
           </ul>
-          {props.searchBar ? (
-            ""
-          ) : (
-            ""
-          )}
+          {props.searchBar ? "" : ""}
         </div>
       </div>
     </nav>
