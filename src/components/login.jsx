@@ -2,31 +2,16 @@ import { useState, React } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
+
+//? import icons
+import { HiOutlineEye, HiOutlineKey } from "react-icons/hi2";
+import { HiOutlineEyeOff, HiOutlineMail } from "react-icons/hi";
 import {
-  faUser,
-  faKey,
-  faEnvelope,
-  faLock,
-  faSquare,
-  faSquareCheck,
-} from "@fortawesome/free-solid-svg-icons";
-import { faEyeSlash, faEye } from "@fortawesome/free-regular-svg-icons";
+  MdOutlineCheckBoxOutlineBlank,
+  MdOutlineCheckBox,
+} from "react-icons/md";
 
 const Login = (props) => {
-  //* add icon to library
-  library.add(
-    faUser,
-    faKey,
-    faEnvelope,
-    faEyeSlash,
-    faEye,
-    faLock,
-    faSquare,
-    faSquareCheck
-  );
-
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -62,6 +47,7 @@ const Login = (props) => {
         "Content-Type": "application/json",
       },
     };
+    console.log(loginCredentials)
     try {
       const response = await axios.post(
         `${props.apiurl}auth/login/`,
@@ -95,8 +81,9 @@ const Login = (props) => {
           </h1>
           <hr className="mt-3" />
           <div className="mt-3">
-            <label className="block text-base">
-              Email address <FontAwesomeIcon icon="fa-solid fa-envelope" />
+            <label  className="mt-2 mb-1 flex justify-between">
+              Email address
+              <HiOutlineMail className="h-5 w-5" />
             </label>
             <input
               type="email"
@@ -110,8 +97,9 @@ const Login = (props) => {
           </div>
 
           <div className="mt-3">
-            <label>
-              Password <FontAwesomeIcon icon="fa-solid fa-key" />
+            <label className="mt-2 mb-1 flex justify-between">
+              Password
+              <HiOutlineKey className="h-5 w-5" />
             </label>
 
             <input
@@ -121,8 +109,10 @@ const Login = (props) => {
               placeholder="Password"
               onChange={(e) => {
                 setPassword(e.target.value);
+                
               }}
             />
+    
 
             {showPassword ? (
               <input
@@ -135,27 +125,27 @@ const Login = (props) => {
               ""
             )}
             <div className="mt-1">
-              <i
-                className={
-                  showPassword
-                    ? "fa-regular fa-eye mx-2"
-                    : "fa-regular fa-eye-slash mx-2 mb-2"
-                }
-                onClick={handleShowPassword}
-              ></i>
+              {showPassword ? (
+                <HiOutlineEye
+                  className="h-5 w-5"
+                  onClick={handleShowPassword}
+                />
+              ) : (
+                <HiOutlineEyeOff
+                  className="h-5 w-5"
+                  onClick={handleShowPassword}
+                />
+              )}
             </div>
           </div>
-          <div className="mt-2 mb-1 flex justify-between">
-            <div>
-              <i
-                className={
-                  remember
-                    ? "fa-solid fa-square-check mx-1"
-                    : "fa-solid fa-square mx-1"
-                }
-                onClick={handleRememberMe}
-              ></i>
-              Remember Me
+          <div className="mt-2 mb-2 flex justify-between">
+            <div className="flex">
+              {remember ? (
+                <MdOutlineCheckBox className=" h-5 w-5 mt-0.5" onClick={handleRememberMe}/>
+              ) : (
+                <MdOutlineCheckBoxOutlineBlank className="h-5 w-5 mt-0.5" onClick={handleRememberMe}/>
+              )}
+              <p className="mx-1 mb-2"> Remember Me</p>
             </div>
             <div>
               <a href="/" className=" text-indigo-800">
@@ -165,7 +155,7 @@ const Login = (props) => {
           </div>
 
           <div className="text-center border-2 bg-indigo-700 text-white py-1 px-5 hover:bg-indigo-800 active:bg-indigo-900 rounded-md">
-            <button type="submit" className="">
+            <button type="submit">
               Login
             </button>
           </div>
