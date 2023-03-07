@@ -30,7 +30,7 @@ function App() {
 
   return (
     <div>
-      {/* <Header title={"Notemy"} searchBar={true} isLoggedIn={isLoggedIn} /> */}
+      <Header title={"Notemy"} searchBar={true} isLoggedIn={isLoggedIn} />
       <Routes>
         <Route
           path="*"
