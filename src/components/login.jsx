@@ -81,7 +81,7 @@ const Login = (props) => {
           </h1>
           <hr className="mt-3" />
           <div className="mt-3">
-            <label  className="mt-2 mb-1 flex justify-between">
+            <label className="mt-2 mb-1 flex justify-between">
               Email address
               <HiOutlineMail className="h-5 w-5" />
             </label>
@@ -109,10 +109,8 @@ const Login = (props) => {
               placeholder="Password"
               onChange={(e) => {
                 setPassword(e.target.value);
-                
               }}
             />
-    
 
             {showPassword ? (
               <input
@@ -141,9 +139,15 @@ const Login = (props) => {
           <div className="mt-2 mb-2 flex justify-between">
             <div className="flex">
               {remember ? (
-                <MdOutlineCheckBox className=" h-5 w-5 mt-0.5" onClick={handleRememberMe}/>
+                <MdOutlineCheckBox
+                  className=" h-5 w-5 mt-0.5"
+                  onClick={handleRememberMe}
+                />
               ) : (
-                <MdOutlineCheckBoxOutlineBlank className="h-5 w-5 mt-0.5" onClick={handleRememberMe}/>
+                <MdOutlineCheckBoxOutlineBlank
+                  className="h-5 w-5 mt-0.5"
+                  onClick={handleRememberMe}
+                />
               )}
               <p className="mx-1 mb-2"> Remember Me</p>
             </div>
@@ -154,8 +158,11 @@ const Login = (props) => {
             </div>
           </div>
 
-          <div className="text-center border-2 bg-indigo-700 text-white py-1 px-5 hover:bg-indigo-800 active:bg-indigo-900 rounded-md">
-            <button type="submit">
+          <div className="">
+            <button
+              type="submit"
+              className="w-full text-center border-2 bg-indigo-700 text-white py-1 px-5 hover:bg-indigo-800 active:bg-indigo-900 rounded-md"
+            >
               Login
             </button>
           </div>
