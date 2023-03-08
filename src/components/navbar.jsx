@@ -1,23 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-//import { FcKindle } from "react-icons/fc";
 import { TbBrandReactNative } from "react-icons/tb";
-import { HiMenuAlt3 } from "react-icons/hi";
 import { IoMenu, IoClose } from "react-icons/io5";
 
-export default function Navbar() {
-  const navBtns = [
-    { id: 1, name: "Home", link: "/" },
-    { id: 2, name: "Register", link: "/register" },
-    { id: 3, name: "Login", link: "/login" },
-    { id: 4, name: "About", link: "/about" },
-  ];
+export default function Navbar(props) {
+  const [auth, setAuth] = useState(false);
+  const jwt = sessionStorage.getItem("jwt");
+  const handleJwtTokens = () => {
+    if (jwt !== "" || jwt !== undefined) {
+      setAuth(false);
+    } else {
+      setAuth(true);
+    }
+  };
   const [openMenu, setOpenMenu] = useState(false);
   const handleMenuClick = () => {
     if (openMenu) {
       setOpenMenu(false);
+      handleJwtTokens();
     } else {
       setOpenMenu(true);
+      handleJwtTokens();
     }
   };
 
@@ -37,32 +40,61 @@ export default function Navbar() {
             <IoMenu className="h-6 w-6" onClick={handleMenuClick} />
           )}
         </div>
-        <ul
-          className={`md:flex md:items-center md:pb-0 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-5 transition-all duration-500 ease-in ${
-            openMenu ? "top-10 " : "top-[-490px]"
-          }`}
-        >
-          {navBtns.map((btn) => (
+        {auth ? (
+          <ul
+            className={`md:flex md:items-center md:pb-0 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-5 transition-all duration-500 ease-in ${
+              openMenu ? "top-10 " : "top-[-490px]"
+            }`}
+          >
             <li
-              key={btn.id}
               className="md:ml-8 text-lg md:my-0 my-5 font-[Poppins] "
               onClick={handleMenuClick}
             >
               <Link
-                to={btn.link}
+                to={"/"}
                 className="text-gray-800 hover:text-gray-400 duration-500 block"
               >
-                {btn.name}
+                Home
               </Link>
             </li>
-          ))}
-          <button
-            className="mb-5 md:mb-0 bg-indigo-600 text-white py-2 px-5  rounded-md hover:bg-indigo-400 duration-500 md:ml-5 font-[Poppins]"
-            onClick={handleMenuClick}
+          </ul>
+        ) : (
+          <ul
+            className={`md:flex md:items-center md:pb-0 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-5 transition-all duration-500 ease-in ${
+              openMenu ? "top-10 " : "top-[-490px]"
+            }`}
           >
-            <Link to={"/about"}>Get Started</Link>
-          </button>
-        </ul>
+            <li
+              className="md:ml-8 text-lg md:my-0 my-5 font-[Poppins] "
+              onClick={handleMenuClick}
+            >
+              <Link
+                to={"/"}
+                className="text-gray-800 hover:text-gray-400 duration-500 block"
+              >
+                Home
+              </Link>
+            </li>
+            <li
+              className="md:ml-8 text-lg md:my-0 my-5 font-[Poppins] "
+              onClick={handleMenuClick}
+            >
+              <Link
+                to={"/logout"}
+                className="text-gray-800 hover:text-gray-400 duration-500 block"
+              >
+                Logout
+              </Link>
+            </li>
+
+            <button
+              className="mb-5 md:mb-0 bg-indigo-600 text-white py-2 px-5  rounded-md hover:bg-indigo-400 duration-500 md:ml-5 font-[Poppins]"
+              onClick={handleMenuClick}
+            >
+              <Link to={"/about"}>Get Started</Link>
+            </button>
+          </ul>
+        )}
       </div>
     </div>
   );

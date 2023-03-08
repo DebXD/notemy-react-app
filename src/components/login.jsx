@@ -1,6 +1,5 @@
 import { useState, React } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 //? import icons
@@ -47,7 +46,7 @@ const Login = (props) => {
         "Content-Type": "application/json",
       },
     };
-    console.log(loginCredentials)
+    console.log(loginCredentials);
     try {
       const response = await axios.post(
         `${props.apiurl}auth/login/`,
@@ -57,18 +56,19 @@ const Login = (props) => {
       const data = response.data;
       //console.log(data)
       console.log(loginCredentials);
-      props.setIsLoggedIn(true);
       let accessToken = await data["user"]["access token"];
-      //let refreshToken = await data['user']['refresh token'];
-      // Set cookie
-      Cookies.set("AccessToken", accessToken);
-      //Cookies.set('RefreshToken', refreshToken)
-      navigate("/");
-    } catch {
+      let refreshToken = await data["user"]["refresh token"];
+      //? Set jwt token and refresh token in session storage
+      props.setJwtToken(accessToken);
+      props.setRefreshToken(refreshToken);
+      navigate("/notes");
+    } catch (e) {
+      console.log(e);
       if (!email || !password) {
         alert("email or password can't be empty");
+      } else {
+        alert("Invalid Credentials");
       }
-      alert("Unauthorized");
     }
   }
 

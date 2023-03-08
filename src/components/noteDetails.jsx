@@ -22,12 +22,11 @@ const NoteDetails = (props) => {
         if (dataFetchedRef.current) return;
         dataFetchedRef.current = true;
         const Run = async () => {
-            setLoading(true)
-            props.isAuthenticated()
-           
-            await getNote(id)
-            setLoading(false)
-            
+          setLoading(true);
+          //props.isAuthenticated()
+
+          await getNote(id);
+          setLoading(false);
         }
         Run()
 

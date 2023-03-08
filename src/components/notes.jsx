@@ -2,9 +2,9 @@ import { React, useEffect, useState } from "react";
 import { useRef } from "react";
 import NoteItem from "./noteItem";
 import axios from "axios";
-import Cookies from "js-cookie";
 import AddNote from "./addNote";
 import debounce from "lodash.debounce";
+import { useNavigate } from "react-router";
 
 const Notes = (props) => {
   const [loading, setLoading] = useState(true);
@@ -12,25 +12,24 @@ const Notes = (props) => {
   const [notes, setNotes] = useState([]);
   //  const [count, setCount] = useState(0);
   const [query, setQuery] = useState("");
-
-  const debouncedSearch = useRef(
-    debounce(async (query) => {
-      await searchNotes(query);
-    }, 300)
-  ).current;
-
+  let navigate = useNavigate();
   useEffect(() => {
-    //don't run useEffect twice
+    //? don't run useEffect twice
+
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
 
-    props.isAuthenticated();
-    debouncedSearch(query);
+    const jwtToken = props.getJwtToken();
+    if (props.isLoggedIn(jwtToken)) {
+      debouncedSearch(query);
+    } else {
+      navigate("/login");
+    }
   }, []);
 
   const searchNotes = async (query) => {
-    let accessToken = Cookies.get("AccessToken");
-    let token = accessToken;
+    let token = props.getJwtToken();
+    console.log(token);
     let config = {
       headers: {
         Authorization: "Bearer " + token,
@@ -48,13 +47,16 @@ const Notes = (props) => {
 
       console.log(notes);
     } catch (e) {
-      if (e.response.status !== 401 && e.response.status !== 401) {
-        console.log(e.message);
-        alert("No results found");
-      }
+      navigate("/login");
     }
     setLoading(false);
   };
+
+  const debouncedSearch = useRef(
+    debounce(async (query) => {
+      await searchNotes(query);
+    }, 300)
+  ).current;
 
   function handleSearch(e) {
     e.preventDefault();
