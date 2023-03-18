@@ -17,102 +17,91 @@ const NoteDetails = (props) => {
     const [content, setContent] = useState("")
     const URL = props.apiurl
     const dataFetchedRef = useRef(false);
+    
+
+    const handleNoteUpdate = async (e) => {
+      e.preventDefault();
+      if (title && content === "") {
+        alert("Title and content can not be empty");
+      } else {
+        console.log(title, content);
+        setLoading(true);
+        await updateNote(id, title, content);
+        setLoading(false);
+      }
+    };
+
+    const getNote = async (id) => {
+      let token = accessToken;
+      let config = {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+      try {
+        let response = await axios.get(`${URL}notes/${id}/`, config);
+        let data = await response.data;
+        console.log(data);
+        setTitle(data.title);
+        setContent(data.content);
+      } catch (error) {
+        //console.log(error);
+        alert("sorry this note details are not available");
+        navigate("/");
+      }
+    };
+
+    const updateNote = async (id, title, content) => {
+      let token = accessToken;
+      let config = {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+      let body = {
+        title: title,
+        content: content,
+      };
+
+      try {
+        let response = await axios.patch(`${URL}notes/${id}/`, body, config);
+        console.log(response);
+      } catch (error) {
+        alert("Your Note is not Updated!");
+      }
+    };
+    const Delete = async (id) => {
+      let token = accessToken;
+      let config = {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+      try {
+        console.log("processing delete");
+
+        let response = await axios.delete(URL + "notes/" + id + "/", config);
+        //console.log(response)
+        if (response.status === 204) {
+          navigate("/");
+        }
+        //alert('your note is deleted')
+      } catch (error) {
+        alert("Failed to delete your note");
+        console.log(error);
+      }
+    };
     useEffect(() => {
-        //don't run useEffect twice
-        if (dataFetchedRef.current) return;
-        dataFetchedRef.current = true;
-        const Run = async () => {
-          setLoading(true);
-          //props.isAuthenticated()
-
-          await getNote(id);
-          setLoading(false);
-        }
-        Run()
-
-    }, [])
-    
-    const handleNoteUpdate = async(e) =>{
-        e.preventDefault()
-        if (title && content === ''){
-            alert("Title and content can not be empty")
-        }
-        else{
-            console.log(title, content)
-            setLoading(true)
-            await updateNote(id, title, content)
-            setLoading(false)
-        }
-      }
-
-
-      const getNote = async(id) => {
-        let token = accessToken;
-        let config = {
-          headers: {
-          'Authorization' : 'Bearer ' + token
-          }}
-          try {
-            
-            let response = await axios.get(`${URL}notes/${id}/`, config )
-            let data = await response.data
-            console.log(data)
-            setTitle(data.title)
-            setContent(data.content)
-            
-            
-    
-          } catch (error) {
-            alert('sorry this note details are not available')
-            navigate('/')
-          }
-    
-      }
-
-    const updateNote = async(id, title, content) => {
-        let token = accessToken;
-        let config = {
-          headers : {
-            'Authorization' : 'Bearer ' + token
-          }
-        }
-        let body = {
-          title : title,
-          content : content
-        }
-    
-        try { 
-          let response = await axios.patch( `${URL}notes/${id}/`, body, config)
-          console.log(response)
-          
-        } catch (error) {
-          alert('Your Note is not Updated!')
-          
-        }
-      }
-    const Delete = async(id) => {
-        let token = accessToken
-                let config = {
-                    headers: {
-                    'Authorization' : 'Bearer ' + token
-                    }}
-                try{
-                    console.log('processing delete')
-                    
-                    let response = await axios.delete(URL + "notes/" + id  + '/', config)
-                    //console.log(response)
-                    if (response.status === 204){
-                        navigate('/')
-                        
-                    }
-                    //alert('your note is deleted')
-                    
-                    }
-                catch (error) {
-                    alert("Failed to delete your note")
-                    console.log(error)
-                }
-            }
+      //don't run useEffect twice
+      if (dataFetchedRef.current) return;
+      dataFetchedRef.current = true;
+      const Run = async () => {
+        setLoading(true);
+        await getNote(id);
+        setLoading(false);
+      };
+      Run();
+    }, [id]);
 
     return (
     <>

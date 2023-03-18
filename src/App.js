@@ -1,13 +1,15 @@
 import Login from "./components/login";
 import Notes from "./components/notes";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import About from "./components/about";
-import Header from "./components/header";
 import NoteDetails from "./components/noteDetails";
 import Register from "./components/register";
 import Logout from "./components/logout";
 import Profile from "./components/profile";
 import "./index.css";
+import { useState, useEffect } from "react";
+import UnauthNav from "./components/unAuthNavbar";
+import Navbar from "./components/navbar";
 
 function App() {
   const URL = "https://notemyapi-1-b7327629.deta.app/api/v1/";
@@ -25,36 +27,25 @@ function App() {
     sessionStorage.setItem("refreshToken", token);
   };
 
-  const isLoggedIn = (jwtToken) => {
-    if (
-      jwtToken === null ||
-      jwtToken === undefined ||
-      jwtToken === "" ||
-      jwtToken === " "
-    ) {
-      return false;
-    } else {
-      return true;
-    }
-  };
+  const [auth, setAuth] = useState(sessionStorage.getItem("jwt"));
+
+  useEffect(() => {
+    setAuth(sessionStorage.getItem("jwt"));
+    // const checkUser = (token) => {};
+  }, []);
 
   return (
-    <div>
-      <Header
-        title={"Notemy"}
-        isLoggedIn={isLoggedIn}
-        getJwtToken={getJwtToken}
-      />
+    <>
+      {auth ? (
+        <Navbar getJwtToken={getJwtToken} apiurl={URL} auth={false} />
+      ) : (
+        <UnauthNav />
+      )}
+
       <Routes>
         <Route
-          path="*"
-          element={
-            <Notes
-              apiurl={URL}
-              isLoggedIn={isLoggedIn}
-              getJwtToken={getJwtToken}
-            />
-          }
+          path="/"
+          element={<Notes apiurl={URL} getJwtToken={getJwtToken} />}
         />
 
         <Route
@@ -64,6 +55,7 @@ function App() {
               apiurl={URL}
               setJwtToken={setJwtToken}
               setRefreshToken={setRefreshToken}
+              setAuth={setAuth}
             />
           }
         />
@@ -74,6 +66,7 @@ function App() {
             <Logout
               setJwtToken={setJwtToken}
               setRefreshToken={setRefreshToken}
+              setAuth={setAuth}
             />
           }
         />
@@ -90,7 +83,7 @@ function App() {
 
         <Route path="/about" element={<About />} />
       </Routes>
-    </div>
+    </>
   );
 }
 export default App;

@@ -13,19 +13,6 @@ const Notes = (props) => {
   //  const [count, setCount] = useState(0);
   const [query, setQuery] = useState("");
   let navigate = useNavigate();
-  useEffect(() => {
-    //? don't run useEffect twice
-
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
-
-    const jwtToken = props.getJwtToken();
-    if (props.isLoggedIn(jwtToken)) {
-      debouncedSearch(query);
-    } else {
-      navigate("/login");
-    }
-  }, []);
 
   const searchNotes = async (query) => {
     let token = props.getJwtToken();
@@ -64,7 +51,12 @@ const Notes = (props) => {
     console.log(query);
     debouncedSearch(query);
   }
-
+  useEffect(() => {
+    //? don't run useEffect twice
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    debouncedSearch(query);
+  }, [navigate, query, debouncedSearch]);
   return (
     <>
       <div className="search-container mx-3 my-3">

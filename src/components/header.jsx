@@ -4,7 +4,13 @@ import Navbar from "./navbar";
 
 const Header = (props) => {
   return (
-    <Navbar isLoggedIn={props.isLoggedIn} getJwtToken={props.getJwtToken} />
+    <Navbar
+      isLoggedIn={props.isLoggedIn}
+      getJwtToken={props.getJwtToken}
+      apiurl={props.apiurl}
+      isAuth={props.isAuth}
+      auth={false}
+    />
   );
 };
 

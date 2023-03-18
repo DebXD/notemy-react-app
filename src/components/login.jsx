@@ -1,6 +1,6 @@
 import { useState, React } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 //? import icons
 import { HiOutlineEye, HiOutlineKey } from "react-icons/hi2";
@@ -57,11 +57,11 @@ const Login = (props) => {
       //console.log(data)
       console.log(loginCredentials);
       let accessToken = await data["user"]["access token"];
-      let refreshToken = await data["user"]["refresh token"];
+      //let refreshToken = await data["user"]["refresh token"];
       //? Set jwt token and refresh token in session storage
-      props.setJwtToken(accessToken);
-      props.setRefreshToken(refreshToken);
-      navigate("/notes");
+      await props.setJwtToken(accessToken);
+      props.setAuth(sessionStorage.getItem("jwt"));
+      navigate("/");
     } catch (e) {
       console.log(e);
       if (!email || !password) {
@@ -75,7 +75,7 @@ const Login = (props) => {
   return (
     <div className="flex items-center justify-center bg-gray-800 h-screen">
       <form onSubmit={handleSubmit}>
-        <div className="w-96 p-6 shadow-lg bg-white rounded-md">
+        <div className="w-80 p-6 shadow-lg bg-white rounded-md lg:w-96">
           <h1 className="text-center text-3xl block font-semibold font-mono ">
             Login
           </h1>
@@ -165,6 +165,13 @@ const Login = (props) => {
             >
               Login
             </button>
+            <div className="pt-4">
+              <p>Don't Have an Account!</p>
+              <Link to={"/register"} className="text-indigo-600 font-bold">
+                Register{" "}
+              </Link>
+              here
+            </div>
           </div>
         </div>
       </form>

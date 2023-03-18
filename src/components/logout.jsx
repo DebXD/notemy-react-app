@@ -6,7 +6,8 @@ export default function Logout(props) {
   useEffect(() => {
     props.setJwtToken("");
     props.setRefreshToken("");
+    props.setAuth(sessionStorage.getItem("jwt"));
     navigate("/login");
-  }, [props]);
+  }, []);
   return <div>lol</div>;
 }
