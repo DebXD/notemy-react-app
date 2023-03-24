@@ -5,6 +5,8 @@ import axios from "axios";
 import AddNote from "./addNote";
 import debounce from "lodash.debounce";
 import { useNavigate } from "react-router";
+import { useIsAuthenticated } from "react-auth-kit";
+import { useAuthUser } from "react-auth-kit";
 
 const Notes = (props) => {
   const [loading, setLoading] = useState(true);
@@ -13,10 +15,11 @@ const Notes = (props) => {
   //  const [count, setCount] = useState(0);
   const [query, setQuery] = useState("");
   let navigate = useNavigate();
+  const isAuthenticated = useIsAuthenticated();
+  const auth = useAuthUser();
+  const token = auth().token;
 
   const searchNotes = async (query) => {
-    let token = props.getJwtToken();
-    console.log(token);
     let config = {
       headers: {
         Authorization: "Bearer " + token,
@@ -28,12 +31,14 @@ const Notes = (props) => {
         `${props.apiurl}notes/search/?query=${query}`,
         config
       );
+
       let data = response.data;
       let notes = data.data;
       setNotes(notes);
 
       console.log(notes);
     } catch (e) {
+      console.log(e.message);
       navigate("/login");
     }
     setLoading(false);
@@ -55,8 +60,14 @@ const Notes = (props) => {
     //? don't run useEffect twice
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
-    debouncedSearch(query);
-  }, [navigate, query, debouncedSearch]);
+
+    if (isAuthenticated()) {
+      debouncedSearch(query);
+    } else {
+      navigate("/login");
+    }
+  }, [navigate, query, debouncedSearch, isAuthenticated]);
+
   return (
     <>
       <div className="search-container mx-3 my-3">

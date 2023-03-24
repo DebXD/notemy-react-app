@@ -1,6 +1,7 @@
 import { useState, React } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { useSignIn } from "react-auth-kit";
 
 //? import icons
 import { HiOutlineEye, HiOutlineKey } from "react-icons/hi2";
@@ -17,6 +18,8 @@ const Login = (props) => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
+
+  const signIn = useSignIn();
 
   const handleRememberMe = () => {
     if (remember === true) {
@@ -57,11 +60,27 @@ const Login = (props) => {
       //console.log(data)
       console.log(loginCredentials);
       let accessToken = await data["user"]["access token"];
-      //let refreshToken = await data["user"]["refresh token"];
-      //? Set jwt token and refresh token in session storage
-      await props.setJwtToken(accessToken);
-      props.setAuth(sessionStorage.getItem("jwt"));
-      navigate("/");
+      let refreshToken = await data["user"]["refresh token"];
+
+      let userEmail = await data["user"]["email"];
+      let userName = await data["user"]["username"];
+      let authUserState = {
+        email: userEmail,
+        username: userName,
+        token: accessToken,
+      };
+
+      if (
+        signIn({
+          token: accessToken,
+          expiresIn: 900,
+          tokenType: "Bearer",
+          authState: authUserState,
+          refreshToken: refreshToken, // Only if you are using refreshToken feature
+          refreshTokenExpireIn: 604800, // Only if you are using refreshToken feature
+        })
+      )
+        navigate("/");
     } catch (e) {
       console.log(e);
       if (!email || !password) {
@@ -75,7 +94,7 @@ const Login = (props) => {
   return (
     <div className="flex items-center justify-center bg-gray-800 h-screen">
       <form onSubmit={handleSubmit}>
-        <div className="w-80 p-6 shadow-lg bg-white rounded-md lg:w-96">
+        <div className=" w-7/8 p-6 shadow-lg bg-white rounded-md lg:w-96">
           <h1 className="text-center text-3xl block font-semibold font-mono ">
             Login
           </h1>
@@ -115,7 +134,7 @@ const Login = (props) => {
             {showPassword ? (
               <input
                 type="text"
-                className="border w-full text-base px-2 py-1 rounded-md bg-gray-300"
+                className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-md"
                 value={password}
                 disabled
               />
