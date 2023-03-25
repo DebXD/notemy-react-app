@@ -93,7 +93,7 @@ const Notes = (props) => {
         <h2 className="d-flex justify-content-center">NOTES</h2>
 
         {loading === false ? (
-          <ul className="list-group my-4">
+          <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
             {notes.length === 0 ? (
               <h4 className="text-center text-muted">Add a Note...</h4>
             ) : (

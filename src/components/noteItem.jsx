@@ -7,17 +7,21 @@ function NoteItem(props) {
   const [title, setTitle] = useState(props.note.title)
   const [content, setContent] = useState(props.note.content)
   let navigate = useNavigate()
-  return (<>
-    <li className="list-group-item">
-      <div className="my-2" onClick={() => {navigate(`/details/${props.note.id}/`)}}>
-        <h4>{title}</h4>
-        <p>{content}</p>
-      </div>
-      
+  return (
+    <>
+      <li className="list-group-item bg-indigo-800">
+        <div
+          className="m-2"
+          onClick={() => {
+            navigate(`/details/${props.note.id}/`);
+          }}
+        >
+          <h4>{title}</h4>
+          <p>{content}</p>
+        </div>
       </li>
-
-
-  </>)
+    </>
+  );
 }
 
 export default NoteItem;
