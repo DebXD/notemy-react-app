@@ -4,20 +4,22 @@ import { useNavigate } from "react-router-dom";
 
 
 function NoteItem(props) {
-  const [title, setTitle] = useState(props.note.title)
-  const [content, setContent] = useState(props.note.content)
-  let navigate = useNavigate()
+  const [title, setTitle] = useState(props.note.title);
+  const [content, setContent] = useState(props.note.content);
+  let navigate = useNavigate();
+
   return (
     <>
-      <li className="list-group-item bg-indigo-800">
+      {}
+      <li className={`list-group-item bg-amber-200 mx-4 md:mx-0 rounded-xl`}>
         <div
-          className="m-2"
+          className="m-2 p-2"
           onClick={() => {
             navigate(`/details/${props.note.id}/`);
           }}
         >
-          <h4>{title}</h4>
-          <p>{content}</p>
+          <div className="text-xl font-semibold text-black">{title}</div>
+          <div className="text-black">{content}</div>
         </div>
       </li>
     </>

@@ -12,7 +12,7 @@ const NoteDetails = (props) => {
   const navigate = useNavigate();
   const auth = useAuthUser();
   const token = auth().token;
-  // let accessToken = Cookies.get("AccessToken");
+
   const isAuthenticated = useIsAuthenticated();
 
   const [title, setTitle] = useState("");

@@ -7,6 +7,8 @@ import debounce from "lodash.debounce";
 import { useNavigate } from "react-router";
 import { useIsAuthenticated } from "react-auth-kit";
 import { useAuthUser } from "react-auth-kit";
+import { ImSpinner } from "react-icons/im";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const Notes = (props) => {
   const [loading, setLoading] = useState(true);
@@ -14,7 +16,7 @@ const Notes = (props) => {
   const [notes, setNotes] = useState([]);
   //  const [count, setCount] = useState(0);
   const [query, setQuery] = useState("");
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const isAuthenticated = useIsAuthenticated();
   const auth = useAuthUser();
   const token = auth().token;
@@ -83,14 +85,14 @@ const Notes = (props) => {
           />
         </form>
       </div>
-      <div className="container ">
+      <div className="m-3">
         <AddNote
           apiurl={props.apiurl}
           loading={loading}
           setLoading={setLoading}
           getNotes={searchNotes}
         />
-        <h2 className="d-flex justify-content-center">NOTES</h2>
+        <h2 className="text-center text-3xl font-semibold mb-5">NOTES</h2>
 
         {loading === false ? (
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -103,10 +105,8 @@ const Notes = (props) => {
             )}
           </ul>
         ) : (
-          <div className="text-center mt-5">
-            <div className="spinner-grow" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+          <div className="flex justify-center">
+            <TbFidgetSpinner className="animate-spin h-6 w-6" />
           </div>
         )}
       </div>
