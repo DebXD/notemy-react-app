@@ -17,24 +17,21 @@ const refreshApi = createRefresh({
         {
           headers: {
             accept: "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTY0MDM5OSwianRpIjoiZjZiZTUxODktMDU4OC00M2NmLTk4NDQtMDAzOTgwMDgwMmJjIiwidHlwZSI6InJlZnJlc2giLCJzdWIiOjEsIm5iZiI6MTY3OTY0MDM5OSwiZXhwIjoxNjgwMjQ1MTk5fQ.rPU9dlSh3Py6ylUDf8u_idysTeWtwXK9QqQB3S0Frbo",
+            Authorization: "Bearer " + refreshToken,
           },
         }
       )
       .then((res) => {
         const accessToken = res.data["access token"];
         console.log(accessToken);
-        const authState = localStorage.getItem("_auth_state");
-        const newAuthState = JSON.parse(authState);
-        newAuthState.token = accessToken;
-        console.log(newAuthState);
+        authUserState.token = accessToken;
+        //console.log(authUserState);
 
         return {
           isSuccess: true, // For successful network request isSuccess is true
           newAuthToken: accessToken,
           newAuthTokenExpireIn: 900,
-          newAuthUserState: newAuthState,
+          newAuthUserState: authUserState,
           // You can also add new refresh token ad new user state
         };
       })

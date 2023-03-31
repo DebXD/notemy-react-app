@@ -36,6 +36,11 @@ const Notes = (props) => {
 
       let data = response.data;
       let notes = data.data;
+      notes.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.date) - new Date(a.date);
+      });
       setNotes(notes);
 
       console.log(notes);
