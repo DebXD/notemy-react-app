@@ -35,8 +35,16 @@ function App() {
             }
           />
 
+          <Route
+            path="/details/:id/"
+            element={
+              <RequireAuth loginPath={"/login"}>
+                <NoteDetails apiurl={URL} />
+              </RequireAuth>
+            }
+          />
+
           <Route path="/profile" element={<Profile />} />
-          <Route path="/details/:id/" element={<NoteDetails apiurl={URL} />} />
 
           <Route path="/about" element={<About />} />
         </Routes>

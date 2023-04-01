@@ -11,7 +11,9 @@ function NoteItem(props) {
   return (
     <>
       {}
-      <li className={`list-group-item bg-amber-200 mx-4 md:mx-0 rounded-xl`}>
+      <li
+        className={`list-group-item bg-amber-200 mx-4 md:mx-0 rounded-xl border-gray-500 border-2 md:basis-1/4 md:flex-1`}
+      >
         <div
           className="m-2 p-2"
           onClick={() => {

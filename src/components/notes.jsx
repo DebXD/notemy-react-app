@@ -97,10 +97,12 @@ const Notes = (props) => {
           setLoading={setLoading}
           getNotes={searchNotes}
         />
-        <h2 className="text-center text-3xl font-semibold mb-5">NOTES</h2>
+        <h2 className="text-center text-3xl  mb-5 font-['Bebas_Neue']">
+          NOTES
+        </h2>
 
         {loading === false ? (
-          <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <ul className="flex flex-wrap gap-4  justify-center">
             {notes.length === 0 ? (
               <h4 className="text-center text-muted">Add a Note...</h4>
             ) : (

@@ -112,16 +112,15 @@ const NoteDetails = (props) => {
   return (
     <>
       {loading === false ? (
-        <div className="container">
+        <div className="justify-center mt-20 my-5">
           <form action="" onSubmit={handleNoteUpdate}>
-            <div className="mb-3">
-              <label htmlFor="exampleFormControlInput1" className="form-label">
+            <div className="m-5">
+              <label className="flex text-xl mb-3 font-['Bebas_Neue']">
                 Title
               </label>
               <input
+                className="rounded-md border-2 p-2 w-full bg-slate-100 "
                 type="text"
-                className="form-control"
-                id="exampleFormControlInput1"
                 value={title}
                 onChange={(e) => {
                   setTitle(e.target.value);
@@ -129,16 +128,12 @@ const NoteDetails = (props) => {
               />
             </div>
 
-            <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                className="form-label"
-              >
+            <div className="m-5">
+              <label className="flex  text-xl mb-3 font-['Bebas_Neue']">
                 Content
               </label>
               <textarea
-                className="form-control"
-                id="exampleFormControlTextarea1"
+                className="rounded-md border-2 p-3 w-full bg-slate-100 font-['Rubik'] text-lg"
                 rows="10"
                 value={content}
                 onChange={(e) => {
@@ -150,7 +145,7 @@ const NoteDetails = (props) => {
           <div className="text-center">
             <button
               type="submit"
-              className="btn btn-outline-warning"
+              className=" mt-2 rounded-md bg-yellow-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white hover:bg-yellow-500 m-2"
               onClick={(e) => {
                 if (window.confirm("Do you really want to Update?")) {
                   handleNoteUpdate(e);
@@ -161,7 +156,7 @@ const NoteDetails = (props) => {
             </button>
             <button
               type="button"
-              className="btn btn-outline-danger m-3"
+              className="mt-2 rounded-md bg-red-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white hover:bg-red-400"
               onClick={() => {
                 if (window.confirm("Are you sure, You want to delete?")) {
                   Delete(id);
@@ -173,7 +168,7 @@ const NoteDetails = (props) => {
           </div>
         </div>
       ) : (
-        <div className="text-center mt-5">
+        <div className="text-center mt-5 ">
           <div className="spinner-grow" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
