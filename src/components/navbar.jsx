@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { TbBrandReactNative } from "react-icons/tb";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
+import { BsPersonFill } from "react-icons/bs";
+import { IoLogOut } from "react-icons/io5";
+import { HiHome } from "react-icons/hi";
 
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -31,9 +34,9 @@ export default function Navbar() {
         </Link>
         <div className="absolute right-8 top-5 cursor-pointer md:hidden">
           {openMenu ? (
-            <IoClose className="h-6 w-6" onClick={handleMenuClick} />
+            <IoClose className="h-7 w-7" onClick={handleMenuClick} />
           ) : (
-            <IoMenu className="h-6 w-6" onClick={handleMenuClick} />
+            <IoMenu className="h-7 w-7" onClick={handleMenuClick} />
           )}
         </div>
         {isAuthenticated() ? (
@@ -48,9 +51,22 @@ export default function Navbar() {
             >
               <Link
                 to={"/"}
-                className="text-gray-800 hover:text-gray-400 duration-500 block"
+                className="text-gray-800 hover:text-gray-400 duration-500 flex"
               >
-                Home
+                <HiHome className="h-7 w-7" />
+                <p className="md:hidden ml-2">Home</p>
+              </Link>
+            </li>
+            <li
+              className="md:ml-8 text-lg md:my-0 my-5 font-[Poppins] "
+              onClick={handleMenuClick}
+            >
+              <Link
+                to={"/profile"}
+                className="text-gray-800 hover:text-gray-400 duration-500 flex"
+              >
+                <BsPersonFill className="h-7 w-7" />
+                <p className="md:hidden ml-2">Profile</p>
               </Link>
             </li>
             <li
@@ -62,9 +78,10 @@ export default function Navbar() {
             >
               <Link
                 to={"/login"}
-                className="text-gray-800 hover:text-gray-400 duration-500 block"
+                className="text-gray-800 hover:text-gray-400 duration-500 flex"
               >
-                Logout
+                <IoLogOut className="h-7 w-7" />
+                <p className="md:hidden ml-2">Logout</p>
               </Link>
             </li>
           </ul>

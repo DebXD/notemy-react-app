@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import { useIsAuthenticated } from "react-auth-kit";
 import { useAuthUser } from "react-auth-kit";
+import { TbLoader2 } from "react-icons/tb";
 
 const NoteDetails = (props) => {
   const [loading, setLoading] = useState();
@@ -129,11 +130,11 @@ const NoteDetails = (props) => {
             </div>
 
             <div className="m-5">
-              <label className="flex  text-xl mb-3 font-['Bebas_Neue']">
+              <label className="flex text-xl mb-3 font-['Bebas_Neue']">
                 Content
               </label>
               <textarea
-                className="rounded-md border-2 p-3 w-full bg-slate-100 font-['Rubik'] text-lg"
+                className="rounded-md border-2 p-3 w-full bg-slate-100"
                 rows="10"
                 value={content}
                 onChange={(e) => {
@@ -168,10 +169,8 @@ const NoteDetails = (props) => {
           </div>
         </div>
       ) : (
-        <div className="text-center mt-5 ">
-          <div className="spinner-grow" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+        <div className="flex justify-center mt-20">
+          <TbLoader2 className="animate-spin h-8 w-8" />
         </div>
       )}
     </>

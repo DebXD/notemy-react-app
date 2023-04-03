@@ -7,8 +7,7 @@ import debounce from "lodash.debounce";
 import { useNavigate } from "react-router";
 import { useIsAuthenticated } from "react-auth-kit";
 import { useAuthUser } from "react-auth-kit";
-import { ImSpinner } from "react-icons/im";
-import { TbFidgetSpinner } from "react-icons/tb";
+import { TbLoader2 } from "react-icons/tb";
 
 const Notes = (props) => {
   const [loading, setLoading] = useState(true);
@@ -77,17 +76,19 @@ const Notes = (props) => {
 
   return (
     <>
-      <div className="search-container mx-3 my-3">
-        <form className="d-flex" role="search">
-          <input
-            className="form-control me-2"
-            type="search"
-            placeholder="Search keyword..."
-            aria-label="Search"
-            onKeyUp={(e) => handleSearch(e)}
-            onChange={(e) => setQuery(e.target.value)}
-            value={query}
-          />
+      <div className="search-container mt-20">
+        <form role="search">
+          <div className="m-5">
+            <input
+              className="w-full p-2 bg-slate-200 rounded-3xl"
+              type="search"
+              placeholder="Search keyword..."
+              aria-label="Search"
+              onKeyUp={(e) => handleSearch(e)}
+              onChange={(e) => setQuery(e.target.value)}
+              value={query}
+            />
+          </div>
         </form>
       </div>
       <div className="m-3">
@@ -113,7 +114,7 @@ const Notes = (props) => {
           </ul>
         ) : (
           <div className="flex justify-center">
-            <TbFidgetSpinner className="animate-spin h-6 w-6" />
+            <TbLoader2 className="animate-spin h-8 w-8" />
           </div>
         )}
       </div>

@@ -64,7 +64,7 @@ const AddNote = (props) => {
   };
 
   return (
-    <div className="mt-7">
+    <div className="mt-2">
       <HiDocumentAdd
         className="h-10 w-10  hover:text-gray-500"
         onClick={handleModal}
