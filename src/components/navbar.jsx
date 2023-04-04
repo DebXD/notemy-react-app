@@ -4,7 +4,7 @@ import { TbBrandReactNative } from "react-icons/tb";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import { BsPersonFill } from "react-icons/bs";
-import { IoLogOut } from "react-icons/io5";
+import { IoLogOut, IoLogIn } from "react-icons/io5";
 import { HiHome } from "react-icons/hi";
 
 export default function Navbar() {
@@ -54,7 +54,7 @@ export default function Navbar() {
                 className="text-gray-800 hover:text-gray-400 duration-500 flex"
               >
                 <HiHome className="h-7 w-7" />
-                <p className="md:hidden ml-2">Home</p>
+                <p className="ml-2">Home</p>
               </Link>
             </li>
             <li
@@ -66,7 +66,7 @@ export default function Navbar() {
                 className="text-gray-800 hover:text-gray-400 duration-500 flex"
               >
                 <BsPersonFill className="h-7 w-7" />
-                <p className="md:hidden ml-2">Profile</p>
+                <p className=" ml-2">Profile</p>
               </Link>
             </li>
             <li
@@ -81,7 +81,7 @@ export default function Navbar() {
                 className="text-gray-800 hover:text-gray-400 duration-500 flex"
               >
                 <IoLogOut className="h-7 w-7" />
-                <p className="md:hidden ml-2">Logout</p>
+                <p className="ml-2">Logout</p>
               </Link>
             </li>
           </ul>
@@ -97,9 +97,10 @@ export default function Navbar() {
             >
               <Link
                 to={"/login"}
-                className="text-gray-800 hover:text-gray-400 duration-500 block"
+                className="text-gray-800 hover:text-gray-400 duration-500 flex"
               >
-                Home
+                <HiHome className="h-7 w-7" />
+                <p className=" ml-2">Home</p>
               </Link>
             </li>
 
@@ -109,9 +110,10 @@ export default function Navbar() {
             >
               <Link
                 to={"/login"}
-                className="text-gray-800 hover:text-gray-400 duration-500 block"
+                className="text-gray-800 hover:text-gray-400 duration-500 flex"
               >
-                Login
+                <IoLogIn className="h-7 w-7" />
+                <p className=" ml-2">Login</p>
               </Link>
             </li>
 
