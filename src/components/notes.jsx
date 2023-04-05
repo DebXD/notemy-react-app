@@ -2,9 +2,12 @@ import { React, useEffect, useState } from "react";
 import { useRef } from "react";
 import NoteItem from "./noteItem";
 import axios from "axios";
-import Cookies from "js-cookie";
 import AddNote from "./addNote";
 import debounce from "lodash.debounce";
+import { useNavigate } from "react-router";
+import { useIsAuthenticated } from "react-auth-kit";
+import { useAuthUser } from "react-auth-kit";
+import { TbLoader2 } from "react-icons/tb";
 
 const Notes = (props) => {
   const [loading, setLoading] = useState(true);
@@ -12,25 +15,12 @@ const Notes = (props) => {
   const [notes, setNotes] = useState([]);
   //  const [count, setCount] = useState(0);
   const [query, setQuery] = useState("");
-
-  const debouncedSearch = useRef(
-    debounce(async (query) => {
-      await searchNotes(query);
-    }, 300)
-  ).current;
-
-  useEffect(() => {
-    //don't run useEffect twice
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
-
-    props.isAuthenticated();
-    debouncedSearch(query);
-  }, []);
+  const navigate = useNavigate();
+  const isAuthenticated = useIsAuthenticated();
+  const auth = useAuthUser();
+  const token = auth().token;
 
   const searchNotes = async (query) => {
-    let accessToken = Cookies.get("AccessToken");
-    let token = accessToken;
     let config = {
       headers: {
         Authorization: "Bearer " + token,
@@ -42,19 +32,29 @@ const Notes = (props) => {
         `${props.apiurl}notes/search/?query=${query}`,
         config
       );
+
       let data = response.data;
       let notes = data.data;
+      notes.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.date) - new Date(a.date);
+      });
       setNotes(notes);
 
       console.log(notes);
     } catch (e) {
-      if (e.response.status !== 422) {
-        console.log(e.message);
-        alert("No results found");
-      }
+      console.log(e.message);
+      navigate("/login");
     }
     setLoading(false);
   };
+
+  const debouncedSearch = useRef(
+    debounce(async (query) => {
+      await searchNotes(query);
+    }, 300)
+  ).current;
 
   function handleSearch(e) {
     e.preventDefault();
@@ -62,33 +62,48 @@ const Notes = (props) => {
     console.log(query);
     debouncedSearch(query);
   }
+  useEffect(() => {
+    //? don't run useEffect twice
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
+    if (isAuthenticated()) {
+      debouncedSearch(query);
+    } else {
+      navigate("/login");
+    }
+  }, [navigate, query, debouncedSearch, isAuthenticated]);
 
   return (
-    <>
-      <div className="search-container mx-3 my-3">
-        <form className="d-flex" role="search">
-          <input
-            className="form-control me-2"
-            type="search"
-            placeholder="Search keyword..."
-            aria-label="Search"
-            onKeyUp={(e) => handleSearch(e)}
-            onChange={(e) => setQuery(e.target.value)}
-            value={query}
-          />
+    <div className="bg-gradient-to-r from-indigo-600 to-indigo-900">
+      <div className="search-container">
+        <form role="search">
+          <div className="mb-5 mx-5">
+            <input
+              className="w-full p-2 bg-slate-200 rounded-3xl mt-20"
+              type="search"
+              placeholder="Search keyword..."
+              aria-label="Search"
+              onKeyUp={(e) => handleSearch(e)}
+              onChange={(e) => setQuery(e.target.value)}
+              value={query}
+            />
+          </div>
         </form>
       </div>
-      <div className="container ">
+      <div className="m-3">
         <AddNote
           apiurl={props.apiurl}
           loading={loading}
           setLoading={setLoading}
           getNotes={searchNotes}
         />
-        <h2 className="d-flex justify-content-center">NOTES</h2>
+        <h2 className="text-center text-3xl  mb-5 font-['Bebas_Neue'] text-white">
+          NOTES
+        </h2>
 
         {loading === false ? (
-          <ul className="list-group my-4">
+          <ul className="flex flex-wrap gap-4  justify-center">
             {notes.length === 0 ? (
               <h4 className="text-center text-muted">Add a Note...</h4>
             ) : (
@@ -98,14 +113,12 @@ const Notes = (props) => {
             )}
           </ul>
         ) : (
-          <div className="text-center mt-5">
-            <div className="spinner-grow" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+          <div className="flex justify-center h-screen">
+            <TbLoader2 className="animate-spin h-8 w-8 text-white" />
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
