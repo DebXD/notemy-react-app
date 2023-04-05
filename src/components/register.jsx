@@ -3,8 +3,8 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { Link } from "react-router-dom";
 
-import { HiOutlineEye, HiOutlineKey } from "react-icons/hi2";
-import { HiOutlineEyeOff, HiOutlineMail } from "react-icons/hi";
+import { HiOutlineEye } from "react-icons/hi2";
+import { HiOutlineEyeOff } from "react-icons/hi";
 import { BsArrowRightShort } from "react-icons/bs";
 
 const Register = (props) => {
@@ -53,15 +53,14 @@ const Register = (props) => {
       const data = response.data;
       console.log(data);
       alert("Account is Created, You can Login Now");
-      navigate("/login");
-      //
+      setTimeout(navigate("/login"), 3000);
     } catch (e) {
       console.log(e.response.data.message);
       alert(e.response.data.message);
     }
   };
   return (
-    <div className="h-screen justify-center flex bg-gradient-to-r from-teal-800 to-gray-800">
+    <div className="h-screen justify-center flex bg-gradient-to-r from-teal-800 to-gray-700">
       <div className=" mt-24 md:mt-20  items-center justify-center my-4 md:w-4/12 w-3/4 ">
         <div className="border-2 rounded-xl  p-5">
           <div className="w-full">

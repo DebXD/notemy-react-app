@@ -11,16 +11,12 @@ const refreshApi = createRefresh({
     authUserState,
   }) => {
     return await axios
-      .post(
-        "https://notemyapi-1-b7327629.deta.app/api/v1/auth/token/refresh/",
-        "",
-        {
-          headers: {
-            accept: "application/json",
-            Authorization: "Bearer " + refreshToken,
-          },
-        }
-      )
+      .post("https://search.arnabxd.me/api/v1/auth/token/refresh/", "", {
+        headers: {
+          accept: "application/json",
+          Authorization: "Bearer " + refreshToken,
+        },
+      })
       .then((res) => {
         const accessToken = res.data["access token"];
         console.log(accessToken);

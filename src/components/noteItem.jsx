@@ -12,7 +12,7 @@ function NoteItem(props) {
     <>
       {}
       <li
-        className={`list-group-item bg-amber-200 mx-4 md:mx-0 rounded-xl border-gray-500 border-2 md:basis-1/4 md:flex-1`}
+        className={`list-group-item  mx-4 md:mx-0 rounded-xl border-yellow-500 border-2 shadow-xl md:basis-1/4 md:flex-1`}
       >
         <div
           className="m-2 p-2"
@@ -20,8 +20,8 @@ function NoteItem(props) {
             navigate(`/details/${props.note.id}/`);
           }}
         >
-          <div className="text-xl font-semibold text-black">{title}</div>
-          <div className="text-black">{content}</div>
+          <div className="text-xl font-semibold text-white">{title}</div>
+          <div className="text-white">{content}</div>
         </div>
       </li>
     </>

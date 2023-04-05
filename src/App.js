@@ -12,7 +12,7 @@ import { RequireAuth } from "react-auth-kit";
 import refreshApi from "./components/refreshToken/refresh";
 
 function App() {
-  const URL = "https://notemyapi-1-b7327629.deta.app/api/v1/";
+  const URL = "https://search.arnabxd.me/api/v1/";
 
   return (
     <>
@@ -44,7 +44,14 @@ function App() {
             }
           />
 
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={
+              <RequireAuth loginPath={"/login"}>
+                <Profile apiurl={URL} />
+              </RequireAuth>
+            }
+          />
 
           <Route path="/about" element={<About />} />
         </Routes>

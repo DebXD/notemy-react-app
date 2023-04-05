@@ -75,12 +75,12 @@ const Notes = (props) => {
   }, [navigate, query, debouncedSearch, isAuthenticated]);
 
   return (
-    <>
-      <div className="search-container mt-20">
+    <div className="bg-gradient-to-r from-indigo-600 to-indigo-900">
+      <div className="search-container">
         <form role="search">
-          <div className="m-5">
+          <div className="mb-5 mx-5">
             <input
-              className="w-full p-2 bg-slate-200 rounded-3xl"
+              className="w-full p-2 bg-slate-200 rounded-3xl mt-20"
               type="search"
               placeholder="Search keyword..."
               aria-label="Search"
@@ -98,7 +98,7 @@ const Notes = (props) => {
           setLoading={setLoading}
           getNotes={searchNotes}
         />
-        <h2 className="text-center text-3xl  mb-5 font-['Bebas_Neue']">
+        <h2 className="text-center text-3xl  mb-5 font-['Bebas_Neue'] text-white">
           NOTES
         </h2>
 
@@ -113,12 +113,12 @@ const Notes = (props) => {
             )}
           </ul>
         ) : (
-          <div className="flex justify-center">
-            <TbLoader2 className="animate-spin h-8 w-8" />
+          <div className="flex justify-center h-screen">
+            <TbLoader2 className="animate-spin h-8 w-8 text-white" />
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

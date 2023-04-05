@@ -45,7 +45,7 @@ const NoteDetails = (props) => {
     if (title && content === "") {
       alert("Title and content can not be empty");
     } else {
-      console.log(title, content);
+      //console.log(title, content);
       setLoading(true);
       await updateNote(id, title, content);
       setLoading(false);
@@ -61,7 +61,7 @@ const NoteDetails = (props) => {
     try {
       let response = await axios.get(`${URL}notes/${id}/`, config);
       let data = await response.data;
-      console.log(data);
+      //console.log(data);
       setTitle(data.title);
       setContent(data.content);
     } catch (error) {
@@ -84,7 +84,7 @@ const NoteDetails = (props) => {
 
     try {
       let response = await axios.patch(`${URL}notes/${id}/`, body, config);
-      console.log(response);
+      //console.log(response);
     } catch (error) {
       alert("Your Note is not Updated!");
     }
@@ -96,7 +96,7 @@ const NoteDetails = (props) => {
       },
     };
     try {
-      console.log("processing delete");
+      //console.log("processing delete");
 
       let response = await axios.delete(URL + "notes/" + id + "/", config);
       //console.log(response)
@@ -111,16 +111,16 @@ const NoteDetails = (props) => {
   };
 
   return (
-    <>
+    <div className="bg-white h-screen mt-20">
       {loading === false ? (
-        <div className="justify-center mt-20 my-5">
-          <form action="" onSubmit={handleNoteUpdate}>
+        <div className="justify-center">
+          <form onSubmit={handleNoteUpdate}>
             <div className="m-5">
-              <label className="flex text-xl mb-3 font-['Bebas_Neue']">
+              <label className="mt- flex text-xl mb-3 font-['Bebas_Neue']">
                 Title
               </label>
               <input
-                className="rounded-md border-2 p-2 w-full bg-slate-100 "
+                className="rounded-md border-2 p-2 w-full bg-slate-100"
                 type="text"
                 value={title}
                 onChange={(e) => {
@@ -173,7 +173,7 @@ const NoteDetails = (props) => {
           <TbLoader2 className="animate-spin h-8 w-8" />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

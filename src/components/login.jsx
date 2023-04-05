@@ -4,12 +4,10 @@ import { useNavigate, Link } from "react-router-dom";
 import { useSignIn } from "react-auth-kit";
 
 //? import icons
-import { HiOutlineEye, HiOutlineKey } from "react-icons/hi2";
-import { HiOutlineEyeOff, HiOutlineMail } from "react-icons/hi";
-import {
-  MdOutlineCheckBoxOutlineBlank,
-  MdOutlineCheckBox,
-} from "react-icons/md";
+
+import { HiOutlineEye } from "react-icons/hi2";
+import { HiOutlineEyeOff } from "react-icons/hi";
+import { BsArrowRightShort } from "react-icons/bs";
 
 const Login = (props) => {
   const navigate = useNavigate();
@@ -92,108 +90,104 @@ const Login = (props) => {
   }
 
   return (
-    <div className="flex items-center justify-center bg-gray-800 h-screen">
-      <form onSubmit={handleSubmit}>
-        <div className=" w-7/8 p-6 shadow-lg bg-white rounded-md lg:w-96">
-          <h1 className="text-center text-3xl block font-semibold font-mono ">
-            Login
-          </h1>
-          <hr className="mt-3" />
-          <div className="mt-3">
-            <label className="mt-2 mb-1 flex justify-between">
-              Email address
-              <HiOutlineMail className="h-5 w-5" />
-            </label>
-            <input
-              type="email"
-              className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-md"
-              id="inputEmail"
-              placeholder="Email"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-          </div>
-
-          <div className="mt-3">
-            <label className="mt-2 mb-1 flex justify-between">
-              Password
-              <HiOutlineKey className="h-5 w-5" />
-            </label>
-
-            <input
-              type="password"
-              className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-md"
-              id="inputPassword"
-              placeholder="Password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-
-            {showPassword ? (
-              <input
-                type="text"
-                className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-md"
-                value={password}
-                disabled
-              />
-            ) : (
-              ""
-            )}
-            <div className="mt-1">
-              {showPassword ? (
-                <HiOutlineEye
-                  className="h-5 w-5"
-                  onClick={handleShowPassword}
-                />
-              ) : (
-                <HiOutlineEyeOff
-                  className="h-5 w-5"
-                  onClick={handleShowPassword}
-                />
-              )}
-            </div>
-          </div>
-          <div className="mt-2 mb-2 flex justify-between">
-            <div className="flex">
-              {remember ? (
-                <MdOutlineCheckBox
-                  className=" h-5 w-5 mt-0.5"
-                  onClick={handleRememberMe}
-                />
-              ) : (
-                <MdOutlineCheckBoxOutlineBlank
-                  className="h-5 w-5 mt-0.5"
-                  onClick={handleRememberMe}
-                />
-              )}
-              <p className="mx-1 mb-2"> Remember Me</p>
-            </div>
-            <div>
-              <a href="/" className=" text-indigo-800">
-                Forgot Password?
-              </a>
-            </div>
-          </div>
-
-          <div className="">
-            <button
-              type="submit"
-              className="w-full text-center border-2 bg-indigo-700 text-white py-1 px-5 hover:bg-indigo-800 active:bg-indigo-900 rounded-md"
-            >
+    <div className="h-screen justify-center flex bg-gradient-to-r from-teal-800 to-gray-700">
+      <div className=" mt-24 md:mt-20  items-center justify-center my-4 md:w-4/12 w-3/4 ">
+        <div className="border-2 rounded-xl  p-5">
+          <div className="w-full">
+            <h2 className=" text-white text-2xl md:text-3xl font-bold leading-tight text-center font-['Poppins']">
               Login
-            </button>
-            <div className="pt-4">
-              <p>Don't Have an Account!</p>
-              <Link to={"/register"} className="text-indigo-600 font-bold">
-                Register{" "}
-              </Link>
-              here
-            </div>
+            </h2>
+            <hr className="mt-2" />
+
+            <form onSubmit={handleSubmit} className="mt-8">
+              <div className="mt-5">
+                <label
+                  htmlFor="email"
+                  className="text-base font-medium text-white"
+                >
+                  Email address
+                </label>
+                <div className="mt-2.5">
+                  <input
+                    className="flex h-10 w-full rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white"
+                    type="email"
+                    placeholder="Enter Your Email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                    id="email"
+                  />
+                </div>
+              </div>
+              <div className="mt-5">
+                <label
+                  htmlFor="password"
+                  className="text-base font-medium text-white"
+                >
+                  Password
+                </label>
+                <div className="mt-2.5">
+                  {showPassword ? (
+                    <>
+                      <input
+                        className="flex h-10 w-full rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white"
+                        type="text"
+                        placeholder="Enter Your Password"
+                        value={password}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                        }}
+                        id="password"
+                      />
+                      <HiOutlineEye
+                        className="ml-1 w-6 h-6 mt-2 text-gray-300"
+                        onClick={handleShowPassword}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <input
+                        className="flex h-10 w-full rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white"
+                        type="password"
+                        placeholder="Enter Your Password"
+                        value={password}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                        }}
+                        id="password"
+                      />
+                      <HiOutlineEyeOff
+                        className="ml-1 w-6 h-6 mt-2 text-gray-300"
+                        onClick={handleShowPassword}
+                      />
+                    </>
+                  )}
+                </div>
+              </div>
+              <p className=" text-base text-gray-300 mt-2">
+                Don't have an account?
+                <Link
+                  to="/register"
+                  title=""
+                  className="ml-2 font-medium text-indigo-300 transition-all duration-200 hover:text-indigo-600 hover:underline focus:text-indigo-700"
+                >
+                  Register
+                </Link>
+              </p>
+              <div className="mt-5">
+                <button
+                  type="submit"
+                  className="w-full inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
+                >
+                  Submit
+                  <BsArrowRightShort className="w-6 h-6 mt-1" />
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
