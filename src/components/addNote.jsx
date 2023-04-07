@@ -73,7 +73,7 @@ const AddNote = (props) => {
       {openModal ? (
         <div className="fixed inset-0  bg-opacity-30 backdrop-blur-sm">
           <div className="flex items-center justify-center">
-            <div className=" bg-gray-700 rounded-md p-5 w-full m-2 sm:w-96">
+            <div className=" bg-gray-900 rounded-xl p-5 w-full m-2 md:w-4/6">
               <div className="text-center justify-between flex">
                 <div className="text-center inline-block">
                   <p className="text-white font-semibold text-xl p-2 justify-between">
@@ -96,7 +96,7 @@ const AddNote = (props) => {
                   <label className="block text-white m-1">TITLE</label>
                   <input
                     type="text"
-                    className="border rounded-md w-full m-1 p-2 bg-white"
+                    className="border rounded-md w-full m-1 p-2 bg-gray-800 text-white"
                     value={title}
                     onChange={(e) => {
                       setTitle(e.target.value);
@@ -106,8 +106,8 @@ const AddNote = (props) => {
                 <div className="mt-3">
                   <label className="block text-white m-1">DESCRIPTION</label>
                   <textarea
-                    className="border rounded-md w-full m-1 p-2 bg-white"
-                    rows="3"
+                    className="border rounded-md w-full m-1 p-2 bg-gray-800 text-white"
+                    rows="5"
                     value={content}
                     onChange={(e) => {
                       setContent(e.target.value);

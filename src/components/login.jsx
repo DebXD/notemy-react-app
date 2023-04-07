@@ -19,13 +19,13 @@ const Login = (props) => {
 
   const signIn = useSignIn();
 
-  const handleRememberMe = () => {
-    if (remember === true) {
-      setRemember(false);
-    } else {
-      setRemember(true);
-    }
-  };
+  // const handleRememberMe = () => {
+  //   if (remember === true) {
+  //     setRemember(false);
+  //   } else {
+  //     setRemember(true);
+  //   }
+  // };
 
   const handleShowPassword = () => {
     if (showPassword === true) {
@@ -90,7 +90,7 @@ const Login = (props) => {
   }
 
   return (
-    <div className="h-screen justify-center flex bg-gradient-to-r from-teal-800 to-gray-700">
+    <div className="h-screen justify-center flex bg-gray-900">
       <div className=" mt-24 md:mt-20  items-center justify-center my-4 md:w-4/12 w-3/4 ">
         <div className="border-2 rounded-xl  p-5">
           <div className="w-full">

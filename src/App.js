@@ -10,53 +10,52 @@ import Navbar from "./components/navbar";
 import { AuthProvider } from "react-auth-kit";
 import { RequireAuth } from "react-auth-kit";
 import refreshApi from "./components/refreshToken/refresh";
+import { useEffect } from "react";
 
 function App() {
   const URL = "https://search.arnabxd.me/api/v1/";
 
   return (
-    <>
-      <AuthProvider
-        authType={"localstorage"}
-        authName={"_auth"}
-        refresh={refreshApi}
-      >
-        <Navbar />
-        <Routes>
-          <Route path="/login" element={<Login apiurl={URL} />} />
-          <Route path="/register" element={<Register apiurl={URL} />} />
+    <AuthProvider
+      authType={"localstorage"}
+      authName={"_auth"}
+      refresh={refreshApi}
+    >
+      <Navbar />
+      <Routes>
+        <Route path="/login" element={<Login apiurl={URL} />} />
+        <Route path="/register" element={<Register apiurl={URL} />} />
 
-          <Route
-            path="/"
-            element={
-              <RequireAuth loginPath={"/login"}>
-                <Notes apiurl={URL} />
-              </RequireAuth>
-            }
-          />
+        <Route
+          path="/"
+          element={
+            <RequireAuth loginPath={"/login"}>
+              <Notes apiurl={URL} />
+            </RequireAuth>
+          }
+        />
 
-          <Route
-            path="/details/:id/"
-            element={
-              <RequireAuth loginPath={"/login"}>
-                <NoteDetails apiurl={URL} />
-              </RequireAuth>
-            }
-          />
+        <Route
+          path="/details/:id/"
+          element={
+            <RequireAuth loginPath={"/login"}>
+              <NoteDetails apiurl={URL} />
+            </RequireAuth>
+          }
+        />
 
-          <Route
-            path="/profile"
-            element={
-              <RequireAuth loginPath={"/login"}>
-                <Profile apiurl={URL} />
-              </RequireAuth>
-            }
-          />
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth loginPath={"/login"}>
+              <Profile apiurl={URL} />
+            </RequireAuth>
+          }
+        />
 
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </AuthProvider>
-    </>
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </AuthProvider>
   );
 }
 export default App;

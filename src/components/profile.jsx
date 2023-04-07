@@ -4,12 +4,14 @@ import { useNavigate } from "react-router";
 import { useAuthUser } from "react-auth-kit";
 import axios from "axios";
 import { useEffect } from "react";
-import { useIsAuthenticated } from "react-auth-kit";
+import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 
 const Profile = (props) => {
   const navigate = useNavigate();
   const auth = useAuthUser();
   const token = auth().token;
+
+  const signOut = useSignOut();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -24,9 +26,10 @@ const Profile = (props) => {
     if (isAuthenticated()) {
       getUserDetails();
     } else {
+      signOut();
       navigate("/login");
     }
-  }, [navigate, isAuthenticated]);
+  }, [navigate, isAuthenticated, signOut]);
 
   const getUserDetails = async () => {
     let config = {
@@ -48,26 +51,28 @@ const Profile = (props) => {
   return (
     <>
       <div className="mt-20">
-        <h2 className="text-center text-3xl font-['Bebas_Neue']">PROFILE</h2>
+        <h2 className="text-center text-3xl font-['Bebas_Neue'] text-white">
+          PROFILE
+        </h2>
 
         <div className="justify-center  my-5">
           <div className="m-5">
-            <label className="flex text-xl mb-3 font-['Rubik']">
+            <label className="flex text-xl mb-3 font-['Rubik'] text-white">
               Your Username :
             </label>
             <input
-              className="rounded-md border-2 p-2 w-full bg-slate-100 "
+              className="rounded-md border-2 p-2 w-full text-white bg-gray-800"
               disabled
               value={username}
             />
           </div>
 
           <div className="m-5">
-            <label className="flex text-xl mb-3 font-['Rubik']">
+            <label className="flex text-xl mb-3 font-['Rubik'] text-white">
               Your Email :
             </label>
             <input
-              className="rounded-md border-2 p-3 w-full bg-slate-100 "
+              className="rounded-md border-2 p-3 w-full bg-gray-800 text-white"
               disabled
               value={email}
             />

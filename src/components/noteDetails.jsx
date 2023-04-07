@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
-import { useIsAuthenticated } from "react-auth-kit";
+import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import { useAuthUser } from "react-auth-kit";
 import { TbLoader2 } from "react-icons/tb";
 
@@ -13,6 +13,8 @@ const NoteDetails = (props) => {
   const navigate = useNavigate();
   const auth = useAuthUser();
   const token = auth().token;
+
+  const signOut = useSignOut();
 
   const isAuthenticated = useIsAuthenticated();
 
@@ -36,9 +38,10 @@ const NoteDetails = (props) => {
     if (isAuthenticated()) {
       Run();
     } else {
+      signOut();
       navigate("/login");
     }
-  }, [id]);
+  }, [isAuthenticated, signOut, navigate]);
 
   const handleNoteUpdate = async (e) => {
     e.preventDefault();
@@ -111,16 +114,16 @@ const NoteDetails = (props) => {
   };
 
   return (
-    <div className="bg-white h-screen mt-20">
+    <div className="bg-gray-900 h-screen mt-20">
       {loading === false ? (
         <div className="justify-center">
           <form onSubmit={handleNoteUpdate}>
             <div className="m-5">
-              <label className="mt- flex text-xl mb-3 font-['Bebas_Neue']">
+              <label className="mt- flex text-xl mb-3 font-['Bebas_Neue'] text-white">
                 Title
               </label>
               <input
-                className="rounded-md border-2 p-2 w-full bg-slate-100"
+                className="rounded-md border-2 p-2 w-full bg-gray-800 text-white"
                 type="text"
                 value={title}
                 onChange={(e) => {
@@ -130,11 +133,11 @@ const NoteDetails = (props) => {
             </div>
 
             <div className="m-5">
-              <label className="flex text-xl mb-3 font-['Bebas_Neue']">
+              <label className="flex text-xl mb-3 font-['Bebas_Neue'] text-white">
                 Content
               </label>
               <textarea
-                className="rounded-md border-2 p-3 w-full bg-slate-100"
+                className="rounded-md border-2 p-3 w-full bg-gray-800 text-white"
                 rows="10"
                 value={content}
                 onChange={(e) => {
@@ -170,7 +173,7 @@ const NoteDetails = (props) => {
         </div>
       ) : (
         <div className="flex justify-center mt-20">
-          <TbLoader2 className="animate-spin h-8 w-8" />
+          <TbLoader2 className="animate-spin h-8 w-8 text-white" />
         </div>
       )}
     </div>

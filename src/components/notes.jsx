@@ -5,7 +5,7 @@ import axios from "axios";
 import AddNote from "./addNote";
 import debounce from "lodash.debounce";
 import { useNavigate } from "react-router";
-import { useIsAuthenticated } from "react-auth-kit";
+import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import { useAuthUser } from "react-auth-kit";
 import { TbLoader2 } from "react-icons/tb";
 
@@ -19,6 +19,8 @@ const Notes = (props) => {
   const isAuthenticated = useIsAuthenticated();
   const auth = useAuthUser();
   const token = auth().token;
+
+  const singOut = useSignOut();
 
   const searchNotes = async (query) => {
     let config = {
@@ -44,8 +46,13 @@ const Notes = (props) => {
 
       console.log(notes);
     } catch (e) {
-      console.log(e.message);
-      navigate("/login");
+      if (e.response.status === 404) {
+        alert("No Result Found!");
+        //setQuery("");
+      } else {
+        singOut();
+        navigate("/login");
+      }
     }
     setLoading(false);
   };
@@ -75,14 +82,14 @@ const Notes = (props) => {
   }, [navigate, query, debouncedSearch, isAuthenticated]);
 
   return (
-    <div className="bg-gradient-to-r from-indigo-600 to-indigo-900">
+    <div className="bg-gray-900">
       <div className="search-container">
         <form role="search">
-          <div className="mb-5 mx-5">
+          <div className="mb-5 mx-10">
             <input
-              className="w-full p-2 bg-slate-200 rounded-3xl mt-20"
+              className="w-full  p-2 bg-gray-800 rounded-3xl mt-20 text-white focus:bg-gray-700"
               type="search"
-              placeholder="Search keyword..."
+              placeholder="   Search keyword..."
               aria-label="Search"
               onKeyUp={(e) => handleSearch(e)}
               onChange={(e) => setQuery(e.target.value)}
