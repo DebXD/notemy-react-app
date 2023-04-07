@@ -5,7 +5,7 @@ import axios from "axios";
 import AddNote from "./addNote";
 import debounce from "lodash.debounce";
 import { useNavigate } from "react-router";
-import { useIsAuthenticated } from "react-auth-kit";
+import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import { useAuthUser } from "react-auth-kit";
 import { TbLoader2 } from "react-icons/tb";
 
@@ -19,6 +19,8 @@ const Notes = (props) => {
   const isAuthenticated = useIsAuthenticated();
   const auth = useAuthUser();
   const token = auth().token;
+
+  const signOut = useSignOut();
 
   const searchNotes = async (query) => {
     let config = {
@@ -35,11 +37,6 @@ const Notes = (props) => {
 
       let data = response.data;
       let notes = data.data;
-      notes.sort(function (a, b) {
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
-        return new Date(b.date) - new Date(a.date);
-      });
       setNotes(notes);
 
       console.log(notes);
@@ -70,17 +67,18 @@ const Notes = (props) => {
     if (isAuthenticated()) {
       debouncedSearch(query);
     } else {
+      signOut();
       navigate("/login");
     }
-  }, [navigate, query, debouncedSearch, isAuthenticated]);
+  }, [navigate, query, debouncedSearch, isAuthenticated, signOut]);
 
   return (
-    <div className="bg-gradient-to-r from-indigo-600 to-indigo-900">
+    <div className="bg-gray-900">
       <div className="search-container">
         <form role="search">
           <div className="mb-5 mx-5">
             <input
-              className="w-full p-2 bg-slate-200 rounded-3xl mt-20"
+              className="w-full p-2 bg-gray-800 rounded-3xl mt-20"
               type="search"
               placeholder="Search keyword..."
               aria-label="Search"

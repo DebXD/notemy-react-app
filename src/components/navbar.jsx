@@ -23,9 +23,9 @@ export default function Navbar() {
 
   return (
     <div className="shadow-md w-full fixed top-0 left-0">
-      <div className="md:flex justify-between items-center bg-white py-3 md:px-10 px-7 ">
+      <div className="md:flex justify-between items-center bg-grey-900 py-3 md:px-10 px-7 ">
         <Link to={"/"}>
-          <div className="font-bold text-2xl cursor-pointer items-center flex font-[Poppins] text-gray-800">
+          <div className="font-bold text-2xl cursor-pointer items-center flex font-[Poppins] text-white">
             <span className="text-3xl text-blue-500 ">
               <TbBrandReactNative />
             </span>
@@ -41,7 +41,7 @@ export default function Navbar() {
         </div>
         {isAuthenticated() ? (
           <ul
-            className={`md:flex md:items-center md:pb-0 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-5 transition-all duration-100 ease-in shadow-2xl ${
+            className={`md:flex md:items-center md:pb-0 absolute md:static  md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-5 transition-all duration-100 ease-in shadow-2xl ${
               openMenu ? "top-10 " : "top-[-490px]"
             }`}
           >
@@ -51,7 +51,7 @@ export default function Navbar() {
             >
               <Link
                 to={"/"}
-                className="text-gray-800 hover:text-gray-400 duration-500 flex"
+                className="text-white hover:text-gray-400 duration-500  flex"
               >
                 <HiHome className="h-7 w-7" />
                 <p className="ml-2">Home</p>
@@ -63,7 +63,7 @@ export default function Navbar() {
             >
               <Link
                 to={"/profile"}
-                className="text-gray-800 hover:text-gray-400 duration-500 flex"
+                className="text-white hover:text-gray-400 duration-500 flex"
               >
                 <BsPersonFill className="h-7 w-7" />
                 <p className=" ml-2">Profile</p>
@@ -78,7 +78,7 @@ export default function Navbar() {
             >
               <Link
                 to={"/login"}
-                className="text-gray-800 hover:text-gray-400 duration-500 flex"
+                className="text-white hover:text-gray-400 duration-500 flex"
               >
                 <IoLogOut className="h-7 w-7" />
                 <p className="ml-2">Logout</p>
@@ -97,7 +97,7 @@ export default function Navbar() {
             >
               <Link
                 to={"/login"}
-                className="text-gray-800 hover:text-gray-400 duration-500 flex"
+                className="text-white hover:text-gray-400 duration-500 flex"
               >
                 <HiHome className="h-7 w-7" />
                 <p className=" ml-2">Home</p>
@@ -110,7 +110,7 @@ export default function Navbar() {
             >
               <Link
                 to={"/login"}
-                className="text-gray-800 hover:text-gray-400 duration-500 flex"
+                className="text-white hover:text-gray-400 duration-500 flex"
               >
                 <IoLogIn className="h-7 w-7" />
                 <p className=" ml-2">Login</p>

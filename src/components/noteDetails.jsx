@@ -111,7 +111,7 @@ const NoteDetails = (props) => {
   };
 
   return (
-    <div className="bg-white h-screen mt-20">
+    <div className="bg-gray-900 h-screen mt-20">
       {loading === false ? (
         <div className="justify-center">
           <form onSubmit={handleNoteUpdate}>
