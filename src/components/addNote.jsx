@@ -9,7 +9,6 @@ import { IoClose } from "react-icons/io5";
 const AddNote = (props) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  //const [loading, setLoading] = useState(true)
 
   const navigate = useNavigate();
 
@@ -35,6 +34,11 @@ const AddNote = (props) => {
       } else {
         console.log(title, content);
         addNote(title, content);
+        if (true) {
+          setTitle("");
+          setContent("");
+        }
+
         handleModal();
       }
     } else {

@@ -8,6 +8,7 @@ import { useSignIn } from "react-auth-kit";
 import { HiOutlineEye } from "react-icons/hi2";
 import { HiOutlineEyeOff } from "react-icons/hi";
 import { BsArrowRightShort } from "react-icons/bs";
+import { CgSpinner } from "react-icons/cg";
 
 const Login = (props) => {
   const navigate = useNavigate();
@@ -15,8 +16,8 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
-  const [remember, setRemember] = useState(false);
-
+  //const [remember, setRemember] = useState(false);
+  const [showProcesssing, setShowProcessing] = useState(false);
   const signIn = useSignIn();
 
   // const handleRememberMe = () => {
@@ -47,7 +48,8 @@ const Login = (props) => {
         "Content-Type": "application/json",
       },
     };
-    console.log(loginCredentials);
+    setShowProcessing(true);
+    //console.log(loginCredentials);
     try {
       const response = await axios.post(
         `${props.apiurl}auth/login/`,
@@ -87,6 +89,7 @@ const Login = (props) => {
         alert("Invalid Credentials");
       }
     }
+    setShowProcessing(false);
   }
 
   return (
@@ -120,52 +123,63 @@ const Login = (props) => {
                   />
                 </div>
               </div>
-              <div className="mt-5">
-                <label
-                  htmlFor="password"
-                  className="text-base font-medium text-white"
-                >
-                  Password
-                </label>
-                <div className="mt-2.5">
-                  {showPassword ? (
-                    <>
-                      <input
-                        className="flex h-10 w-full rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white"
-                        type="text"
-                        placeholder="Enter Your Password"
-                        value={password}
-                        onChange={(e) => {
-                          setPassword(e.target.value);
-                        }}
-                        id="password"
-                      />
-                      <HiOutlineEye
-                        className="ml-1 w-6 h-6 mt-2 text-gray-300"
-                        onClick={handleShowPassword}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <input
-                        className="flex h-10 w-full rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white"
-                        type="password"
-                        placeholder="Enter Your Password"
-                        value={password}
-                        onChange={(e) => {
-                          setPassword(e.target.value);
-                        }}
-                        id="password"
-                      />
-                      <HiOutlineEyeOff
-                        className="ml-1 w-6 h-6 mt-2 text-gray-300"
-                        onClick={handleShowPassword}
-                      />
-                    </>
-                  )}
-                </div>
-              </div>
-              <p className=" text-base text-gray-300 mt-2">
+              {showPassword ? (
+                <>
+                  <div className="mt-5 justify-between flex ">
+                    <label
+                      htmlFor="password"
+                      className="text-base font-medium text-white"
+                    >
+                      Password
+                    </label>
+
+                    <HiOutlineEye
+                      className="ml-1 w-6 h-6  text-gray-300 mr-2"
+                      onClick={handleShowPassword}
+                    />
+                  </div>
+
+                  <input
+                    className=" block w-full h-10  rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white mt-2"
+                    type="text"
+                    placeholder="Enter Your Password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    id="password"
+                  />
+                </>
+              ) : (
+                <>
+                  <div className="mt-5 justify-between flex ">
+                    <label
+                      htmlFor="password"
+                      className="text-base font-medium text-white"
+                    >
+                      Password
+                    </label>
+
+                    <HiOutlineEyeOff
+                      className="ml-1 w-6 h-6  text-gray-300 mr-2"
+                      onClick={handleShowPassword}
+                    />
+                  </div>
+
+                  <input
+                    className=" block w-full h-10  rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white mt-2"
+                    type="password"
+                    placeholder="Enter Your Password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    id="password"
+                  />
+                </>
+              )}
+
+              <p className=" text-base text-gray-300 mt-5">
                 Don't have an account?
                 <Link
                   to="/register"
@@ -175,15 +189,27 @@ const Login = (props) => {
                   Register
                 </Link>
               </p>
-              <div className="mt-5">
-                <button
-                  type="submit"
-                  className="w-full inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
-                >
-                  Submit
-                  <BsArrowRightShort className="w-6 h-6 mt-1" />
-                </button>
-              </div>
+              {showProcesssing ? (
+                <div className="mt-2">
+                  <button
+                    type="submit"
+                    className="w-full inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
+                  >
+                    Processing
+                    <CgSpinner className="animate-spin w-7 h-7 mt-1 ml-1" />
+                  </button>
+                </div>
+              ) : (
+                <div className="mt-2">
+                  <button
+                    type="submit"
+                    className="w-full inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
+                  >
+                    Login
+                    <BsArrowRightShort className="w-7 h-7 mt-1" />
+                  </button>
+                </div>
+              )}
             </form>
           </div>
         </div>

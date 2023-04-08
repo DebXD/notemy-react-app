@@ -26,8 +26,8 @@ export default function Navbar() {
       <div className="md:flex justify-between items-center bg-gray-800 py-3 md:px-10 px-7 ">
         <Link to={"/"}>
           <div className="font-bold text-2xl cursor-pointer items-center flex font-[Poppins] text-white">
-            <span className="text-3xl text-blue-500 ">
-              <TbBrandReactNative />
+            <span className="text-3xl text-blue-500">
+              <TbBrandReactNative className="mr-2" />
             </span>
             Notemy
           </div>

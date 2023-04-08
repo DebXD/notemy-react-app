@@ -17,6 +17,7 @@ const Notes = (props) => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const isAuthenticated = useIsAuthenticated();
+  
   const auth = useAuthUser();
   const token = auth().token;
 
@@ -37,14 +38,7 @@ const Notes = (props) => {
 
       let data = response.data;
       let notes = data.data;
-      notes.sort(function (a, b) {
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
-        return new Date(b.date) - new Date(a.date);
-      });
       setNotes(notes);
-
-      console.log(notes);
     } catch (e) {
       if (e.response.status === 404) {
         alert("No Result Found!");
