@@ -10,7 +10,7 @@ import Navbar from "./components/navbar";
 import { AuthProvider } from "react-auth-kit";
 import { RequireAuth } from "react-auth-kit";
 import refreshApi from "./components/refreshToken/refresh";
-import { useEffect } from "react";
+import GettingStarted from "./components/getting-started";
 
 function App() {
   const URL = "https://search.arnabxd.me/api/v1/";
@@ -54,6 +54,7 @@ function App() {
         />
 
         <Route path="/about" element={<About />} />
+        <Route path="/getting-started" element={<GettingStarted />} />
       </Routes>
     </AuthProvider>
   );

@@ -1,29 +1,11 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+import React from "react";
 
 const About = () => {
-  async function Refresh() {
-    let config = {
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTQ2NDI3MiwianRpIjoiZWQzNmM1NzYtODg5Ni00NzMwLTg5YmQtMDNjZmQ4M2M1ZGRkIiwidHlwZSI6InJlZnJlc2giLCJzdWIiOjEsIm5iZiI6MTY3OTQ2NDI3MiwiZXhwIjoxNjgwMDY5MDcyfQ.ekqijyW-PXXvrGqtYjsimTFFIrenzUN5vHip6i1YSPE",
-      },
-    };
-    let res = await axios.post(
-      "https://notemy-api.deta.dev/api/v1/auth/token/refresh/",
-      "",
-      config
-    );
-    console.log(res.data["access token"]);
-  }
-  useEffect(() => {
-    Refresh();
-  });
   return (
     <>
       <div className=" mt-20 p-3">
-        <h2 className=" font-semibold text-2xl">About Us ~</h2>
-        <article className="">
+        <h2 className=" font-semibold text-2xl text-white">About Us ~</h2>
+        <article className="text-white">
           Welcome to our secure note storing app! We are committed to providing
           our users with a safe and reliable platform to store their important
           notes and information.
