@@ -6,6 +6,8 @@ import axios from 'axios'
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import { useAuthUser } from "react-auth-kit";
 import { TbLoader2 } from "react-icons/tb";
+import { MdDelete } from "react-icons/md";
+import { RxUpdate } from "react-icons/rx";
 
 const NoteDetails = (props) => {
   const [loading, setLoading] = useState();
@@ -146,28 +148,30 @@ const NoteDetails = (props) => {
               ></textarea>
             </div>
           </form>
-          <div className="text-center">
+          <div className="flex justify-center">
             <button
               type="submit"
-              className=" mt-2 rounded-md bg-yellow-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white hover:bg-yellow-500 m-2"
+              className="font-[Poppins] mt-2 rounded-md px-3.5 py-1.5 bg-yellow-700  text-base  leading-7 text-white hover:bg-yellow-600 m-2 inline-flex"
               onClick={(e) => {
                 if (window.confirm("Do you really want to Update?")) {
                   handleNoteUpdate(e);
                 }
               }}
             >
+              <RxUpdate className="h-6 w-6 mt-1 mr-1" />
               Update
             </button>
+
             <button
               type="button"
-              className="mt-2 rounded-md bg-red-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white hover:bg-red-400"
+              className="font-[Poppins] mt-2 rounded-md bg-red-700 px-3.5 py-1.5 text-base  leading-7 text-white hover:bg-red-500 m-2 flex"
               onClick={() => {
                 if (window.confirm("Are you sure, You want to delete?")) {
                   Delete(id);
                 }
               }}
             >
-              Delete
+              <MdDelete className="h-6 w-6 mt-1 mr-1" /> Delete
             </button>
           </div>
         </div>

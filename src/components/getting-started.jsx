@@ -2,7 +2,7 @@ import React from "react";
 
 const GettingStarted = () => {
   return (
-    <main class="mt-20 container mx-auto py-6 px-4 text-gray-300">
+    <main class="mt-16 container mx-auto py-6 px-4 text-gray-300">
       <h2 class="text-2xl font-bold mb-4">Get Started</h2>
       <p class="mb-4">
         Welcome to our notes app! We prioritize the security of our users' data

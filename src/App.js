@@ -11,6 +11,7 @@ import { AuthProvider } from "react-auth-kit";
 import { RequireAuth } from "react-auth-kit";
 import refreshApi from "./components/refreshToken/refresh";
 import GettingStarted from "./components/getting-started";
+import Help from "./components/help";
 
 function App() {
   const URL = "https://search.arnabxd.me/api/v1/";
@@ -55,6 +56,7 @@ function App() {
 
         <Route path="/about" element={<About />} />
         <Route path="/getting-started" element={<GettingStarted />} />
+        <Route path="/help" element={<Help />} />
       </Routes>
     </AuthProvider>
   );

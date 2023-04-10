@@ -4,8 +4,8 @@ import { TbBrandReactNative } from "react-icons/tb";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import { BsPersonFill } from "react-icons/bs";
-import { IoLogOut, IoLogIn } from "react-icons/io5";
-import { HiHome } from "react-icons/hi";
+import { IoLogOut, IoLogIn, IoHelpCircleSharp } from "react-icons/io5";
+import { HiHome, HiInformationCircle } from "react-icons/hi";
 
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -84,6 +84,18 @@ export default function Navbar() {
                 <p className="ml-2">Logout</p>
               </Link>
             </li>
+            <li
+              className="md:ml-8 text-lg md:my-0 my-5 font-[Poppins] "
+              onClick={handleMenuClick}
+            >
+              <Link
+                to={"/help"}
+                className="text-white hover:text-gray-400 duration-500 flex"
+              >
+                <IoHelpCircleSharp className="h-7 w-7" />
+                <p className="ml-2">Help</p>
+              </Link>
+            </li>
           </ul>
         ) : (
           <ul
@@ -114,6 +126,18 @@ export default function Navbar() {
               >
                 <IoLogIn className="h-7 w-7" />
                 <p className=" ml-2">Login</p>
+              </Link>
+            </li>
+            <li
+              className="md:ml-8 text-lg md:my-0 my-5 font-[Poppins] "
+              onClick={handleMenuClick}
+            >
+              <Link
+                to={"/about"}
+                className="text-white hover:text-gray-400 duration-500 flex"
+              >
+                <HiInformationCircle className="h-7 w-7" />
+                <p className=" ml-2">About Us</p>
               </Link>
             </li>
 

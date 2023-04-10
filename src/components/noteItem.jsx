@@ -13,7 +13,7 @@ function NoteItem(props) {
       onClick={() => {
         navigate(`/details/${props.note.id}/`);
       }}
-      className={`list-group-item  mx-4 md:mx-0 rounded-xl border-yellow-500  border-2 shadow-xl md:basis-1/4 md:flex-1`}
+      className={`list-group-item  mx-4 md:mx-0 rounded-3xl bg-gray-800 border-r-2 border-y-2 border-y-gray-400 border-r-gray-300 shadow-xl md:basis-1/4 md:flex-1`}
     >
       <div className="m-2 p-2">
         <div className="text-xl font-semibold text-white">{title}</div>
