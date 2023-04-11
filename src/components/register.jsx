@@ -116,7 +116,7 @@ const Register = (props) => {
               </div>
               {showPassword ? (
                 <>
-                  <div className="mt-3 justify-between flex ">
+                  <div className="mt-5 justify-between flex ">
                     <label
                       htmlFor="password"
                       className="text-base font-medium text-white"
@@ -125,7 +125,7 @@ const Register = (props) => {
                     </label>
 
                     <HiOutlineEye
-                      className="ml-1 w-6 h-6 text-gray-300 mr-2"
+                      className="ml-1 w-6 h-6 text-gray-300 mr-2 cursor-pointer"
                       onClick={handleShowPassword}
                     />
                   </div>
@@ -152,7 +152,7 @@ const Register = (props) => {
                     </label>
 
                     <HiOutlineEyeOff
-                      className="ml-1 w-6 h-6 text-gray-300 mr-2"
+                      className="ml-1 w-6 h-6 text-gray-300 mr-2 cursor-pointer"
                       onClick={handleShowPassword}
                     />
                   </div>

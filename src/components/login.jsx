@@ -134,7 +134,7 @@ const Login = (props) => {
                     </label>
 
                     <HiOutlineEye
-                      className="ml-1 w-6 h-6  text-gray-300 mr-2"
+                      className="ml-1 w-6 h-6  text-gray-300 mr-2 cursor-pointer"
                       onClick={handleShowPassword}
                     />
                   </div>
@@ -161,7 +161,7 @@ const Login = (props) => {
                     </label>
 
                     <HiOutlineEyeOff
-                      className="ml-1 w-6 h-6  text-gray-300 mr-2"
+                      className="ml-1 w-6 h-6  text-gray-300 mr-2 cursor-pointer"
                       onClick={handleShowPassword}
                     />
                   </div>

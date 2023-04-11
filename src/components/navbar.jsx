@@ -24,14 +24,15 @@ export default function Navbar() {
   return (
     <div className="shadow-md w-full fixed top-0 left-0">
       <div className="md:flex justify-between items-center bg-gray-800 py-3 md:px-10 px-7 ">
-        <Link to={"/"}>
-          <div className="font-bold text-2xl cursor-pointer items-center flex font-[Poppins] text-white">
-            <span className="text-3xl text-blue-500">
+        <div className="font-bold text-2xl items-center flex font-[Poppins] text-white">
+          <span className="text-3xl text-blue-500  cursor-pointer ">
+            <Link to={"/"}>
               <TbBrandReactNative className="mr-2" />
-            </span>
-            Notemy
-          </div>
-        </Link>
+            </Link>
+          </span>
+          <Link to={"/"}>Notemy</Link>
+        </div>
+
         <div className="absolute right-8 top-5 cursor-pointer md:hidden">
           {openMenu ? (
             <IoClose className="h-7 w-7 text-white" onClick={handleMenuClick} />
