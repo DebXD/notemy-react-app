@@ -6,14 +6,21 @@ import { useNavigate } from "react-router-dom";
 import { HiDocumentAdd } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 
-const AddNote = (props) => {
+interface Props {
+  apiurl : string;
+  setLoading : React.Dispatch<React.SetStateAction<boolean>>;
+  getNotes : Function;
+   
+}
+
+const AddNote = (props: Props) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const navigate = useNavigate();
 
   const auth = useAuthUser();
-  const token = auth().token;
+  const token = auth()?.token;
 
   const isAuthenticated = useIsAuthenticated();
 
@@ -26,10 +33,10 @@ const AddNote = (props) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e : React.FormEvent) => {
     e.preventDefault();
     if (isAuthenticated()) {
-      if (title && content === "") {
+      if (title &&  content === "") {
         alert("Title and content can not be empty");
       } else {
         console.log(title, content);
@@ -46,7 +53,7 @@ const AddNote = (props) => {
     }
   };
 
-  const addNote = async (title, content) => {
+  const addNote = async (title: string, content: string) => {
     let config = {
       headers: {
         Authorization: "Bearer " + token,
@@ -111,7 +118,7 @@ const AddNote = (props) => {
                   <label className="block text-white m-1">DESCRIPTION</label>
                   <textarea
                     className="border rounded-md w-full m-1 p-2 bg-gray-800 text-white"
-                    rows="5"
+                    rows={5}
                     value={content}
                     onChange={(e) => {
                       setContent(e.target.value);

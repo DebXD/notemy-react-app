@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useAuthUser } from "react-auth-kit";
@@ -6,10 +5,13 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 
-const Profile = (props) => {
+interface PropsTypes {
+  apiurl : string;
+}
+const Profile = (props: PropsTypes) => {
   const navigate = useNavigate();
   const auth = useAuthUser();
-  const token = auth().token;
+  const token = auth()?.token;
 
   const signOut = useSignOut();
 

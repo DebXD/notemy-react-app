@@ -1,8 +1,6 @@
-import React from "react";
-
 const About = () => {
   return (
-    <>
+
       <div className=" mt-20 p-3">
         <h2 className=" font-semibold text-2xl text-white">About Us ~</h2>
         <article className="text-white">
@@ -35,7 +33,7 @@ const About = () => {
           secure.
         </article>
       </div>
-    </>
+
   );
 };
 

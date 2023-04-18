@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import { useAuthUser } from "react-auth-kit";
 import { TbLoader2 } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
 import { RxUpdate } from "react-icons/rx";
 
-const NoteDetails = (props) => {
-  const [loading, setLoading] = useState();
+interface PropsTypes {
+  apiurl: string;
+}
+
+const NoteDetails = (props: PropsTypes) => {
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const auth = useAuthUser();
-  const token = auth().token;
+  const token = auth()?.token;
 
   const signOut = useSignOut();
 
@@ -33,8 +37,9 @@ const NoteDetails = (props) => {
 
     const Run = async () => {
       setLoading(true);
-      await getNote(id);
-      setLoading(false);
+      if (id) {
+        await getNote(id);
+      }
     };
 
     if (isAuthenticated()) {
@@ -45,19 +50,22 @@ const NoteDetails = (props) => {
     }
   }, [isAuthenticated, signOut, navigate]);
 
-  const handleNoteUpdate = async (e) => {
+  const handleNoteUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (title && content === "") {
       alert("Title and content can not be empty");
     } else {
       //console.log(title, content);
       setLoading(true);
-      await updateNote(id, title, content);
-      setLoading(false);
+      if (id){
+        await updateNote(id, title, content);
+      }
+      
+      
     }
   };
 
-  const getNote = async (id) => {
+  const getNote = async (id: number | string) => {
     let config = {
       headers: {
         Authorization: "Bearer " + token,
@@ -73,10 +81,12 @@ const NoteDetails = (props) => {
       //console.log(error);
       alert("sorry this note details are not available");
       navigate("/");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const updateNote = async (id, title, content) => {
+  const updateNote = async (id: number | string , title: string, content: string) => {
     let config = {
       headers: {
         Authorization: "Bearer " + token,
@@ -92,9 +102,13 @@ const NoteDetails = (props) => {
       //console.log(response);
     } catch (error) {
       alert("Your Note is not Updated!");
+      navigate('/')
+    }
+    finally{
+      setLoading(false)
     }
   };
-  const Delete = async (id) => {
+  const Delete = async (id: number | string ) => {
     let config = {
       headers: {
         Authorization: "Bearer " + token,
@@ -112,6 +126,9 @@ const NoteDetails = (props) => {
     } catch (error) {
       alert("Failed to delete your note");
       console.log(error);
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -140,7 +157,7 @@ const NoteDetails = (props) => {
               </label>
               <textarea
                 className="rounded-md border-2 p-3 w-full bg-gray-800 text-white"
-                rows="10"
+                rows={13}
                 value={content}
                 onChange={(e) => {
                   setContent(e.target.value);
@@ -167,7 +184,10 @@ const NoteDetails = (props) => {
               className="font-[Poppins] mt-2 rounded-md bg-red-700 px-3.5 py-1.5 text-base  leading-7 text-white hover:bg-red-500 m-2 flex"
               onClick={() => {
                 if (window.confirm("Are you sure, You want to delete?")) {
-                  Delete(id);
+                  if (id){
+                    Delete(id);
+                  }
+                  
                 }
               }}
             >

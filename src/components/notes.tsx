@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import { useRef } from "react";
 import NoteItem from "./noteItem";
 import axios from "axios";
@@ -9,21 +9,24 @@ import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import { useAuthUser } from "react-auth-kit";
 import { TbLoader2 } from "react-icons/tb";
 
-const Notes = (props) => {
-  const [loading, setLoading] = useState(true);
+interface Props{
+  apiurl: string;
+}
+const Notes = (props : Props) => {
+  const [loading, setLoading] = useState(false);
   const dataFetchedRef = useRef(false);
-  const [notes, setNotes] = useState([]);
-  //  const [count, setCount] = useState(0);
+  const [notes, setNotes] = useState<any[]>([]);
+
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const isAuthenticated = useIsAuthenticated();
   
   const auth = useAuthUser();
-  const token = auth().token;
+  const token = auth()?.token;
 
   const singOut = useSignOut();
 
-  const searchNotes = async (query) => {
+  const searchNotes = async (query: string) => {
     let config = {
       headers: {
         Authorization: "Bearer " + token,
@@ -39,7 +42,7 @@ const Notes = (props) => {
       let data = response.data;
       let notes = data.data;
       setNotes(notes);
-    } catch (e) {
+    } catch (e : any) {
       if (e.response.status === 404) {
         alert("No Result Found!");
         //setQuery("");
@@ -57,10 +60,10 @@ const Notes = (props) => {
     }, 300)
   ).current;
 
-  function handleSearch(e) {
+  function handleSearch(e: React.KeyboardEvent) {
     e.preventDefault();
-    setQuery(e.target.value);
-    console.log(query);
+    setQuery((e.target as HTMLInputElement).value);
+    //console.log(query);
     debouncedSearch(query);
   }
   useEffect(() => {
@@ -79,7 +82,7 @@ const Notes = (props) => {
     <div className="bg-gray-900">
       <div className="search-container">
         <form role="search">
-          <div className="mb-5 mx-10">
+          <div className="mb-5 mx-5">
             <input
               className="w-full  p-2 bg-gray-800 rounded-3xl mt-20 text-white focus:bg-gray-700"
               type="search"
@@ -92,24 +95,27 @@ const Notes = (props) => {
           </div>
         </form>
       </div>
-      <div className="m-3">
+      <div className="m-5 flex flex-row justify-center">
+        <div className="text-left">
         <AddNote
           apiurl={props.apiurl}
-          loading={loading}
           setLoading={setLoading}
           getNotes={searchNotes}
         />
-        <h2 className="text-center text-3xl  mb-5 font-['Bebas_Neue'] text-white">
+        </div>
+        <h2 className="flex-grow mr-14 mt-2 text-center text-3xl font-['Bebas_Neue'] text-white">
           NOTES
         </h2>
+        </div>
+        
 
         {loading === false ? (
-          <ul className="flex flex-wrap gap-4  justify-center">
+          <ul className="masonry sm:masonry-sm md:masonry-md mx-5">
             {notes.length === 0 ? (
-              <h4 className="text-center text-muted">Add a Note...</h4>
+              <h4 className="text-center  text-xl font-[Poppins] text-gray-400">Add a Note...</h4>
             ) : (
               notes.map((note) => {
-                return <NoteItem note={note} key={note.id} />;
+                return <NoteItem id={note.id} title={note.title} content={note.content} key={note.id} />;
               })
             )}
           </ul>
@@ -118,7 +124,7 @@ const Notes = (props) => {
             <TbLoader2 className="animate-spin h-8 w-8 text-white" />
           </div>
         )}
-      </div>
+      
     </div>
   );
 };

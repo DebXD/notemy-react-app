@@ -1,9 +1,8 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const Help = () => {
   return (
-    <body class=" mt-20 text-center">
+    <body className=" mt-20 text-center">
       <div className="text-gray-300">
         <h1 className="text-3xl text-center">Help Regarding Notemy</h1>
         <p className="text-center mt-2 text-lg">
@@ -18,7 +17,7 @@ const Help = () => {
           I'll try to give you feedback asap.
         </p>
       </div>
-      <button className="p-2 text-white bg-indigo-800 rounded-md mt-5">
+      <button className="p-2 text-white bg-indigo-800 rounded-md mt-5 hover:bg-indigo-700">
         <Link to="/about">About Us</Link>
       </button>
     </body>
