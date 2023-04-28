@@ -77,7 +77,7 @@ const Register = (props : PropsTypes) => {
   };
   return (
     <div className="h-screen justify-center flex bg-gray-900">
-      <div className=" mt-24 md:mt-20  items-center justify-center my-4 md:w-4/12 w-3/4 ">
+      <div className=" mt-24 md:mt-36  items-center justify-center my-4 md:w-4/12 w-3/4 ">
         <div className="border-2 rounded-xl  p-5 bg-gray-800">
           <div className="w-full">
             <h2 className=" text-white text-2xl md:text-3xl font-bold leading-tight text-center font-['Poppins']">

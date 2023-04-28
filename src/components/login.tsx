@@ -20,37 +20,22 @@ const Login = (  {apiurl} : {apiurl: string}) => {
   const [showProcesssing, setShowProcessing] = useState(false);
   const signIn = useSignIn();
 
-  // const handleRememberMe = () => {
-  //   if (remember === true) {
-  //     setRemember(false);
-  //   } else {
-  //     setRemember(true);
-  //   }
-  // };
-
-  const handleShowPassword = () => {
-    if (showPassword === true) {
-      setShowPassword(false);
-    } else {
-      setShowPassword(true);
-    }
-  };
 
   let loginCredentials = {
     email: email,
     password: password,
   };
 
-  async function handleSubmit(e : React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     let config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-    setShowProcessing(true);
-    //console.log(loginCredentials);
+
     try {
+      setShowProcessing(true);
       const response = await axios.post(
         `${apiurl}auth/login/`,
         loginCredentials,
@@ -59,8 +44,8 @@ const Login = (  {apiurl} : {apiurl: string}) => {
       const data = response.data;
       //console.log(data)
       console.log(loginCredentials);
-      let accessToken = await data["user"]["access token"];
-      let refreshToken = await data["user"]["refresh token"];
+      let accessToken = await data["user"]["access_token"];
+      let refreshToken = await data["user"]["refresh_token"];
 
       let userEmail = await data["user"]["email"];
       let userName = await data["user"]["username"];
@@ -94,7 +79,7 @@ const Login = (  {apiurl} : {apiurl: string}) => {
 
   return (
     <div className="h-screen justify-center flex bg-gray-900">
-      <div className=" mt-24 md:mt-20  items-center justify-center my-4 md:w-4/12 w-3/4 ">
+      <div className=" mt-24 md:mt-36  items-center justify-center my-4 md:w-4/12 w-3/4 ">
         <div className="border-2 rounded-xl  p-5 bg-gray-800">
           <div className="w-full">
             <h2 className=" text-white text-2xl md:text-3xl font-bold leading-tight text-center font-['Poppins']">
@@ -120,6 +105,7 @@ const Login = (  {apiurl} : {apiurl: string}) => {
                       setEmail(e.target.value);
                     }}
                     id="email"
+                    required
                   />
                 </div>
               </div>
@@ -135,7 +121,7 @@ const Login = (  {apiurl} : {apiurl: string}) => {
 
                     <HiOutlineEye
                       className="ml-1 w-6 h-6  text-gray-300 mr-2 cursor-pointer"
-                      onClick={handleShowPassword}
+                      onClick={(e) => setShowPassword(!showPassword)}
                     />
                   </div>
 
@@ -148,6 +134,7 @@ const Login = (  {apiurl} : {apiurl: string}) => {
                       setPassword(e.target.value);
                     }}
                     id="password"
+                    required
                   />
                 </>
               ) : (
@@ -158,11 +145,11 @@ const Login = (  {apiurl} : {apiurl: string}) => {
                       className="text-base font-medium text-white"
                     >
                       Password
-                       </label>
+                    </label>
 
                     <HiOutlineEyeOff
                       className="ml-1 w-6 h-6  text-gray-300 mr-2 cursor-pointer"
-                      onClick={handleShowPassword}
+                      onClick={(e) => setShowPassword(!showPassword)}
                     />
                   </div>
 
@@ -175,6 +162,7 @@ const Login = (  {apiurl} : {apiurl: string}) => {
                       setPassword(e.target.value);
                     }}
                     id="password"
+                    required
                   />
                 </>
               )}
@@ -195,7 +183,7 @@ const Login = (  {apiurl} : {apiurl: string}) => {
                     type="submit"
                     className="w-full inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
                   >
-                    Processing
+                    Processing...
                     <CgSpinner className="animate-spin w-7 h-7 mt-1 ml-1" />
                   </button>
                 </div>

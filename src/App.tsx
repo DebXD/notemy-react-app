@@ -9,9 +9,10 @@ import "./index.css";
 import Navbar from "./components/navbar";
 import { AuthProvider } from "react-auth-kit";
 import { RequireAuth } from "react-auth-kit";
-import refreshApi from "./components/refreshToken/refresh";
+import refreshApi from "./utils/refreshToken/refresh";
 import GettingStarted from "./components/getting-started";
 import Help from "./components/help";
+
 
 function App() {
   const URL = "https://search.arnabxd.me/api/v1/";

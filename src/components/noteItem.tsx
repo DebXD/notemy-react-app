@@ -20,7 +20,9 @@ function NoteItem(props : PropsTypes) {
     >
       <div className="m-2 p-2">
         <div className="text-xl font-semibold text-white">{title}</div>
-        <div className="text-white">{ content.length > 500 ? (content.slice(0, 500) + "...") : (content)}</div>
+        <div className="text-white break-words">
+          {content.length > 500 ? content.slice(0, 500) + "..." : content}
+        </div>
       </div>
     </li>
   );

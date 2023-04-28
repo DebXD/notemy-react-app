@@ -2,10 +2,10 @@ import { createRefresh } from "react-auth-kit";
 import axios from "axios";
 
 const refreshApi = createRefresh({
-  interval: 10, // Refreshs the token in every 10 minutes
+  interval: 10, // Refreshes the token in every 10 minutes
   refreshApiCallback: async ({ refreshToken, authUserState }) => {
     try {
-      const res = await axios.post<{ "access token": string }>(
+      const res = await axios.post<{ access_token: string }>(
         "https://search.arnabxd.me/api/v1/auth/token/refresh/",
         "",
         {
@@ -15,7 +15,7 @@ const refreshApi = createRefresh({
           },
         }
       );
-      const accessToken = res.data["access token"];
+      const accessToken = res.data["access_token"];
       //console.log(accessToken);
       authUserState!.token = accessToken;
       //console.log(authUserState);
