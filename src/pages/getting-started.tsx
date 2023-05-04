@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import { BsFillArrowRightSquareFill } from "react-icons/bs";
 
 const GettingStarted = () => {
   return (
-    <main className="mt-16 container mx-auto py-6 px-4 text-gray-300">
-      <h2 className="text-2xl font-bold mb-4">Get Started</h2>
+    <main className="md:mt-16 mt-14 container mx-auto py-6 px-4 text-gray-300">
+      <h2 className="text-2xl font-bold mb-4">Getting Started ...</h2>
       <p className="mb-4 text-xl">
-        Welcome to our notes app! We prioritize the security of our users' data
+        Welcome to our notes app! We prioritize the security of our users data
         and use zero-knowledge encryption to ensure that your notes are kept
         private and secure.
       </p>
@@ -15,9 +16,9 @@ const GettingStarted = () => {
           password manager to generate and store your passwords securely.
         </li>
         <li className="mb-2 text-lg">
-          Once you've created an account, you can start creating notes right
-          away. All notes are encrypted end-to-end, which means that only you
-          can access them.
+          Once you&apos;ve created an account, you can start creating notes
+          right away. All notes are encrypted end-to-end, which means that only
+          you can access them.
         </li>
         <li className="mb-2 text-lg">
           You can access your notes from any device by logging into your
@@ -26,12 +27,15 @@ const GettingStarted = () => {
       </ol>
       <p className="text-gray-400">
         We take security very seriously and are committed to keeping your data
-        safe. If you have any questions or concerns, please don't hesitate to
-        contact us.
+        safe. If you have any questions or concerns, please don&apos;t hesitate
+        to contact us.
       </p>
       <div className="flex justify-center">
-        <button className="p-2 text-white bg-indigo-800 rounded-md mt-5 hover:bg-indigo-700">
-          <Link to="/login">Continue</Link>
+        <button className="px-3 py-2 text-white bg-indigo-800 rounded-md mt-5 hover:bg-indigo-700">
+          <Link href="/login" className="inline-flex font-poppins">
+            <p>Continue</p>{" "}
+            <BsFillArrowRightSquareFill className="h-6 w-6 ml-2 rounded-md" />{" "}
+          </Link>
         </button>
       </div>
     </main>

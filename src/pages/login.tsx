@@ -1,7 +1,7 @@
-import { useState} from "react";
-import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
-import { useSignIn } from "react-auth-kit";
+import { useState } from "react";
+import Link from "next/link";
+import { useQuery } from "react-query";
+import { userSignIn } from "@/utils/api/api";
 
 //? import icons
 
@@ -10,71 +10,59 @@ import { HiOutlineEyeOff } from "react-icons/hi";
 import { BsArrowRightShort } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 
-const Login = (  {apiurl} : {apiurl: string}) => {
-  const navigate = useNavigate();
+const Login = ({ apiurl }: { apiurl: string }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
-  //const [remember, setRemember] = useState(false);
   const [showProcesssing, setShowProcessing] = useState(false);
-  const signIn = useSignIn();
-
 
   let loginCredentials = {
     email: email,
     password: password,
   };
 
+  // let accessToken = await data["user"]["access_token"];
+  //     let refreshToken = await data["user"]["refresh_token"];
+
+  //     let userEmail = await data["user"]["email"];
+  //     let userName = await data["user"]["username"];
+
+  const [enabled, setEnabled] = useState(false);
+
+  // const { isLoading, data, isError, error, isSuccess, refetch, isFetching } =
+  //   useQuery({
+  //     queryKey: ["notes"],
+  //     queryFn: async () => userSignIn(loginCredentials),
+  //     enabled: false,
+  //   });
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+    console.log(loginCredentials);
 
     try {
       setShowProcessing(true);
-      const response = await axios.post(
-        `${apiurl}auth/login/`,
-        loginCredentials,
-        config
-      );
-      const data = response.data;
-      //console.log(data)
-      console.log(loginCredentials);
-      let accessToken = await data["user"]["access_token"];
-      let refreshToken = await data["user"]["refresh_token"];
-
-      let userEmail = await data["user"]["email"];
-      let userName = await data["user"]["username"];
-      let authUserState = {
-        email: userEmail,
-        username: userName,
-        token: accessToken,
-      };
-
-      if (
-        signIn({
-          token: accessToken,
-          expiresIn: 900,
-          tokenType: "Bearer",
-          authState: authUserState,
-          refreshToken: refreshToken, // Only if you are using refreshToken feature
-          refreshTokenExpireIn: 604800, // Only if you are using refreshToken feature
-        })
-      )
-        navigate("/");
-    } catch (e) {
-      console.log(e);
-      if (!email || !password) {
-        alert("email or password can't be empty");
-      } else {
-        alert("Invalid Credentials");
+      const response = userSignIn(loginCredentials);
+    } catch (error) {
+      if (error) {
+        if (typeof error === "object" && error !== null) {
+          if ("response" in error) {
+            let res = error.response;
+            if (typeof res === "object" && res !== null) {
+              if ("status" in res) {
+                console.log(res.status);
+                if (res.status === 401) {
+                  //singOut();
+                }
+              }
+            }
+          }
+        }
       }
+    } finally {
+      setShowProcessing(false);
     }
-    setShowProcessing(false);
   }
 
   return (
@@ -82,12 +70,12 @@ const Login = (  {apiurl} : {apiurl: string}) => {
       <div className=" mt-24 md:mt-36  items-center justify-center my-4 md:w-4/12 w-3/4 ">
         <div className="border-2 rounded-xl  p-5 bg-gray-800">
           <div className="w-full">
-            <h2 className=" text-white text-2xl md:text-3xl font-bold leading-tight text-center font-['Poppins']">
+            <h2 className=" text-white text-2xl md:text-3xl font-bold leading-tight text-center font-poppins">
               Login
             </h2>
             <hr className="mt-2" />
 
-            <form onSubmit={handleSubmit} className="mt-8">
+            <form className="mt-8">
               <div className="mt-5">
                 <label
                   htmlFor="email"
@@ -168,9 +156,9 @@ const Login = (  {apiurl} : {apiurl: string}) => {
               )}
 
               <p className=" text-base text-gray-300 mt-10">
-                Don't have an account?
+                Don&apos;t have an account?
                 <Link
-                  to="/register"
+                  href="/register"
                   title=""
                   className="ml-2 font-medium text-indigo-300 transition-all duration-200 hover:text-indigo-600 hover:underline focus:text-indigo-700"
                 >

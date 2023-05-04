@@ -5,15 +5,14 @@ import { useAuthUser } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import { HiDocumentAdd } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
+import { useMutation } from "react-query";
 
 interface Props {
-  apiurl : string;
-  setLoading : React.Dispatch<React.SetStateAction<boolean>>;
-  getNotes : Function;
-   
+  apiurl: string;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddNote = (props: Props) => {
+const AddNote = ({ apiurl, setLoading }: Props) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -25,6 +24,8 @@ const AddNote = (props: Props) => {
   const isAuthenticated = useIsAuthenticated();
 
   const [openModal, setOpenModal] = useState(false);
+
+  //const mutation = useMutation({mutationFn: addNote(title, content), )})
   const handleModal = () => {
     if (openModal) {
       setOpenModal(false);
@@ -33,21 +34,17 @@ const AddNote = (props: Props) => {
     }
   };
 
-  const handleSubmit = (e : React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isAuthenticated()) {
-      if (title &&  content === "") {
-        alert("Title and content can not be empty");
-      } else {
-        console.log(title, content);
-        addNote(title, content);
-        if (true) {
-          setTitle("");
-          setContent("");
-        }
-
-        handleModal();
+        mutation.mutate({ id: new Date(), title: 'Do Laundry' })
       }
+      if (true) {
+        setTitle("");
+        setContent("");
+      }
+
+      handleModal();
     } else {
       navigate("/");
     }
@@ -64,11 +61,10 @@ const AddNote = (props: Props) => {
       content: content,
     };
     try {
-      props.setLoading(true);
-      let response = await axios.post(`${props.apiurl}notes/`, body, config);
+      setLoading(true);
+      let response = await axios.post(`${apiurl}notes/`, body, config);
       console.log(response);
-      await props.getNotes("");
-      props.setLoading(false);
+      setLoading(false);
     } catch {
       alert("failed to add your note");
     }
@@ -109,6 +105,7 @@ const AddNote = (props: Props) => {
                     type="text"
                     className="border rounded-md w-full m-1 p-2 bg-gray-800 text-white"
                     value={title}
+                    required
                     onChange={(e) => {
                       setTitle(e.target.value);
                     }}
@@ -120,6 +117,7 @@ const AddNote = (props: Props) => {
                     className="border rounded-md w-full m-1 p-2 bg-gray-800 text-white"
                     rows={5}
                     value={content}
+                    required
                     onChange={(e) => {
                       setContent(e.target.value);
                     }}

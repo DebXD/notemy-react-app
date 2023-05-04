@@ -1,11 +1,12 @@
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import axios from "axios";
 import NoteItem from "./noteItem";
 import { TbLoader2 } from "react-icons/tb";
-import { useIsAuthenticated, useSignOut } from "react-auth-kit";
-import { useAuthUser } from "react-auth-kit";
+
 import { useState } from "react";
 import useDebounce from "../utils/hooks/useDebounce";
+import AddNote from "./addNote";
+import { getNotes } from "../utils/api/api";
 
 interface Props {
   apiurl: string;
@@ -17,49 +18,40 @@ interface NoteTypes {
 }
 
 const Notes = ({ apiurl }: Props) => {
-  const isAuthenticated = useIsAuthenticated();
-
-  const auth = useAuthUser();
-  const token = auth()?.token;
-  const singOut = useSignOut();
+  const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
+  const token = null;
 
   const [query, setQuery] = useState("");
-  const [notes, setNotes] = useState([]);
+  //const [notes, setNotes] = useState([]);
 
   //const debouncedSearchQuery = useDebounce(query, 300);
 
-  if (!isAuthenticated()) {
-    singOut();
-  }
+  // const useNotes = () => {
+  //   return useQuery({
+  //     queryKey: ["notes"],
+  //     queryFn: async () => getNotes(token),
+  //   });
+  // };
+  const { isLoading, data, isError, error, isSuccess } = useQuery({
+    queryKey: ["notes"],
+    queryFn: async () => getNotes(token),
+  });
 
-  let config = {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  };
-
-  const getNotes = async (debouncedSearchQuery: string) => {
-    const res = await axios.get(
-      `${apiurl}notes/search/?query=${debouncedSearchQuery}`,
-      config
-    );
-    const data = await res?.data.data;
-    setNotes(data);
-    return data;
-  };
-
-  const useGetNotes = (debouncedSearchQuery: string) => {
-    // Notice we only use `employees` as query key, because we want to preserve our cache
-    return useQuery([notes, debouncedSearchQuery], async () => {
-      await getNotes(debouncedSearchQuery);
-    });
-  };
-
-  const { isLoading, data, isError, error } = useGetNotes(query);
-
-  if (error instanceof Error) {
-    console.log(error.message);
-    alert(error.message);
+  if (isError) {
+    if (typeof error === "object" && error !== null) {
+      if ("response" in error) {
+        let res = error.response;
+        if (typeof res === "object" && res !== null) {
+          if ("status" in res) {
+            console.log(res.status);
+            if (res.status === 401) {
+              singOut();
+            }
+          }
+        }
+      }
+    }
   }
   return (
     <div className="bg-gray-900">
@@ -80,25 +72,21 @@ const Notes = ({ apiurl }: Props) => {
       </div>
       <div className="m-5 flex flex-row justify-center">
         <div className="text-left">
-          {/* <AddNote
-        apiurl={props.apiurl}
-        setLoading={setLoading}
-        getNotes={searchNotes}
-      /> */}
+          {/* <AddNote apiurl={apiurl} setLoading={setLoading} /> */}
         </div>
         <h2 className="flex-grow mr-14 mt-2 text-center text-3xl font-['Bebas_Neue'] text-white">
           NOTES
         </h2>
       </div>
 
-      {isLoading === false ? (
+      {isSuccess || !isLoading ? (
         <ul className="masonry sm:masonry-sm md:masonry-md mx-5">
-          {notes.length === 0 ? (
+          {data.length === 0 ? (
             <h4 className="text-center  text-xl font-[Poppins] text-gray-400">
               Add a Note...
             </h4>
           ) : (
-            notes.map((note: NoteTypes) => {
+            data.map((note: NoteTypes) => {
               return (
                 <NoteItem
                   id={note.id}
@@ -116,19 +104,6 @@ const Notes = ({ apiurl }: Props) => {
         </div>
       )}
     </div>
-
-    // <>
-    //   {data?.data.data.map((note: Item) => {
-    //     return (
-    //       <NoteItem
-    //         id={note.id}
-    //         title={note.title}
-    //         content={note.content}
-    //         key={note.id}
-    //       />
-    //     );
-    //   })}
-    // </>
   );
 };
 
