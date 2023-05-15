@@ -1,20 +1,19 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import Link from "next/link";
 
-interface PropsTypes{
-  id : number;
-  title : string;
-  content : string;
+interface PropsTypes {
+  id: number;
+  title: string;
+  content: string;
 }
-function NoteItem(props : PropsTypes) {
+function NoteItem(props: PropsTypes) {
   const [title, setTitle] = useState(props.title);
   const [content, setContent] = useState(props.content);
-  let navigate = useNavigate();
 
   return (
     <li
       onClick={() => {
-        navigate(`/details/${props.id}/`);
+        <Link href={`/details/${props.id}/`}></Link>;
       }}
       className="break-inside mb-4 list-group-item  mx-4 md:mx-0 rounded-3xl bg-gray-800  border-y-4 border-x-4 border-y-indigo-400 border-x-violet-400 shadow-2xl md:basis-1/4 md:flex-1 hover: cursor-pointer hover:shadow-violet-900 transition duration-500 ease-in-out"
     >

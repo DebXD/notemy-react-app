@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import { userSignIn } from "@/utils/api/api";
+import { signIn } from "next-auth/react";
 //? import icons
 
 import { HiOutlineEye } from "react-icons/hi2";
@@ -8,7 +8,7 @@ import { HiOutlineEyeOff } from "react-icons/hi";
 import { BsArrowRightShort } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 
-const Login = ({ apiurl }: { apiurl: string }) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -18,50 +18,17 @@ const Login = ({ apiurl }: { apiurl: string }) => {
     password: password,
   };
 
-  // let accessToken = await data["user"]["access_token"];
-  //     let refreshToken = await data["user"]["refresh_token"];
-
-  //     let userEmail = await data["user"]["email"];
-  //     let userName = await data["user"]["username"];
-
-  const [enabled, setEnabled] = useState(false);
-
-  // const { isLoading, data, isError, error, isSuccess, refetch, isFetching } =
-  //   useQuery({
-  //     queryKey: ["notes"],
-  //     queryFn: async () => userSignIn(loginCredentials),
-  //     enabled: false,
-  //   });
-
   async function handleSubmit(e: React.FormEvent) {
+    setShowProcessing(true);
     e.preventDefault();
     console.log(loginCredentials);
-
-    try {
-      setShowProcessing(true);
-      const response = await userSignIn(loginCredentials);
-      const data = response.data;
-      let accessToken = await data["user"]["access_token"];
-      console.log(accessToken);
-    } catch (error) {
-      if (error) {
-        if (typeof error === "object" && error !== null) {
-          if ("response" in error) {
-            let res = error.response;
-            if (typeof res === "object" && res !== null) {
-              if ("status" in res) {
-                console.log(res.status);
-                if (res.status === 401) {
-                  //singOut();
-                }
-              }
-            }
-          }
-        }
-      }
-    } finally {
-      setShowProcessing(false);
-    }
+    await signIn("credentials", {
+      email: email,
+      password: password,
+      redirect: true,
+      callbackUrl: "/notes",
+    });
+    setShowProcessing(false);
   }
 
   return (
@@ -84,7 +51,7 @@ const Login = ({ apiurl }: { apiurl: string }) => {
                 </label>
                 <div className="mt-2.5">
                   <input
-                    className=" flex border-2 h-10 w-full rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white"
+                    className="flex border-2 h-10 w-full rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white"
                     type="email"
                     placeholder="Enter Your Email"
                     value={email}
@@ -108,7 +75,7 @@ const Login = ({ apiurl }: { apiurl: string }) => {
 
                     <HiOutlineEye
                       className="ml-1 w-6 h-6  text-gray-300 mr-2 cursor-pointer"
-                      onClick={(e) => setShowPassword(!showPassword)}
+                      onClick={() => setShowPassword(!showPassword)}
                     />
                   </div>
 
@@ -136,7 +103,7 @@ const Login = ({ apiurl }: { apiurl: string }) => {
 
                     <HiOutlineEyeOff
                       className="ml-1 w-6 h-6  text-gray-300 mr-2 cursor-pointer"
-                      onClick={(e) => setShowPassword(!showPassword)}
+                      onClick={() => setShowPassword(!showPassword)}
                     />
                   </div>
 

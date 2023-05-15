@@ -6,10 +6,12 @@ import { BsPersonFill } from "react-icons/bs";
 import { IoLogOut, IoLogIn, IoHelpCircleSharp } from "react-icons/io5";
 import { HiHome, HiInformationCircle } from "react-icons/hi";
 import { Poppins } from "next/font/google";
+import { useSession, signIn } from "next-auth/react";
 
 const poppins = Poppins({ subsets: ["latin"], weight: "400" });
 
 export default function Navbar() {
+  const { data: session } = useSession();
   const [openMenu, setOpenMenu] = useState(false);
 
   const handleMenuClick = () => {
@@ -39,111 +41,123 @@ export default function Navbar() {
             <IoMenu className="h-7 w-7 text-white" onClick={handleMenuClick} />
           )}
         </div>
-
-        {/* <ul
-          className={`md:flex md:items-center md:pb-0 absolute md:static bg-gray-800 md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-5 transition-all duration-100 ease-in shadow-2xl ${
-            openMenu ? "top-10 " : "top-[-490px]"
-          }`}
-        > */}
-        {/* <li
-            className="md:ml-8 text-lg md:my-0 my-5 font-[Poppins] "
-            onClick={handleMenuClick}
+        {session?.user ? (
+          <ul
+            className={`md:flex md:items-center md:pb-0 absolute md:static bg-gray-800 md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-5 transition-all duration-100 ease-in shadow-2xl ${
+              openMenu ? "top-10 " : "top-[-490px]"
+            }`}
           >
-            <Link
-              href={"/"}
-              className="text-white hover:text-gray-400 duration-500 flex"
-            >
-              <HiHome className="h-7 w-7" />
-              <p className="ml-2">Home</p>
-            </Link>
-          </li>
-          <li
-            className="md:ml-8 text-lg md:my-0 my-5 font-[Poppins] "
-            onClick={handleMenuClick}
-          >
-            <Link
-              href={"/profile"}
-              className="text-white hover:text-gray-400 duration-500 flex"
-            >
-              <BsPersonFill className="h-7 w-7" />
-              <p className=" ml-2">Profile</p>
-            </Link>
-          </li>
-          <li className="md:ml-8 text-lg md:my-0 my-5 font-[Poppins] ">
-            <Link
-              href={"/login"}
-              className="text-white hover:text-gray-400 duration-500 flex"
-            >
-              <IoLogOut className="h-7 w-7" />
-              <p className="ml-2">Logout</p>
-            </Link>
-          </li> */}
-        {/* <li
-            className="md:ml-8 text-lg md:my-0 my-5 font-[Poppins] "
-            onClick={handleMenuClick}
-          >
-            <Link
-              href={"/help"}
-              className="text-white hover:text-gray-400 duration-500 flex"
-            >
-              <IoHelpCircleSharp className="h-7 w-7" />
-              <p className="ml-2">Help</p>
-            </Link>
-          </li>
-        </ul> */}
-
-        <ul
-          className={`md:flex md:items-center absolute md:static bg-gray-800 md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-5 transition-all duration-200 ease-in shadow-2xl ${
-            openMenu ? "top-10 " : "top-[-490px]"
-          }`}
-        >
-          <li
-            className="md:ml-8 text-lg md:my-0 my-5 font-poppins "
-            onClick={handleMenuClick}
-          >
-            <Link
-              href={"/login"}
-              className="text-white hover:text-gray-400 duration-500 flex"
-            >
-              <HiHome className="h-7 w-7" />
-              <p className=" ml-2">Home</p>
-            </Link>
-          </li>
-
-          <li
-            className="md:ml-8 text-lg md:my-0 my-5 font-poppins "
-            onClick={handleMenuClick}
-          >
-            <Link
-              href={"/login"}
-              className="text-white hover:text-gray-400 duration-500 flex"
-            >
-              <IoLogIn className="h-7 w-7" />
-              <p className=" ml-2">Login</p>
-            </Link>
-          </li>
-          <li
-            className="md:ml-8 text-lg md:my-0 my-5 font-poppins "
-            onClick={handleMenuClick}
-          >
-            <Link
-              href={"/about"}
-              className="text-white hover:text-gray-400 duration-500 flex"
-            >
-              <HiInformationCircle className="h-7 w-7" />
-              <p className=" ml-2">About Us</p>
-            </Link>
-          </li>
-
-          <Link href={"/getting-started"}>
-            <button
-              className="mb-5 md:mb-0 bg-indigo-600 text-white py-2 px-5  rounded-md hover:bg-indigo-400 duration-500 md:ml-5 font-poppins"
+            <li
+              className="md:ml-8 text-lg md:my-0 my-5 font-poppins"
               onClick={handleMenuClick}
             >
-              Get Started
-            </button>
-          </Link>
-        </ul>
+              <Link
+                href={"/"}
+                className="text-white hover:text-gray-400 duration-500 flex"
+              >
+                <HiHome className="h-7 w-7" />
+                <p className="ml-2">Home</p>
+              </Link>
+            </li>
+            <li
+              className="md:ml-8 text-lg md:my-0 my-5 font-poppins "
+              onClick={handleMenuClick}
+            >
+              <Link
+                href={"/profile"}
+                className="text-white hover:text-gray-400 duration-500 flex"
+              >
+                <BsPersonFill className="h-7 w-7" />
+                <p className=" ml-2">Profile</p>
+              </Link>
+            </li>
+            <li className="md:ml-8 text-lg md:my-0 my-5 font-poppins ">
+              <Link
+                href={"/login"}
+                className="text-white hover:text-gray-400 duration-500 flex"
+              >
+                <IoLogOut className="h-7 w-7" />
+                <p className="ml-2">Logout</p>
+              </Link>
+            </li>
+            <li
+              className="md:ml-8 text-lg md:my-0 my-5 font-poppins "
+              onClick={handleMenuClick}
+            >
+              <Link
+                href={"/notes"}
+                className="text-white hover:text-gray-400 duration-500 flex"
+              >
+                <IoHelpCircleSharp className="h-7 w-7" />
+                <p className="ml-2">Notes</p>
+              </Link>
+            </li>
+          </ul>
+        ) : (
+          <ul
+            className={`md:flex md:items-center absolute md:static bg-gray-800 md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-5 transition-all duration-200 ease-in shadow-2xl ${
+              openMenu ? "top-10 " : "top-[-490px]"
+            }`}
+          >
+            <li
+              className="md:ml-8 text-lg md:my-0 my-5 font-poppins "
+              onClick={handleMenuClick}
+            >
+              <Link
+                href={"/login"}
+                className="text-white hover:text-gray-400 duration-500 flex"
+              >
+                <HiHome className="h-7 w-7" />
+                <p className=" ml-2">Home</p>
+              </Link>
+            </li>
+
+            <li
+              className="md:ml-8 text-lg md:my-0 my-5 font-poppins "
+              onClick={handleMenuClick}
+            >
+              <Link
+                href={"/login"}
+                className="text-white hover:text-gray-400 duration-500 flex"
+              >
+                <IoLogIn className="h-7 w-7" />
+                <p className=" ml-2">Login</p>
+              </Link>
+            </li>
+            <li
+              className="md:ml-8 text-lg md:my-0 my-5 font-poppins "
+              onClick={handleMenuClick}
+            >
+              <Link
+                href={"/about"}
+                className="text-white hover:text-gray-400 duration-500 flex"
+              >
+                <HiInformationCircle className="h-7 w-7" />
+                <p className=" ml-2">About Us</p>
+              </Link>
+            </li>
+
+            <Link href={"/getting-started"}>
+              <button
+                className="mb-5 md:mb-0 bg-indigo-600 text-white py-2 px-5  rounded-md hover:bg-indigo-400 duration-500 md:ml-5 font-poppins"
+                onClick={handleMenuClick}
+              >
+                Get Started
+              </button>
+            </Link>
+            <Link href={`#`}>
+              <button
+                className="mb-5 md:mb-0 bg-indigo-600 text-white py-2 px-5  rounded-md hover:bg-indigo-400 duration-500 md:ml-5 font-poppins"
+                onClick={() => {
+                  handleMenuClick();
+                  signIn();
+                }}
+              >
+                Login with Nextauth
+              </button>
+            </Link>
+          </ul>
+        )}
       </div>
     </div>
   );

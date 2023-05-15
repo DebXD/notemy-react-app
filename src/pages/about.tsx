@@ -1,7 +1,14 @@
+import { useSession } from "next-auth/react";
+
 const About = () => {
+  const { data: session } = useSession();
+  let user = session?.user.access_token;
+  console.log(user);
   return (
-    <div className="md:mt-16 mt-14 p-3">
-      <h2 className=" font-semibold text-2xl text-white">About Us ~</h2>
+    <div className="md:mt-18 mt-14 container mx-auto py-6 px-4 text-gray-300">
+      <h2 className=" font-bold text-2xl text-white font-poppins">
+        About Us ~
+      </h2>
       <article className="text-white">
         Welcome to our secure note storing app! We are committed to providing
         our users with a safe and reliable platform to store their important

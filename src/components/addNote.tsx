@@ -1,27 +1,23 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useIsAuthenticated } from "react-auth-kit";
-import { useAuthUser } from "react-auth-kit";
-import { useNavigate } from "react-router-dom";
+import { useSession, signIn } from "next-auth/react";
 import { HiDocumentAdd } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { useMutation } from "react-query";
+import { addNote } from "@/utils/api/api";
 
 interface Props {
-  apiurl: string;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddNote = ({ apiurl, setLoading }: Props) => {
+const AddNote = ({ setLoading }: Props) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
-  const navigate = useNavigate();
-
-  const auth = useAuthUser();
-  const token = auth()?.token;
-
-  const isAuthenticated = useIsAuthenticated();
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      signIn();
+    },
+  });
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -33,40 +29,22 @@ const AddNote = ({ apiurl, setLoading }: Props) => {
       setOpenModal(true);
     }
   };
-
+  const { mutate } = useMutation({
+    mutationKey: ["note"],
+    mutationFn: async (token: string) => {
+      if (token) {
+        let res = await addNote(title, content, token);
+        return res.data;
+      }
+    },
+  });
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isAuthenticated()) {
-        mutation.mutate({ id: new Date(), title: 'Do Laundry' })
-      }
-      if (true) {
-        setTitle("");
-        setContent("");
-      }
-
-      handleModal();
-    } else {
-      navigate("/");
-    }
-  };
-
-  const addNote = async (title: string, content: string) => {
-    let config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    let body = {
-      title: title,
-      content: content,
-    };
-    try {
+    const token = session?.user?.access_token;
+    if (token) {
       setLoading(true);
-      let response = await axios.post(`${apiurl}notes/`, body, config);
-      console.log(response);
+      mutate(token);
       setLoading(false);
-    } catch {
-      alert("failed to add your note");
     }
   };
 

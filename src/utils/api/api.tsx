@@ -1,14 +1,11 @@
 import axios from "axios";
 
-const notemyApi = axios.create({ baseURL: "https://search.arnabxd.me/api/v1" });
+const notemyApi = axios.create({ baseURL: "https://notemy.dustbin.me/api/v1" });
 
-// let config = {
-//     headers: {
-//       Authorization: "Bearer " + token,
-//     },
-//   };
-
-/// Auth
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+//! Auth
 //? For login
 export const userSignIn = async (loginCredentials: object) => {
   const response = await notemyApi.post("/auth/login/", loginCredentials, {
@@ -30,6 +27,7 @@ export const userSignUp = async (signUpCredentials: object) => {
   return response;
 };
 
+//! Notes
 //? For getting all notes
 export const getNotes = async (token: string) => {
   const response = await notemyApi.get("/notes/?page=1&per_page=10000", {
@@ -37,9 +35,9 @@ export const getNotes = async (token: string) => {
       Authorization: "Bearer " + token,
     },
   });
-  console.log("fetching...");
-  const data = response?.data.data;
-  return data;
+  // await sleep(10000);
+  console.log("fetching...Notes");
+  return response.data;
 };
 
 //? For adding note
