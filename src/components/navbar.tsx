@@ -5,10 +5,7 @@ import { IoMenu, IoClose } from "react-icons/io5";
 import { BsPersonFill } from "react-icons/bs";
 import { IoLogOut, IoLogIn, IoHelpCircleSharp } from "react-icons/io5";
 import { HiHome, HiInformationCircle } from "react-icons/hi";
-import { Poppins } from "next/font/google";
 import { useSession, signIn } from "next-auth/react";
-
-const poppins = Poppins({ subsets: ["latin"], weight: "400" });
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -71,7 +68,7 @@ export default function Navbar() {
                 <p className=" ml-2">Profile</p>
               </Link>
             </li>
-            <li className="md:ml-8 text-lg md:my-0 my-5 font-poppins ">
+            {/* <li className="md:ml-8 text-lg md:my-0 my-5 font-poppins ">
               <Link
                 href={"/login"}
                 className="text-white hover:text-gray-400 duration-500 flex"
@@ -80,16 +77,17 @@ export default function Navbar() {
                 <p className="ml-2">Logout</p>
               </Link>
             </li>
+            */}
             <li
               className="md:ml-8 text-lg md:my-0 my-5 font-poppins "
               onClick={handleMenuClick}
             >
               <Link
-                href={"/notes"}
+                href={"/help"}
                 className="text-white hover:text-gray-400 duration-500 flex"
               >
                 <IoHelpCircleSharp className="h-7 w-7" />
-                <p className="ml-2">Notes</p>
+                <p className="ml-2">Help</p>
               </Link>
             </li>
           </ul>
@@ -104,7 +102,7 @@ export default function Navbar() {
               onClick={handleMenuClick}
             >
               <Link
-                href={"/login"}
+                href={"/"}
                 className="text-white hover:text-gray-400 duration-500 flex"
               >
                 <HiHome className="h-7 w-7" />
@@ -112,12 +110,9 @@ export default function Navbar() {
               </Link>
             </li>
 
-            <li
-              className="md:ml-8 text-lg md:my-0 my-5 font-poppins "
-              onClick={handleMenuClick}
-            >
+            <li className="md:ml-8 text-lg md:my-0 my-5 font-poppins ">
               <Link
-                href={"/login"}
+                href="/auth/login"
                 className="text-white hover:text-gray-400 duration-500 flex"
               >
                 <IoLogIn className="h-7 w-7" />
@@ -143,17 +138,6 @@ export default function Navbar() {
                 onClick={handleMenuClick}
               >
                 Get Started
-              </button>
-            </Link>
-            <Link href={`#`}>
-              <button
-                className="mb-5 md:mb-0 bg-indigo-600 text-white py-2 px-5  rounded-md hover:bg-indigo-400 duration-500 md:ml-5 font-poppins"
-                onClick={() => {
-                  handleMenuClick();
-                  signIn();
-                }}
-              >
-                Login with Nextauth
               </button>
             </Link>
           </ul>

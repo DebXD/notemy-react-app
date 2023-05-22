@@ -1,9 +1,7 @@
-const About = () => {
+const Hero = () => {
   return (
     <div className="md:mt-18 mt-14 container mx-auto py-6 px-4 text-gray-300">
-      <h2 className=" font-bold text-2xl text-white font-poppins">
-        About Us ~
-      </h2>
+      <h2 className=" font-bold text-2xl text-white font-poppins">NOTEMY ~</h2>
       <article className="text-white">
         Welcome to our secure note storing app! We are committed to providing
         our users with a safe and reliable platform to store their important
@@ -35,4 +33,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Hero;

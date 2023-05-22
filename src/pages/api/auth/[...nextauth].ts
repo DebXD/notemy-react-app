@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { userSignIn } from "@/utils/api/api";
 import axios from "axios";
 import notemyApi from "@/utils/api/api";
+import { functionalUpdate } from "react-query/types/core/utils";
 
 export default NextAuth({
   providers: [

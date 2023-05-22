@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
 import Layout from "./layout";
+import { useRouter } from "next/router";
 
 const GettingStarted = () => {
   return (
@@ -36,7 +37,7 @@ const GettingStarted = () => {
         </p>
         <div className="flex justify-center">
           <button className="px-3 py-2 text-white bg-indigo-800 rounded-md mt-5 hover:bg-indigo-700">
-            <Link href="/login" className="inline-flex font-poppins">
+            <Link href={"/auth/login"} className="inline-flex font-poppins">
               <p>Continue</p>{" "}
               <BsFillArrowRightSquareFill className="h-6 w-6 ml-2 rounded-md" />{" "}
             </Link>

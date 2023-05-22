@@ -26,7 +26,7 @@ const Login = () => {
       email: email,
       password: password,
       redirect: true,
-      callbackUrl: "/notes",
+      callbackUrl: "/",
     });
     setShowProcessing(false);
   }
@@ -124,7 +124,7 @@ const Login = () => {
               <p className=" text-base text-gray-300 mt-10">
                 Don&apos;t have an account?
                 <Link
-                  href="/register"
+                  href="/auth/register"
                   title=""
                   className="ml-2 font-medium text-indigo-300 transition-all duration-200 hover:text-indigo-600 hover:underline focus:text-indigo-700"
                 >

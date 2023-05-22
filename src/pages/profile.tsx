@@ -40,10 +40,10 @@ const Profile = () => {
 
             <div className="flex justify-center">
               <button
-                className="p-2 text-white bg-red-800 rounded-md mt-5 hover:bg-red-700 font-poppins duration-100"
+                className="px-5 py-3 text-white bg-red-800 rounded-md mt-5 hover:bg-red-700 font-poppins duration-100"
                 onClick={() => signOut()}
               >
-                Logout
+                Logout!
               </button>
             </div>
           </div>

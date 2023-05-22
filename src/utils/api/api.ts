@@ -1,6 +1,10 @@
 import axios from "axios";
+import useAxiosAuth from "../hooks/useAxiosAuth";
 
-const notemyApi = axios.create({ baseURL: "https://notemy.dustbin.me/api/v1" });
+const notemyApi = axios.create({
+  baseURL: "https://notemy.dustbin.me/api/v1",
+  headers: { "Content-Type": "application/json" },
+});
 
 export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -8,22 +12,14 @@ export function sleep(ms: number) {
 //! Auth
 //? For login
 export const userSignIn = async (loginCredentials: object) => {
-  const response = await notemyApi.post("/auth/login/", loginCredentials, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await notemyApi.post("/auth/login/", loginCredentials);
   console.log(response);
   return response;
 };
 
 //? For register
 export const userSignUp = async (signUpCredentials: object) => {
-  const response = await notemyApi.post("/auth/login/", signUpCredentials, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await notemyApi.post("/auth/register/", signUpCredentials);
   return response;
 };
 
@@ -58,10 +54,11 @@ export const addNote = async (
       },
     }
   );
+  // await sleep(5000);
   return response;
 };
 
-//? For adding note
+//? For updating note
 export const updateNote = async (
   title: string,
   content: string,
@@ -93,9 +90,9 @@ export const deleteNote = async (token: string, id: string | number) => {
   return response;
 };
 
-//? For Deleting note
+//? For getting a  note
 export const searchNote = async (token: string, id: string | number) => {
-  const response = await notemyApi.delete(`/notes/${id}/`, {
+  const response = await notemyApi.get(`/notes/${id}/`, {
     headers: {
       Authorization: "Bearer " + token,
     },

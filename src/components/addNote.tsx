@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { HiDocumentAdd } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
-import { useMutation } from "react-query";
-import { addNote } from "@/utils/api/api";
+import { useMutation, useQueryClient } from "react-query";
+import useAxiosAuth from "@/utils/hooks/useAxiosAuth";
 
 interface Props {
+  loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddNote = ({ setLoading }: Props) => {
+const AddNote = ({ loading, setLoading }: Props) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const queryclient = useQueryClient();
+
+  const axiosAuth = useAxiosAuth();
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
@@ -21,7 +25,6 @@ const AddNote = ({ setLoading }: Props) => {
 
   const [openModal, setOpenModal] = useState(false);
 
-  //const mutation = useMutation({mutationFn: addNote(title, content), )})
   const handleModal = () => {
     if (openModal) {
       setOpenModal(false);
@@ -30,21 +33,28 @@ const AddNote = ({ setLoading }: Props) => {
     }
   };
   const { mutate } = useMutation({
-    mutationKey: ["note"],
-    mutationFn: async (token: string) => {
-      if (token) {
-        let res = await addNote(title, content, token);
+    onSuccess: () => {
+      queryclient.invalidateQueries("notes");
+    },
+    mutationFn: async () => {
+      if (session?.user) {
+        let res = await axiosAuth.post("/notes/", {
+          title: title,
+          content: content,
+        });
         return res.data;
       }
     },
   });
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const token = session?.user?.access_token;
-    if (token) {
-      setLoading(true);
-      mutate(token);
-      setLoading(false);
+    try {
+      mutate();
+    } catch (error) {
+    } finally {
+      setOpenModal(false);
+      setTitle("");
+      setContent("");
     }
   };
 

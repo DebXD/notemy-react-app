@@ -38,7 +38,7 @@ export default function App({
 }: AppProps) {
   return (
     <main
-      className={`${poppins.variable} ${bebas.variable} ${rubik.variable} bg-neutral-900 h-screen`}
+      className={`${poppins.variable} ${bebas.variable} ${rubik.variable} bg-gray-900 h-screen`}
     >
       <QueryClientProvider client={queryClient}>
         <SessionProvider session={session}>
@@ -46,7 +46,7 @@ export default function App({
             <Component {...pageProps} />
           </Layout>
         </SessionProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/*<ReactQueryDevtools initialIsOpen={false} />*/}
       </QueryClientProvider>
     </main>
   );
