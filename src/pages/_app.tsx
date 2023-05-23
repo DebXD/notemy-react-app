@@ -10,7 +10,7 @@ const queryClient = new QueryClient();
 // pages/_app.js
 
 // fonts...
-import { Poppins, Rubik, Bebas_Neue } from "next/font/google";
+import { Poppins, Rubik, Bebas_Neue, Space_Mono } from "next/font/google";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: "400",
@@ -31,6 +31,12 @@ const bebas = Bebas_Neue({
   style: "normal",
   variable: "--font-bebas",
 });
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: "700",
+  style: "normal",
+  variable: "--font-spaceMono",
+});
 
 export default function App({
   Component,
@@ -38,7 +44,7 @@ export default function App({
 }: AppProps) {
   return (
     <main
-      className={`${poppins.variable} ${bebas.variable} ${rubik.variable} bg-gray-900 h-screen`}
+      className={`${poppins.variable} ${bebas.variable} ${rubik.variable} ${spaceMono.variable} bg-gray-900 h-screen`}
     >
       <QueryClientProvider client={queryClient}>
         <SessionProvider session={session}>

@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import NoteItem from "@/components/noteItem";
 import { TbLoader2 } from "react-icons/tb";
 import { useState } from "react";
@@ -17,32 +17,37 @@ interface NoteTypes {
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(" ");
   const axiosAuth = useAxiosAuth();
-
-  //const debouncedSearchQuery = useDebounce(query, 300);
+  let debouncedSearchQuery = useDebounce(query, 300);
   const { status, data: session } = useSession();
 
   const { data, isError, error } = useQuery({
-    queryKey: ["notes", session],
+    queryKey: ["notes", session, debouncedSearchQuery],
     queryFn: async () => {
       const token = session?.user.access_token;
       if (token) {
-        const res = await axiosAuth.get("/notes/?page=1&per_page=10000");
-        // console.log(res);
+        const res = await axiosAuth.get(
+          `/notes/search/?query=${debouncedSearchQuery}`
+        );
+        console.log(res.data);
         return res.data.data;
       }
     },
   });
-
-  if (isError) {
-    if (typeof error === "object" && error !== null) {
-      if ("message" in error) {
-        // refreshToken();
-        console.log(error.message);
+  const getErrorStatusCode = (error: any) => {
+    if (isError) {
+      if (typeof error === "object" && error !== null) {
+        if ("response" in error) {
+          if (typeof error.response === "object" && error.response !== null) {
+            if ("status" in error.response) {
+              return error.response.status;
+            }
+          }
+        }
       }
     }
-  }
+  };
 
   return (
     <Layout>
@@ -56,7 +61,6 @@ const Home = () => {
                   type="search"
                   placeholder="   Search keyword..."
                   aria-label="Search"
-                  //onKeyUp={(e) => setQuery(e.target?.value)}
                   onChange={(e) => setQuery(e.target.value)}
                   value={query}
                 />
@@ -71,29 +75,34 @@ const Home = () => {
               NOTES
             </h2>
           </div>
-
-          {data && !loading ? (
-            <ul className="masonry sm:masonry-sm md:masonry-md mx-5">
-              {data?.length === 0 ? (
-                <h4 className="text-center  text-xl font-poppins text-gray-400">
-                  Add a Note...
-                </h4>
-              ) : (
-                data.map((note: NoteTypes) => {
-                  return (
-                    <NoteItem
-                      id={note.id}
-                      title={note.title}
-                      content={note.content}
-                      key={note.id}
-                    />
-                  );
-                })
-              )}
-            </ul>
+          {getErrorStatusCode(error) !== 404 ? (
+            data && !loading ? (
+              <ul className="masonry sm:masonry-sm md:masonry-md mx-5">
+                {data?.length === 0 ? (
+                  <h4 className="text-center  text-xl font-poppins text-gray-400">
+                    Add a Note...
+                  </h4>
+                ) : (
+                  data.map((note: NoteTypes) => {
+                    return (
+                      <NoteItem
+                        id={note.id}
+                        title={note.title}
+                        content={note.content}
+                        key={note.id}
+                      />
+                    );
+                  })
+                )}
+              </ul>
+            ) : (
+              <div className="flex justify-center h-screen">
+                <TbLoader2 className="animate-spin h-8 w-8 text-white" />
+              </div>
+            )
           ) : (
-            <div className="flex justify-center h-screen">
-              <TbLoader2 className="animate-spin h-8 w-8 text-white" />
+            <div className="flex justify-center">
+              <div className="text-gray-400 font-poppins ">No Result found</div>
             </div>
           )}
         </div>

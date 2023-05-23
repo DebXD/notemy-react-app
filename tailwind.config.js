@@ -12,6 +12,7 @@ module.exports = {
         poppins: ["var(--font-poppins)"],
         bebas: ["var(--font-bebas)"],
         rubik: ["var(--font-rubik)"],
+        spaceMono: ["var(--font-spaceMono)"],
       },
     },
   },

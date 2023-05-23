@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
 import Layout from "./layout";
-import { useRouter } from "next/router";
 
 const GettingStarted = () => {
   return (
