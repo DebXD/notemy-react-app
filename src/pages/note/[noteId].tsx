@@ -93,7 +93,7 @@ const NoteDetails = () => {
   });
 
   return (
-    <div className="md:mt-18 mt-14 p-3">
+    <div className="md:mt-18 mt-14 p-3 bg-gray-900">
       {data && isFetched ? (
         <div className="justify-center">
           <form onSubmit={handleNoteUpdate}>
@@ -132,7 +132,7 @@ const NoteDetails = () => {
               )}
             </div>
           </form>
-          <div className="flex justify-center">
+          <div className="flex justify-center bg-gray-900">
             <button
               type="submit"
               className="font-poppins mt-2 rounded-md px-3.5 py-1.5 bg-yellow-700  text-base  leading-7 text-white hover:bg-yellow-600 m-2 inline-flex"

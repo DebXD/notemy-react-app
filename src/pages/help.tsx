@@ -5,7 +5,7 @@ const Help = () => {
   return (
     <Layout>
       <main>
-        <div className="md:mt-18 mt-14 p-3 text-center">
+        <div className="md:mt-18 mt-14 p-10 text-center">
           {" "}
           <div className="text-gray-300">
             <h1 className="text-3xl text-center font-poppins">
