@@ -1,94 +1,101 @@
-import { useState} from "react";
-import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
-import { useSignIn } from "react-auth-kit";
-
-//? import icons
+import React, { useState } from "react";
+import Link from "next/link";
+import notemyApi from "@/utils/api/api";
+import { useRouter } from "next/router";
 
 import { HiOutlineEye } from "react-icons/hi2";
 import { HiOutlineEyeOff } from "react-icons/hi";
 import { BsArrowRightShort } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 
-const Login = (  {apiurl} : {apiurl: string}) => {
-  const navigate = useNavigate();
+const Register = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
-  //const [remember, setRemember] = useState(false);
   const [showProcesssing, setShowProcessing] = useState(false);
-  const signIn = useSignIn();
 
+  const router = useRouter();
 
-  let loginCredentials = {
+  const handleShowPassword = () => {
+    if (showPassword === true) {
+      setShowPassword(false);
+    } else {
+      setShowPassword(true);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (username.length >= 4) {
+      if (password.length > 6) {
+        registration();
+      } else {
+        alert("Make sure Your Password is atleast 6 characters");
+      }
+    } else {
+      alert("Make sure Your UserName is atleast 4 characters");
+    }
+  };
+
+  let SignUpCredentials = {
+    username: username,
     email: email,
     password: password,
   };
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+  const registration = async () => {
+    setShowProcessing(true);
 
     try {
-      setShowProcessing(true);
-      const response = await axios.post(
-        `${apiurl}auth/login/`,
-        loginCredentials,
-        config
+      const response = await notemyApi.post(
+        "auth/register/",
+        SignUpCredentials
       );
       const data = response.data;
-      //console.log(data)
-      console.log(loginCredentials);
-      let accessToken = await data["user"]["access_token"];
-      let refreshToken = await data["user"]["refresh_token"];
-
-      let userEmail = await data["user"]["email"];
-      let userName = await data["user"]["username"];
-      let authUserState = {
-        email: userEmail,
-        username: userName,
-        token: accessToken,
-      };
-
-      if (
-        signIn({
-          token: accessToken,
-          expiresIn: 900,
-          tokenType: "Bearer",
-          authState: authUserState,
-          refreshToken: refreshToken, // Only if you are using refreshToken feature
-          refreshTokenExpireIn: 604800, // Only if you are using refreshToken feature
-        })
-      )
-        navigate("/");
-    } catch (e) {
-      console.log(e);
-      if (!email || !password) {
-        alert("email or password can't be empty");
-      } else {
-        alert("Invalid Credentials");
+      console.log(data);
+      alert("Account is Created, You can Login Now");
+      if (true) {
+        router.push("/auth/login");
       }
+    } catch (e: any) {
+      console.log(e.response.data.message);
+      alert(e.response.data.message);
     }
     setShowProcessing(false);
-  }
-
+  };
   return (
     <div className="h-screen justify-center flex bg-gray-900">
       <div className=" mt-24 md:mt-36  items-center justify-center my-4 md:w-4/12 w-3/4 ">
         <div className="border-2 rounded-xl  p-5 bg-gray-800">
           <div className="w-full">
-            <h2 className=" text-white text-2xl md:text-3xl font-bold leading-tight text-center font-['Poppins']">
-              Login
+            <h2 className=" text-white text-2xl md:text-3xl font-bold leading-tight text-center font-poppins">
+              Register
             </h2>
             <hr className="mt-2" />
 
             <form onSubmit={handleSubmit} className="mt-8">
-              <div className="mt-5">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="text-base font-medium text-white"
+                >
+                  Username
+                </label>
+                <div className="mt-2.5">
+                  <input
+                    className="flex h-10 w-full border-2 rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white"
+                    type="text"
+                    placeholder="Enter Your Username"
+                    value={username}
+                    required
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                    }}
+                    id="username"
+                  />
+                </div>
+              </div>
+              <div className="mt-6">
                 <label
                   htmlFor="email"
                   className="text-base font-medium text-white"
@@ -97,15 +104,15 @@ const Login = (  {apiurl} : {apiurl: string}) => {
                 </label>
                 <div className="mt-2.5">
                   <input
-                    className="flex border-2 h-10 w-full rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white"
+                    className="flex h-10 w-full border-2 rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white"
                     type="email"
                     placeholder="Enter Your Email"
                     value={email}
+                    required
                     onChange={(e) => {
                       setEmail(e.target.value);
                     }}
                     id="email"
-                    required
                   />
                 </div>
               </div>
@@ -120,8 +127,8 @@ const Login = (  {apiurl} : {apiurl: string}) => {
                     </label>
 
                     <HiOutlineEye
-                      className="ml-1 w-6 h-6  text-gray-300 mr-2 cursor-pointer"
-                      onClick={(e) => setShowPassword(!showPassword)}
+                      className="ml-1 w-6 h-6 text-gray-300 mr-2 cursor-pointer"
+                      onClick={handleShowPassword}
                     />
                   </div>
 
@@ -130,11 +137,11 @@ const Login = (  {apiurl} : {apiurl: string}) => {
                     type="text"
                     placeholder="Enter Your Password"
                     value={password}
+                    required
                     onChange={(e) => {
                       setPassword(e.target.value);
                     }}
                     id="password"
-                    required
                   />
                 </>
               ) : (
@@ -148,8 +155,8 @@ const Login = (  {apiurl} : {apiurl: string}) => {
                     </label>
 
                     <HiOutlineEyeOff
-                      className="ml-1 w-6 h-6  text-gray-300 mr-2 cursor-pointer"
-                      onClick={(e) => setShowPassword(!showPassword)}
+                      className="ml-1 w-6 h-6 text-gray-300 mr-2 cursor-pointer"
+                      onClick={handleShowPassword}
                     />
                   </div>
 
@@ -158,32 +165,30 @@ const Login = (  {apiurl} : {apiurl: string}) => {
                     type="password"
                     placeholder="Enter Your Password"
                     value={password}
+                    required
                     onChange={(e) => {
                       setPassword(e.target.value);
                     }}
                     id="password"
-                    required
                   />
                 </>
               )}
-
-              <p className=" text-base text-gray-300 mt-10">
-                Don't have an account?
+              <div className=" text-base text-gray-300 mt-8">
+                Already have an account?
                 <Link
-                  to="/register"
-                  title=""
+                  href={"/auth/login"}
                   className="ml-2 font-medium text-indigo-300 transition-all duration-200 hover:text-indigo-600 hover:underline focus:text-indigo-700"
                 >
-                  Register
+                  Login
                 </Link>
-              </p>
+              </div>
               {showProcesssing ? (
                 <div className="mt-2">
                   <button
                     type="submit"
                     className="w-full inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
                   >
-                    Processing...
+                    Processing
                     <CgSpinner className="animate-spin w-7 h-7 mt-1 ml-1" />
                   </button>
                 </div>
@@ -193,7 +198,7 @@ const Login = (  {apiurl} : {apiurl: string}) => {
                     type="submit"
                     className="w-full inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
                   >
-                    Login
+                    Register
                     <BsArrowRightShort className="w-7 h-7 mt-1" />
                   </button>
                 </div>
@@ -206,4 +211,4 @@ const Login = (  {apiurl} : {apiurl: string}) => {
   );
 };
 
-export default Login;
+export default Register;

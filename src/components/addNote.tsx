@@ -1,30 +1,30 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useIsAuthenticated } from "react-auth-kit";
-import { useAuthUser } from "react-auth-kit";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useSession, signIn } from "next-auth/react";
 import { HiDocumentAdd } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
+import { useMutation, useQueryClient } from "react-query";
+import useAxiosAuth from "@/utils/hooks/useAxiosAuth";
 
 interface Props {
-  apiurl : string;
-  setLoading : React.Dispatch<React.SetStateAction<boolean>>;
-  getNotes : Function;
-   
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddNote = (props: Props) => {
+const AddNote = ({ loading, setLoading }: Props) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const queryclient = useQueryClient();
 
-  const navigate = useNavigate();
-
-  const auth = useAuthUser();
-  const token = auth()?.token;
-
-  const isAuthenticated = useIsAuthenticated();
+  const axiosAuth = useAxiosAuth();
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      signIn();
+    },
+  });
 
   const [openModal, setOpenModal] = useState(false);
+
   const handleModal = () => {
     if (openModal) {
       setOpenModal(false);
@@ -32,45 +32,29 @@ const AddNote = (props: Props) => {
       setOpenModal(true);
     }
   };
-
-  const handleSubmit = (e : React.FormEvent) => {
-    e.preventDefault();
-    if (isAuthenticated()) {
-      if (title &&  content === "") {
-        alert("Title and content can not be empty");
-      } else {
-        console.log(title, content);
-        addNote(title, content);
-        if (true) {
-          setTitle("");
-          setContent("");
-        }
-
-        handleModal();
+  const { mutate } = useMutation({
+    onSuccess: () => {
+      queryclient.invalidateQueries("notes");
+    },
+    mutationFn: async () => {
+      if (session?.user) {
+        let res = await axiosAuth.post("/notes/", {
+          title: title,
+          content: content,
+        });
+        return res.data;
       }
-    } else {
-      navigate("/");
-    }
-  };
-
-  const addNote = async (title: string, content: string) => {
-    let config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    let body = {
-      title: title,
-      content: content,
-    };
+    },
+  });
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      props.setLoading(true);
-      let response = await axios.post(`${props.apiurl}notes/`, body, config);
-      console.log(response);
-      await props.getNotes("");
-      props.setLoading(false);
-    } catch {
-      alert("failed to add your note");
+      mutate();
+    } catch (error) {
+    } finally {
+      setOpenModal(false);
+      setTitle("");
+      setContent("");
     }
   };
 
@@ -109,6 +93,7 @@ const AddNote = (props: Props) => {
                     type="text"
                     className="border rounded-md w-full m-1 p-2 bg-gray-800 text-white"
                     value={title}
+                    required
                     onChange={(e) => {
                       setTitle(e.target.value);
                     }}
@@ -120,6 +105,7 @@ const AddNote = (props: Props) => {
                     className="border rounded-md w-full m-1 p-2 bg-gray-800 text-white"
                     rows={5}
                     value={content}
+                    required
                     onChange={(e) => {
                       setContent(e.target.value);
                     }}
