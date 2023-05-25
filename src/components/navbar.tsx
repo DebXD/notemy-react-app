@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { TbBrandReactNative } from "react-icons/tb";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { BsPersonFill } from "react-icons/bs";
 import { IoLogOut, IoLogIn, IoHelpCircleSharp } from "react-icons/io5";
 import { HiHome, HiInformationCircle } from "react-icons/hi";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import Logo from "./logo";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -25,10 +25,10 @@ export default function Navbar() {
         <div className="font-bold text-2xl items-center flex font-poppins text-white">
           <span className="text-3xl text-blue-500  cursor-pointer ">
             <Link href={"/"}>
-              <TbBrandReactNative className="mr-2" />
+              <Logo />
             </Link>
           </span>
-          <Link href={"/"}>Notemy</Link>
+          <Link href={"/"}>otemy</Link>
         </div>
 
         <div className="absolute right-8 top-5 cursor-pointer md:hidden">

@@ -135,7 +135,7 @@ const Login = () => {
                 <div className="mt-2">
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
+                    className=" hover:duration-500 w-full inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
                   >
                     Processing...
                     <CgSpinner className="animate-spin w-7 h-7 mt-1 ml-1" />

@@ -1,7 +1,7 @@
 import Layout from "@/pages/layout";
 import Image from "next/image";
 import heroimage from "../../public/hero.png";
-import { useRef } from "react";
+import Link from "next/link";
 
 const Hero = () => {
   function handleClickScroll() {
@@ -31,9 +31,13 @@ const Hero = () => {
               Store Your Notes Synced, Secured, E2E Encrypted
             </h2>
             <div className="mt-10 md:mt-24 lg:mt-24">
-              <button className="hover:duration-500  p-4 bg-indigo-700 text-white font-semibold rounded-md hover:bg-indigo-800 font-poppins lg:text-lg">
-                Let&apos;s start
-              </button>
+              <Link href="/auth/login">
+                {" "}
+                <button className="hover:duration-500  p-4 bg-indigo-700 text-white font-semibold rounded-md hover:bg-indigo-800 font-poppins lg:text-lg">
+                  Let&apos;s start
+                </button>
+              </Link>
+
               <button
                 onClick={handleClickScroll}
                 className="hover:duration-500 ml-5 p-3 text-gray-400 font-poppins g-white hover:bg-gray-800  font-semibold py-2 px-4 border border-gray-400 rounded shadow"
