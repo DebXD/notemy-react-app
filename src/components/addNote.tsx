@@ -71,7 +71,7 @@ const AddNote = ({ loading, setLoading }: Props) => {
             <div className=" bg-gray-900 rounded-xl p-5 w-full m-2 md:w-4/6">
               <div className="text-center justify-between flex">
                 <div className="text-center inline-block">
-                  <p className="text-white font-semibold text-xl p-2 justify-between">
+                  <p className="text-white font-semibold text-2xl p-2 justify-between font-bebas">
                     ADD NOTE
                   </p>
                 </div>
@@ -88,7 +88,9 @@ const AddNote = ({ loading, setLoading }: Props) => {
 
               <form onSubmit={handleSubmit}>
                 <div className="">
-                  <label className="block text-white m-1">TITLE</label>
+                  <label className="block text-white m-1 font-poppins font-semibold">
+                    TITLE
+                  </label>
                   <input
                     type="text"
                     className="border rounded-md w-full m-1 p-2 bg-gray-800 text-white"
@@ -100,10 +102,12 @@ const AddNote = ({ loading, setLoading }: Props) => {
                   />
                 </div>
                 <div className="mt-3">
-                  <label className="block text-white m-1">DESCRIPTION</label>
+                  <label className="block text-white m-1 font-poppins font-semibold">
+                    DESCRIPTION
+                  </label>
                   <textarea
                     className="border rounded-md w-full m-1 p-2 bg-gray-800 text-white"
-                    rows={5}
+                    rows={8}
                     value={content}
                     required
                     onChange={(e) => {
@@ -117,7 +121,7 @@ const AddNote = ({ loading, setLoading }: Props) => {
                 >
                   <button
                     onClick={handleSubmit}
-                    className="text-center mt-2 rounded-md bg-indigo-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
+                    className=" duration-500 text-center mt-2 rounded-md bg-indigo-600 px-5 py-1.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
                   >
                     Save
                   </button>
