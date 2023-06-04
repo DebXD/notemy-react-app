@@ -34,7 +34,7 @@ const Login = () => {
   return (
     <div className="h-screen justify-center flex bg-gray-900">
       <div className=" mt-24 md:mt-36  items-center justify-center my-4 md:w-4/12 w-3/4 ">
-        <div className="border-2 rounded-xl  p-5 bg-gray-800">
+        <div className="border-2 border-gray-800 rounded-xl  p-5 bg-gray-800">
           <div className="w-full">
             <h2 className=" text-white text-2xl md:text-3xl font-bold leading-tight text-center font-poppins">
               Login
@@ -51,7 +51,7 @@ const Login = () => {
                 </label>
                 <div className="mt-2.5">
                   <input
-                    className="flex border-2 h-10 w-full rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white"
+                    className="flex border-2 h-10 w-full rounded-md focus:ring-0 border-gray-700 focus:border-indigo-300 p-2 bg-gray-800 text-white"
                     type="email"
                     placeholder="Enter Your Email"
                     value={email}
@@ -80,7 +80,7 @@ const Login = () => {
                   </div>
 
                   <input
-                    className=" block w-full h-10 border-2 rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white mt-2"
+                    className=" block w-full h-10 border-2 rounded-md focus:ring-0  border-gray-700 focus:border-indigo-300 p-2 bg-gray-800 text-white mt-2"
                     type="text"
                     placeholder="Enter Your Password"
                     value={password}
@@ -108,7 +108,7 @@ const Login = () => {
                   </div>
 
                   <input
-                    className=" block w-full h-10 border-2 rounded-md focus:ring-0 focus:border-indigo-300 p-2 bg-gray-800 text-white mt-2"
+                    className=" block w-full h-10 border-2 rounded-md focus:ring-0 border-gray-700 focus:border-indigo-300 p-2 bg-gray-800 text-white mt-2"
                     type="password"
                     placeholder="Enter Your Password"
                     value={password}

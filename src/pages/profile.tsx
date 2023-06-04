@@ -21,7 +21,7 @@ const Profile = () => {
                 Your Username :
               </label>
               <input
-                className="rounded-md border-2 p-2 w-full text-white bg-gray-800"
+                className="rounded-md p-4 w-full text-white bg-gray-800"
                 disabled
                 value={session?.user?.username}
               />
@@ -32,7 +32,7 @@ const Profile = () => {
                 Your Email :
               </label>
               <input
-                className="rounded-md border-2 p-3 w-full bg-gray-800 text-white"
+                className="rounded-md p-4 w-full bg-gray-800 text-white"
                 disabled
                 value={session?.user?.email}
               />
@@ -41,7 +41,11 @@ const Profile = () => {
             <div className="flex justify-center">
               <button
                 className="px-5 py-3 text-white bg-red-800 rounded-md mt-5 hover:bg-red-700 font-poppins duration-100"
-                onClick={() => signOut()}
+                onClick={() => {
+                  if (window.confirm("Are you sure, You want to Logout?")) {
+                    signOut();
+                  }
+                }}
               >
                 Logout!
               </button>
