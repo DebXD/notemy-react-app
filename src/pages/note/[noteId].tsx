@@ -7,6 +7,7 @@ import useAxiosAuth from "@/utils/hooks/useAxiosAuth";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useSession } from "next-auth/react";
 import { gmtToIst } from "@/utils/convertTimeZone/gmtToIst";
+import { IoClose } from "react-icons/io5";
 
 const NoteDetails = () => {
   const router = useRouter();
@@ -19,6 +20,9 @@ const NoteDetails = () => {
   const [createdAt, setCreatedAt] = useState("");
   const [updatedAt, setUpdatedAt] = useState("");
   const { status, data: session } = useSession();
+
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const { data, isError, error, isFetched } = useQuery({
     queryKey: ["note", noteId, session],
@@ -124,7 +128,7 @@ const NoteDetails = () => {
                 }}
               ></textarea>
             </div>
-            <div className="flex justify-center mb-2">
+            <div className="flex justify-center my-2">
               {updatedAt ? (
                 <div className="text-white">{updatedAt}</div>
               ) : (
@@ -136,27 +140,121 @@ const NoteDetails = () => {
             <button
               type="submit"
               className="font-poppins mt-2 rounded-md px-3.5 py-1.5 bg-yellow-700  text-base  leading-7 text-white hover:bg-yellow-600 m-2 inline-flex"
-              onClick={(e) => {
-                if (window.confirm("Do you really want to Update?")) {
-                  handleNoteUpdate(e);
-                }
-              }}
+              onClick={() => setOpenUpdateModal(true)}
             >
               <RxUpdate className="h-6 w-6 mt-1 mr-1" />
               Update
             </button>
+            {openUpdateModal ? (
+              <div className="fixed inset-0  bg-opacity-30 backdrop-blur-sm pt-56">
+                <div className="flex items-center justify-center">
+                  <div className=" bg-gray-900 rounded-xl p-5 w-full m-2 md:w-2/6">
+                    <div className="text-center justify-between flex">
+                      <div className="text-center inline-block">
+                        <p className="text-white font-semibold text-2xl p-2 justify-between font-bebas">
+                          Update Note
+                        </p>
+                      </div>
+                      <span className=" text-white inline-block">
+                        <div>
+                          <IoClose
+                            className="h-7 w-7 cursor-pointer"
+                            onClick={() => setOpenUpdateModal(false)}
+                          />
+                        </div>
+                      </span>
+                    </div>
+                    <hr />
+                    <div className="flex mt-5 justify-center">
+                      <div className="text-white text-xl font-poppins">
+                        Do you really want to Update?
+                      </div>
+                    </div>
+                    <div className="flex justify-center text-white">
+                      <button
+                        onClick={(e) => {
+                          setOpenUpdateModal(false);
+                          handleNoteUpdate(e);
+                        }}
+                        className="mt-5 px-10 py-3.5 bg-yellow-600 hover:bg-yellow-800 font-poppins rounded-lg"
+                      >
+                        YES
+                      </button>
+                      <button
+                        onClick={() => {
+                          setOpenUpdateModal(false);
+                        }}
+                        className="ml-5 mt-5 px-10 py-3.5 bg-red-600 hover:bg-red-800 font-poppins rounded-lg"
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
 
             <button
               type="button"
               className="font-poppins mt-2 rounded-md bg-red-700 px-3.5 py-1.5 text-base  leading-7 text-white hover:bg-red-500 m-2 flex"
               onClick={() => {
-                if (window.confirm("Are you sure, You want to delete?")) {
-                  deleteNote.mutate();
-                }
+                setOpenDeleteModal(true);
               }}
             >
               <MdDelete className="h-6 w-6 mt-1 mr-1" /> Delete
             </button>
+            {openDeleteModal ? (
+              <div className="fixed inset-0  bg-opacity-30 backdrop-blur-sm pt-56">
+                <div className="flex items-center justify-center">
+                  <div className=" bg-gray-900 rounded-xl p-5 w-full m-2 md:w-2/6">
+                    <div className="text-center justify-between flex">
+                      <div className="text-center inline-block">
+                        <p className="text-white font-semibold text-2xl p-2 justify-between font-bebas">
+                          Delete Note
+                        </p>
+                      </div>
+                      <span className=" text-white inline-block">
+                        <div>
+                          <IoClose
+                            className="h-7 w-7 cursor-pointer"
+                            onClick={() => setOpenDeleteModal(false)}
+                          />
+                        </div>
+                      </span>
+                    </div>
+                    <hr />
+                    <div className="flex mt-5 justify-center">
+                      <div className="text-white text-xl font-poppins">
+                        Do you really want to Delete?
+                      </div>
+                    </div>
+                    <div className="flex justify-center text-white">
+                      <button
+                        onClick={() => {
+                          setOpenUpdateModal(false);
+                          deleteNote.mutate();
+                        }}
+                        className="mt-5 px-10 py-3.5 bg-yellow-600 hover:bg-yellow-800 font-poppins rounded-lg"
+                      >
+                        YES
+                      </button>
+                      <button
+                        onClick={() => {
+                          setOpenDeleteModal(false);
+                        }}
+                        className="ml-5 mt-5 px-10 py-3.5 bg-red-600 hover:bg-red-800 font-poppins rounded-lg"
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       ) : (

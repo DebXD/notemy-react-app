@@ -1,6 +1,8 @@
 import { signIn, useSession, signOut } from "next-auth/react";
 import { TbLoader2 } from "react-icons/tb";
 import Layout from "./layout";
+import { useState } from "react";
+import { IoClose } from "react-icons/io5";
 
 const Profile = () => {
   const { status, data: session } = useSession({
@@ -9,6 +11,15 @@ const Profile = () => {
       signIn();
     },
   });
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleModal = () => {
+    if (openModal) {
+      setOpenModal(false);
+    } else {
+      setOpenModal(true);
+    }
+  };
 
   return (
     <Layout>
@@ -41,14 +52,52 @@ const Profile = () => {
             <div className="flex justify-center">
               <button
                 className="px-5 py-3 text-white bg-red-800 rounded-md mt-5 hover:bg-red-700 font-poppins duration-100"
-                onClick={() => {
-                  if (window.confirm("Are you sure, You want to Logout?")) {
-                    signOut();
-                  }
-                }}
+                onClick={handleModal}
               >
                 Logout!
               </button>
+              {openModal ? (
+                <div className="fixed inset-0  bg-opacity-30 backdrop-blur-sm pt-56">
+                  <div className="flex items-center justify-center">
+                    <div className=" bg-gray-900 rounded-xl p-5 w-full m-2 md:w-2/6">
+                      <div className="text-center justify-between flex">
+                        <div className="text-center inline-block">
+                          <p className="text-white font-semibold text-2xl p-2 justify-between font-bebas">
+                            LOGGING OUT!
+                          </p>
+                        </div>
+                        <span className=" text-white inline-block">
+                          <div>
+                            <IoClose
+                              className="h-7 w-7 cursor-pointer"
+                              onClick={handleModal}
+                            />
+                          </div>
+                        </span>
+                      </div>
+                      <hr />
+                      <div className="flex mt-5 justify-center">
+                        <div className="text-white text-xl font-poppins">
+                          Do You Really Want to Logout?
+                        </div>
+                      </div>
+                      <div className="flex justify-center text-white">
+                        <button
+                          onClick={() => {
+                            signOut();
+                            handleModal;
+                          }}
+                          className="mt-5 px-10 py-3.5 bg-red-600 hover:bg-red-800 font-poppins rounded-lg"
+                        >
+                          YES
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         ) : (
