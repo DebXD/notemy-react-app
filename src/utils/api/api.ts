@@ -2,7 +2,7 @@ import axios from "axios";
 import useAxiosAuth from "../hooks/useAxiosAuth";
 
 const notemyApi = axios.create({
-  baseURL: "https://notemy.dustbin.me/api/v1",
+  baseURL: "https://notemyapi-1-b7327629.deta.app/api/v1",
   headers: { "Content-Type": "application/json" },
 });
 
