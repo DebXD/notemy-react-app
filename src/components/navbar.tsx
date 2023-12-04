@@ -136,6 +136,7 @@ export default function Navbar() {
               <button
                 className="mb-5 md:mb-0 bg-indigo-600 text-white py-2 px-5  rounded-md hover:bg-indigo-400 duration-500 md:ml-5 font-poppins"
                 onClick={handleMenuClick}
+                type="button"
               >
                 Get Started
               </button>

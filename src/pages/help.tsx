@@ -23,7 +23,10 @@ const Help = () => {
               I&apos;ll try to give you feedback asap.
             </p>
           </div>
-          <button className="p-2 text-white bg-indigo-800 rounded-md mt-5 hover:bg-indigo-700 font-poppins">
+          <button
+            className="p-2 text-white bg-indigo-800 rounded-md mt-5 hover:bg-indigo-700 font-poppins"
+            type="button"
+          >
             <Link href="/about">About Us</Link>
           </button>
         </div>

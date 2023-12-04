@@ -35,7 +35,10 @@ const GettingStarted = () => {
           hesitate to contact us.
         </p>
         <div className="flex justify-center">
-          <button className="px-3 py-2 text-white bg-indigo-800 rounded-md mt-5 hover:bg-indigo-700">
+          <button
+            className="px-3 py-2 text-white bg-indigo-800 rounded-md mt-5 hover:bg-indigo-700"
+            type="button"
+          >
             <Link href={"/auth/login"} className="inline-flex font-poppins">
               <p>Continue</p>{" "}
               <BsFillArrowRightSquareFill className="h-6 w-6 ml-2 rounded-md" />{" "}

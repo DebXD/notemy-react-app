@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import Layout from "./layout";
 import useAxiosAuth from "@/utils/hooks/useAxiosAuth";
 import Hero from "@/components/hero";
+import { motion } from "framer-motion";
 
 interface NoteTypes {
   id: number;
@@ -19,7 +20,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState(" ");
   const axiosAuth = useAxiosAuth();
-  let debouncedSearchQuery = useDebounce(query, 300);
+  const debouncedSearchQuery = useDebounce(query, 300);
   const { status, data: session } = useSession();
 
   const { data, isError, error } = useQuery({
@@ -28,9 +29,9 @@ const Home = () => {
       const token = session?.user.access_token;
       if (token) {
         const res = await axiosAuth.get(
-          `/notes/search/?query=${debouncedSearchQuery}`
+          `/notes/search/?query=${debouncedSearchQuery}`,
         );
-        console.log(res.data);
+        // console.log(res.data);
         return res.data.data;
       }
     },
@@ -71,6 +72,7 @@ const Home = () => {
             <div className="text-left">
               <AddNote setLoading={setLoading} loading={loading} />
             </div>
+
             <h2 className="flex-grow mr-14 mt-2 text-center text-3xl font-bebas text-white">
               NOTES
             </h2>

@@ -38,7 +38,7 @@ const Register = () => {
     }
   };
 
-  let SignUpCredentials = {
+  const SignUpCredentials = {
     username: username,
     email: email,
     password: password,
@@ -49,16 +49,14 @@ const Register = () => {
     try {
       const response = await notemyApi.post(
         "auth/register/",
-        SignUpCredentials
+        SignUpCredentials,
       );
       const data = response.data;
-      console.log(data);
+      // console.log(data);
       alert("Account is Created, You can Login Now");
-      if (true) {
-        router.push("/auth/login");
-      }
+      router.push("/auth/login");
     } catch (e: any) {
-      console.log(e.response.data.message);
+      // console.log(e.response.data.message);
       alert(e.response.data.message);
     }
     setShowProcessing(false);

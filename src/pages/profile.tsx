@@ -87,6 +87,7 @@ const Profile = () => {
                             signOut();
                             handleModal;
                           }}
+                          type="button"
                           className="mt-5 px-10 py-3.5 bg-red-600 hover:bg-red-800 font-poppins rounded-lg"
                         >
                           YES

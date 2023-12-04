@@ -13,7 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showProcesssing, setShowProcessing] = useState(false);
-  let loginCredentials = {
+  const loginCredentials = {
     email: email,
     password: password,
   };
@@ -21,7 +21,7 @@ const Login = () => {
   async function handleSubmit(e: React.FormEvent) {
     setShowProcessing(true);
     e.preventDefault();
-    console.log(loginCredentials);
+    // console.log(loginCredentials);
     await signIn("credentials", {
       email: email,
       password: password,

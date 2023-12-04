@@ -29,16 +29,16 @@ const NoteDetails = () => {
     queryFn: async () => {
       if (noteId) {
         const res = await axiosAuth.get(`/notes/${noteId}/`);
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data) {
           setTitle(res.data.title);
           setContent(res.data.content);
 
           const d = new Date();
-          let diff = d.getTimezoneOffset();
-          console.log(typeof diff);
+          const diff = d.getTimezoneOffset();
+          // console.log(typeof diff);
           if (diff === -330) {
-            console.log(res.data.createdAt);
+            // console.log(res.data.createdAt);
             setCreatedAt(gmtToIst(res.data.created_at));
             if (res.data.updated_at) {
               setUpdatedAt(gmtToIst(res.data.updated_at));
@@ -54,7 +54,7 @@ const NoteDetails = () => {
     if (typeof error === "object" && error !== null) {
       if ("message" in error) {
         console.log(error.message);
-        console.log(data.config);
+        // console.log(data.config);
       }
     }
   }
@@ -126,7 +126,7 @@ const NoteDetails = () => {
                 onChange={(e) => {
                   setContent(e.target.value);
                 }}
-              ></textarea>
+              />
             </div>
             <div className="flex justify-center my-2">
               {updatedAt ? (
@@ -177,6 +177,7 @@ const NoteDetails = () => {
                           handleNoteUpdate(e);
                         }}
                         className="mt-5 px-10 py-3.5 bg-yellow-600 hover:bg-yellow-800 font-poppins rounded-lg"
+                        type="button"
                       >
                         YES
                       </button>
@@ -185,6 +186,7 @@ const NoteDetails = () => {
                           setOpenUpdateModal(false);
                         }}
                         className="ml-5 mt-5 px-10 py-3.5 bg-red-600 hover:bg-red-800 font-poppins rounded-lg"
+                        type="button"
                       >
                         No
                       </button>
@@ -237,6 +239,7 @@ const NoteDetails = () => {
                           deleteNote.mutate();
                         }}
                         className="mt-5 px-10 py-3.5 bg-yellow-600 hover:bg-yellow-800 font-poppins rounded-lg"
+                        type="button"
                       >
                         YES
                       </button>
@@ -245,6 +248,7 @@ const NoteDetails = () => {
                           setOpenDeleteModal(false);
                         }}
                         className="ml-5 mt-5 px-10 py-3.5 bg-red-600 hover:bg-red-800 font-poppins rounded-lg"
+                        type="button"
                       >
                         No
                       </button>
